@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Elementos de Formulário Padronizados - ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --input-bg: #fff;
+      --input-border: #00284640;
+      --input-radius: 8px;
+      --input-font: 'Demo', 'Inter', Arial, sans-serif;
+      --input-padding: 10px 14px;
+      --input-focus: #00B5D3;
+      --input-error: #cf2e2e;
+      --input-success: #61CE70;
+      --label-color: #002846;
+      --label-font-size: 16px;
+      --form-gap: 18px;
+    }
+    .icl-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--form-gap);
+      max-width: 480px;
+      margin: 32px auto;
+      font-family: var(--input-font);
+    }
+    .icl-form-label {
+      color: var(--label-color);
+      font-size: var(--label-font-size);
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .icl-form-input, .icl-form-select, .icl-form-textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--input-radius);
+      font-size: 15px;
+      font-family: inherit;
+      padding: var(--input-padding);
+      outline: none;
+      transition: border-color .2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .icl-form-input:focus, .icl-form-select:focus, .icl-form-textarea:focus {
+      border-color: var(--input-focus);
+    }
+    .icl-form-input.success, .icl-form-select.success, .icl-form-textarea.success {
+      border-color: var(--input-success);
+    }
+    .icl-form-input.error, .icl-form-select.error, .icl-form-textarea.error {
+      border-color: var(--input-error);
+    }
+    .icl-form-checkbox, .icl-form-radio {
+      accent-color: var(--input-focus);
+      margin-right: 8px;
+    }
+    .icl-form-file {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .icl-form-file-drop {
+      border: 2px dashed var(--input-border);
+      border-radius: var(--input-radius);
+      background: #f7f7f7;
+      padding: 22px;
+      text-align: center;
+      color: #002846;
+      font-size: 15px;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .icl-form-file-drop.dragover {
+      border-color: var(--input-focus);
+      background: #eaf9fc;
+    }
+    .icl-form-file-list {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--input-focus);
+    }
+    .icl-form-btn {
+      background: var(--input-focus);
+      color: #fff;
+      border: none;
+      border-radius: 33px;
+      padding: 10px 28px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: background .2s;
+    }
+    .icl-form-btn:hover {
+      background: #002846;
+      color: #fff;
+    }
+    .icl-form-feedback {
+      font-size: 13px;
+      margin-top: 4px;
+      color: var(--input-error);
+      display: none;
+    }
+    .icl-form-input.error ~ .icl-form-feedback,
+    .icl-form-select.error ~ .icl-form-feedback,
+    .icl-form-textarea.error ~ .icl-form-feedback {
+      display: block;
+    }
+    @media (max-width: 600px) {
+      .icl-form { max-width: 98vw; padding: 0 8px; }
+    }
+  </style>
+  <script>
+    // Validação simples
+    function validateForm(e) {
+      e.preventDefault();
+      let form = e.target;
+      let valid = true;
+      form.querySelectorAll('.icl-form-input, .icl-form-select, .icl-form-textarea').forEach(function(el) {
+        el.classList.remove('error', 'success');
+        if (el.hasAttribute('required') && !el.value.trim()) {
+          el.classList.add('error');
+          valid = false;
+        } else {
+          el.classList.add('success');
+        }
+      });
+      if (valid) {
+        alert('Formulário enviado com sucesso!');
+        form.reset();
+        form.querySelectorAll('.success').forEach(function(el){el.classList.remove('success');});
+      }
+    }
+    // Drag and drop file upload
+    document.addEventListener('DOMContentLoaded', function() {
+      var drop = document.querySelector('.icl-form-file-drop');
+      var input = document.querySelector('.icl-form-file input[type="file"]');
+      var list = document.querySelector('.icl-form-file-list');
+      if (drop && input) {
+        drop.addEventListener('click', function(){ input.click(); });
+        drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('dragover'); });
+        drop.addEventListener('dragleave', function(){ drop.classList.remove('dragover'); });
+        drop.addEventListener('drop', function(e){
+          e.preventDefault();
+          drop.classList.remove('dragover');
+          input.files = e.dataTransfer.files;
+          updateFileList();
+        });
+        input.addEventListener('change', updateFileList);
+        function updateFileList() {
+          if (input.files.length > 0) {
+            list.textContent = 'Arquivo selecionado: ' + input.files[0].name;
+          } else {
+            list.textContent = '';
+          }
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <form class="icl-form" onsubmit="validateForm(event)">
+    <label class="icl-form-label" for="fornecedor">Fornecedor *</label>
+    <input type="text" id="fornecedor" name="fornecedor" class="icl-form-input" required placeholder="Digite o nome do fornecedor">
+    <span class="icl-form-feedback">Campo obrigatório.</span>
+
+    <label class="icl-form-label" for="unidade">Unidade *</label>
+    <select id="unidade" name="unidade" class="icl-form-select" required>
+      <option value="">Selecione a unidade</option>
+      <option value="sp">São Paulo</option>
+      <option value="campinas">Campinas</option>
+      <option value="curitiba">Curitiba</option>
+    </select>
+    <span class="icl-form-feedback">Campo obrigatório.</span>
+
+    <label class="icl-form-label" for="data">Data da Coleta *</label>
+    <input type="date" id="data" name="data" class="icl-form-input" required>
+    <span class="icl-form-feedback">Campo obrigatório.</span>
+
+    <label class="icl-form-label" for="hora">Horário da Coleta *</label>
+    <input type="time" id="hora" name="hora" class="icl-form-input" required>
+    <span class="icl-form-feedback">Campo obrigatório.</span>
+
+    <label class="icl-form-label" for="janela">Janela Operacional</label>
+    <select id="janela" name="janela" class="icl-form-select">
+      <option value="">Selecione a janela</option>
+      <option value="manha">Manhã (08:00 - 12:00)</option>
+      <option value="tarde">Tarde (13:00 - 17:00)</option>
+    </select>
+
+    <label class="icl-form-label" for="tipo-frete">Tipo de Frete</label>
+    <div>
+      <input type="radio" id="fob" name="tipo-frete" class="icl-form-radio" value="FOB" checked>
+      <label for="fob">FOB</label>
+      <input type="radio" id="cif" name="tipo-frete" class="icl-form-radio" value="CIF">
+      <label for="cif">CIF</label>
+    </div>
+
+    <label class="icl-form-label" for="local">Local de Entrega</label>
+    <input type="text" id="local" name="local" class="icl-form-input" placeholder="Endereço de entrega">
+
+    <label class="icl-form-label" for="volume">Volume</label>
+    <input type="number" id="volume" name="volume" class="icl-form-input" min="1" placeholder="Quantidade">
+
+    <label class="icl-form-label" for="tipo-carga">Tipo de Carga</label>
+    <select id="tipo-carga" name="tipo-carga" class="icl-form-select" multiple>
+      <option value="paletizado">Paletizado</option>
+      <option value="granel">Granel</option>
+      <option value="bigbag">Big Bag</option>
+    </select>
+
+    <label class="icl-form-label" for="peso">Peso Total (kg)</label>
+    <input type="number" id="peso" name="peso" class="icl-form-input" min="0" step="0.01" placeholder="Peso total">
+
+    <label class="icl-form-label" for="obs">Observações</label>
+    <textarea id="obs" name="obs" class="icl-form-textarea" rows="3" placeholder="Observações adicionais"></textarea>
+
+    <label class="icl-form-label">Aceite dos Termos</label>
+    <input type="checkbox" id="aceite" name="aceite" class="icl-form-checkbox" required>
+    <label for="aceite">Li e aceito os termos de uso</label>
+    <span class="icl-form-feedback">É necessário aceitar os termos.</span>
+
+    <label class="icl-form-label">Upload de Nota Fiscal (XML)</label>
+    <div class="icl-form-file">
+      <div class="icl-form-file-drop" tabindex="0">Arraste o arquivo XML aqui ou clique para selecionar</div>
+      <input type="file" accept=".xml" style="display:none">
+      <div class="icl-form-file-list"></div>
+    </div>
+
+    <button type="submit" class="icl-form-btn">Enviar Solicitação</button>
+  </form>
+</body>
+</html>
