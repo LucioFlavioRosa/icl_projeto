@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check-in no Destino e Confirmação de Descarga - Gestão de Fretes</title>
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.32.5" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" />
+  <style>
+    body { font-family: 'Inter', 'Demo', Arial, sans-serif; background: #f7f9fa; margin: 0; }
+    .container-destino { max-width: 430px; margin: 60px auto 0; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.08); padding: 36px 32px; }
+    .container-destino h1 { color: #00B5D3; font-size: 2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
+    .form-group { margin-bottom: 22px; }
+    label { display: block; font-weight: 500; color: #002846; margin-bottom: 7px; }
+    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1.1rem; font-family: inherit; }
+    .btn-validar { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 0; width: 100%; font-size: 1.1rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .btn-validar:hover { background: #002846; }
+    .alerta { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 1rem; }
+    .alerta.sucesso { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
+    .alerta.erro { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
+    .timestamp { margin-top: 22px; font-size: 1.05rem; color: #54595F; }
+    .checkbox-group { margin-top: 18px; display: flex; align-items: center; gap: 8px; }
+    input[type="checkbox"] { accent-color: #00B5D3; width: 22px; height: 22px; }
+    .sla-badge { display: inline-flex; align-items: center; gap: 7px; border-radius: 18px; padding: 6px 16px; font-weight: 500; font-size: 1.08rem; margin-top: 18px; }
+    .sla-verde { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
+    .sla-amarelo { background: #fffbe6; color: #ff6900; border: 1px solid #ff6900; }
+    .sla-vermelho { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
+    .tempo-transporte { margin-top: 10px; font-size: 1.08rem; color: #002846; font-weight: 500; }
+    @media (max-width: 520px) { .container-destino { padding: 18px 9px; } }
+  </style>
+</head>
+<body>
+  <div class="container-destino">
+    <h1><i class="fas fa-map-marker-alt"></i> Check-in no Destino</h1>
+    <form id="formCheckinDestino">
+      <div class="form-group">
+        <label for="tokenDestino">Token de Check-in (6 dígitos)</label>
+        <input type="text" id="tokenDestino" maxlength="6" pattern="[A-Za-z0-9]{6}" required autocomplete="off" placeholder="Digite o token recebido">
+      </div>
+      <button type="submit" class="btn-validar"><i class="fas fa-check-circle"></i> Validar Check-in</button>
+    </form>
+    <div id="alertaDestino" style="display:none;"></div>
+    <div class="timestamp" id="timestampChegadaDestino" style="display:none;"></div>
+    <div class="checkbox-group" id="grupoDescarga" style="display:none;">
+      <input type="checkbox" id="confDescarga">
+      <label for="confDescarga"><i class="fas fa-box-open"></i> Confirmação de descarga concluída</label>
+    </div>
+    <div class="timestamp" id="timestampDescarga" style="display:none;"></div>
+    <div class="tempo-transporte" id="tempoTransporte" style="display:none;"></div>
+    <span id="slaBadge" style="display:none;"></span>
+  </div>
+  <script>
+    // Simulação de dados
+    const slaMinutos = 180; // SLA de 3h
+    const horaSaidaColeta = '11:00'; // Simulado
+    let chegadaDestinoMin = null;
+    function minutos(horaStr) {
+      const [h,m] = horaStr.split(':').map(Number);
+      return h*60+m;
+    }
+    function formatMinutos(min) {
+      const h = Math.floor(min/60);
+      const m = min%60;
+      return h.toString().padStart(2,'0') + ':' + m.toString().padStart(2,'0');
+    }
+    document.getElementById('formCheckinDestino').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const token = document.getElementById('tokenDestino').value.trim();
+      const alerta = document.getElementById('alertaDestino');
+      alerta.style.display = 'none';
+      if (!token.match(/^[A-Za-z0-9]{6}$/)) {
+        alerta.className = 'alerta erro';
+        alerta.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Token inválido. Informe os 6 dígitos alfanuméricos.';
+        alerta.style.display = 'flex';
+        return;
+      }
+      // Simula timestamp de chegada
+      const agora = new Date();
+      const horaChegada = agora.getHours().toString().padStart(2,'0') + ':' + agora.getMinutes().toString().padStart(2,'0');
+      document.getElementById('timestampChegadaDestino').innerHTML = '<i class="fas fa-clock"></i> Chegada registrada: <strong>' + horaChegada + '</strong>';
+      document.getElementById('timestampChegadaDestino').style.display = 'block';
+      document.getElementById('grupoDescarga').style.display = 'flex';
+      chegadaDestinoMin = minutos(horaChegada);
+      alerta.className = 'alerta sucesso';
+      alerta.innerHTML = '<i class="fas fa-check"></i> Check-in realizado com sucesso!';
+      alerta.style.display = 'flex';
+    });
+    document.getElementById('confDescarga').addEventListener('change', function() {
+      if (this.checked && chegadaDestinoMin !== null) {
+        const alerta = document.getElementById('alertaDestino');
+        const agora = new Date();
+        const horaDescarga = agora.getHours().toString().padStart(2,'0') + ':' + agora.getMinutes().toString().padStart(2,'0');
+        document.getElementById('timestampDescarga').innerHTML = '<i class="fas fa-box"></i> Descarga concluída: <strong>' + horaDescarga + '</strong>';
+        document.getElementById('timestampDescarga').style.display = 'block';
+        // Calcula tempo total de transporte
+        const minSaida = minutos(horaSaidaColeta);
+        const minDescarga = minutos(horaDescarga);
+        const tempoTotal = minDescarga - minSaida;
+        document.getElementById('tempoTransporte').innerHTML = '<i class="fas fa-route"></i> Tempo total de transporte: <strong>' + formatMinutos(tempoTotal) + '</strong> (SLA: ' + formatMinutos(slaMinutos) + ')';
+        document.getElementById('tempoTransporte').style.display = 'block';
+        // SLA badge
+        let slaClass = '', slaIcon = '', slaText = '';
+        if (tempoTotal <= slaMinutos) {
+          slaClass = 'sla-badge sla-verde'; slaIcon = '<i class="fas fa-check-circle"></i>'; slaText = 'Dentro do SLA';
+        } else if (tempoTotal <= slaMinutos + 30) {
+          slaClass = 'sla-badge sla-amarelo'; slaIcon = '<i class="fas fa-exclamation-circle"></i>'; slaText = 'Atenção: próximo do limite';
+        } else {
+          slaClass = 'sla-badge sla-vermelho'; slaIcon = '<i class="fas fa-times-circle"></i>'; slaText = 'Fora do SLA!';
+        }
+        document.getElementById('slaBadge').className = slaClass;
+        document.getElementById('slaBadge').innerHTML = slaIcon + ' ' + slaText;
+        document.getElementById('slaBadge').style.display = 'inline-flex';
+        alerta.className = 'alerta sucesso';
+        alerta.innerHTML = '<i class="fas fa-check"></i> Descarga confirmada e tempo registrado.';
+        alerta.style.display = 'flex';
+      } else {
+        document.getElementById('timestampDescarga').style.display = 'none';
+        document.getElementById('tempoTransporte').style.display = 'none';
+        document.getElementById('slaBadge').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
