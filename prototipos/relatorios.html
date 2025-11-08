@@ -3,174 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Relatórios e Análises | Gestão de Fretes ICL</title>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <title>Relatórios e Análises | Gestão de Frestes</title>
+  <!-- Estilos do template original -->
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/sustainability-page.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.32.5">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274">
   <style>
-    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7fafd; }
-    .section-relatorios { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 40px 32px; }
-    .relatorios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-    .relatorios-title { font-size: 2.2rem; color: #00B5D3; font-weight: 400; }
-    .relatorios-filtros { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
-    .relatorios-filtros select, .relatorios-filtros input { font-size: 1rem; border: 1px solid #00B5D340; border-radius: 8px; padding: 8px 14px; }
-    .relatorios-filtros label { font-weight: 500; color: #002846; margin-right: 8px; }
-    .relatorios-actions { display: flex; gap: 16px; margin-bottom: 24px; }
-    .btn-export { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-    .btn-export:hover { background: #002846; }
-    .relatorios-graficos { background: #f7fafd; border-radius: 12px; padding: 24px; min-height: 340px; }
-    .chart-container { width: 100%; max-width: 900px; margin: 0 auto; }
-    @media (max-width: 900px) { .section-relatorios { padding: 16px; } .chart-container { max-width: 100%; } }
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f6f9fa; margin: 0; }
+    .main-header { background: #002846; color: #fff; padding: 0; }
+    .main-header nav { display: flex; gap: 32px; align-items: center; }
+    .main-header nav a { color: #fff; text-decoration: none; font-weight: 500; padding: 18px 24px; border-radius: 33px; transition: background .2s; }
+    .main-header nav a.active, .main-header nav a:hover { background: #00B5D3; color: #fff; }
+    .container { max-width: 1200px; margin: 32px auto; padding: 0 24px; }
+    h1 { color: #002846; font-size: 2.2rem; margin-bottom: 24px; }
+    .report-cards { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
+    .report-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); flex: 1 1 220px; min-width: 220px; max-width: 260px; padding: 32px 24px; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: box-shadow .2s; position: relative; }
+    .report-card:hover { box-shadow: 0 4px 24px rgba(0,181,211,0.13); }
+    .report-card .icon { font-size: 2.5rem; margin-bottom: 14px; color: #00B5D3; }
+    .report-card .title { font-size: 1.1rem; font-weight: 500; color: #002846; }
+    .report-card.expanded { box-shadow: 0 8px 32px rgba(0,181,211,0.18); z-index: 2; }
+    .report-details { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 32px 24px; margin-top: 12px; }
+    .filters { display: flex; gap: 18px; margin-bottom: 18px; flex-wrap: wrap; }
+    .filters label { font-weight: 500; color: #002846; margin-right: 8px; }
+    .filters input, .filters select { padding: 7px 12px; border: 1px solid #00284640; border-radius: 8px; font-size: 1rem; }
+    .export-btns { display: flex; gap: 12px; margin-bottom: 18px; }
+    .export-btn { background: #00B5D3; color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background .2s; }
+    .export-btn:hover { background: #002846; }
+    .chart-area { width: 100%; max-width: 600px; margin: 0 auto 24px auto; }
+    .data-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; background: #f8fbfc; border-radius: 8px; overflow: hidden; }
+    .data-table th, .data-table td { padding: 8px 12px; border-bottom: 1px solid #e1e9ee; text-align: left; font-size: 0.98rem; }
+    .data-table th { background: #00B5D3; color: #fff; font-weight: 500; }
+    .data-table tr:last-child td { border-bottom: none; }
+    @media (max-width: 900px) { .report-cards { flex-direction: column; } .container { padding: 0 8px; } }
   </style>
 </head>
 <body>
-  <header class="header_section">
-    <div class="header_wrapper">
-      <div class="logo_wrapper">
-        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
-      </div>
-      <nav class="menu_container">
-        <ul class="menu_primary_trees">
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="agendamentos.html">Agendamentos</a></li>
-          <li><a href="usuarios.html">Usuários</a></li>
-          <li><a href="relatorios.html" class="active">Relatórios</a></li>
-        </ul>
-      </nav>
-      <div class="user_menu">
-        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
-        <div class="user_dropdown">
-          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário" style="width:32px; border-radius:50%;">
-          <div class="dropdown-content">
-            <a href="#perfil">Perfil</a>
-            <a href="#configuracoes">Configurações</a>
-            <a href="#logout">Sair</a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <header class="main-header">
+    <nav aria-label="Menu principal">
+      <a href="relatorios.html" class="active">Relatórios</a>
+      <a href="cadastros.html">Cadastros</a>
+      <a href="gestao-usuarios.html">Gestão de Usuários</a>
+    </nav>
   </header>
-  <main>
-    <section class="section-relatorios">
-      <div class="relatorios-header">
-        <span class="relatorios-title">Relatórios & Análises de Performance</span>
-        <div class="relatorios-actions">
-          <button class="btn-export" id="exportExcel" aria-label="Exportar Excel">Exportar Excel</button>
-          <button class="btn-export" id="exportPDF" aria-label="Exportar PDF">Exportar PDF</button>
-        </div>
+  <main class="container">
+    <h1>Relatórios e Análises</h1>
+    <section class="report-cards" id="reportCards">
+      <div class="report-card" data-report="fretes">
+        <span class="icon"><i class="fas fa-truck-loading"></i></span>
+        <span class="title">Volume de Fretes</span>
       </div>
-      <form class="relatorios-filtros" id="filtrosRelatorio">
-        <div>
-          <label for="tipoRelatorio">Tipo de Relatório:</label>
-          <select id="tipoRelatorio" name="tipoRelatorio">
-            <option value="volume">Volume de Fretes</option>
-            <option value="atrasos">Taxa de Atrasos</option>
-            <option value="estadia">Tempo de Estadia</option>
-            <option value="fornecedor">Performance por Fornecedor</option>
-            <option value="transportadora">Performance por Transportadora</option>
-          </select>
-        </div>
-        <div>
-          <label for="periodo">Período:</label>
-          <input type="month" id="periodo" name="periodo" value="2024-06">
-        </div>
-        <div>
-          <label for="parametro">Parâmetro:</label>
-          <select id="parametro" name="parametro">
-            <option value="todos">Todos</option>
-            <option value="fornecedor">Fornecedor</option>
-            <option value="transportadora">Transportadora</option>
-            <option value="tipoFrete">Tipo de Frete</option>
-          </select>
-        </div>
-      </form>
-      <div class="relatorios-graficos">
-        <div class="chart-container">
-          <canvas id="graficoRelatorio" aria-label="Gráfico do Relatório" role="img"></canvas>
-        </div>
+      <div class="report-card" data-report="atrasos">
+        <span class="icon"><i class="fas fa-clock"></i></span>
+        <span class="title">Taxa de Atrasos</span>
+      </div>
+      <div class="report-card" data-report="estadia">
+        <span class="icon"><i class="fas fa-hourglass-half"></i></span>
+        <span class="title">Tempo de Estadia</span>
+      </div>
+      <div class="report-card" data-report="fornecedor">
+        <span class="icon"><i class="fas fa-industry"></i></span>
+        <span class="title">Performance por Fornecedor</span>
+      </div>
+      <div class="report-card" data-report="transportadora">
+        <span class="icon"><i class="fas fa-shipping-fast"></i></span>
+        <span class="title">Performance por Transportadora</span>
       </div>
     </section>
+    <section id="reportDetails"></section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Dados mock para os relatórios
-    const dadosRelatorios = {
-      volume: {
-        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
-        datasets: [{ label: "Fretes", data: [120, 150, 180, 140, 200, 170], backgroundColor: '#00B5D3' }]
+    // Dados mockados para cada relatório
+    const reportData = {
+      fretes: {
+        chart: {
+          type: 'bar',
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Fretes',
+            data: [120, 135, 110, 145, 160, 155],
+            backgroundColor: '#00B5D3'
+          }]
+        },
+        table: {
+          headers: ['Mês', 'Volume de Fretes'],
+          rows: [
+            ['Jan', '120'],
+            ['Feb', '135'],
+            ['Mar', '110'],
+            ['Apr', '145'],
+            ['May', '160'],
+            ['Jun', '155']
+          ]
+        }
       },
       atrasos: {
-        labels: ["Fornecedor A", "Fornecedor B", "Fornecedor C", "Fornecedor D"],
-        datasets: [{ label: "% Atrasos", data: [12, 7, 18, 5], backgroundColor: '#ff6900' }]
+        chart: {
+          type: 'pie',
+          labels: ['No prazo', 'Atrasado'],
+          datasets: [{
+            label: 'Taxa de Atrasos',
+            data: [82, 18],
+            backgroundColor: ['#00B5D3', '#cf2e2e']
+          }]
+        },
+        table: {
+          headers: ['Status', 'Quantidade'],
+          rows: [
+            ['No prazo', '82'],
+            ['Atrasado', '18']
+          ]
+        }
       },
       estadia: {
-        labels: ["Coleta", "Descarga"],
-        datasets: [{ label: "Tempo Médio (h)", data: [2.3, 1.7], backgroundColor: ['#00B5D3', '#cf2e2e'] }]
+        chart: {
+          type: 'line',
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Tempo médio (h)',
+            data: [2.1, 2.3, 1.8, 2.4, 2.0, 2.2],
+            borderColor: '#00B5D3',
+            backgroundColor: 'rgba(0,181,211,0.12)',
+            fill: true
+          }]
+        },
+        table: {
+          headers: ['Mês', 'Tempo Médio de Estadia (h)'],
+          rows: [
+            ['Jan', '2.1'],
+            ['Feb', '2.3'],
+            ['Mar', '1.8'],
+            ['Apr', '2.4'],
+            ['May', '2.0'],
+            ['Jun', '2.2']
+          ]
+        }
       },
       fornecedor: {
-        labels: ["Fornecedor A", "Fornecedor B", "Fornecedor C"],
-        datasets: [{ label: "Performance (%)", data: [89, 76, 92], backgroundColor: '#00d084' }]
+        chart: {
+          type: 'bar',
+          labels: ['Fornecedor A', 'Fornecedor B', 'Fornecedor C'],
+          datasets: [
+            {
+              label: '% Atrasos',
+              data: [12, 7, 19],
+              backgroundColor: '#cf2e2e'
+            },
+            {
+              label: '% Janelas Não Cumpridas',
+              data: [5, 3, 8],
+              backgroundColor: '#fcb900'
+            }
+          ]
+        },
+        table: {
+          headers: ['Fornecedor', '% Atrasos', '% Janelas Não Cumpridas'],
+          rows: [
+            ['Fornecedor A', '12%', '5%'],
+            ['Fornecedor B', '7%', '3%'],
+            ['Fornecedor C', '19%', '8%']
+          ]
+        }
       },
       transportadora: {
-        labels: ["Transp. X", "Transp. Y", "Transp. Z"],
-        datasets: [{ label: "Aceites (%)", data: [95, 88, 91], backgroundColor: '#0693e3' }]
+        chart: {
+          type: 'bar',
+          labels: ['Transp. Alfa', 'Transp. Beta', 'Transp. Gama'],
+          datasets: [
+            {
+              label: '% Aceites',
+              data: [95, 88, 92],
+              backgroundColor: '#00B5D3'
+            },
+            {
+              label: '% Atrasos',
+              data: [5, 12, 8],
+              backgroundColor: '#cf2e2e'
+            }
+          ]
+        },
+        table: {
+          headers: ['Transportadora', '% Aceites', '% Atrasos'],
+          rows: [
+            ['Transp. Alfa', '95%', '5%'],
+            ['Transp. Beta', '88%', '12%'],
+            ['Transp. Gama', '92%', '8%']
+          ]
+        }
       }
     };
-    let chart;
-    function renderChart(tipo) {
-      const ctx = document.getElementById('graficoRelatorio').getContext('2d');
-      if (chart) chart.destroy();
-      let config;
-      switch(tipo) {
-        case 'volume':
-          config = {
-            type: 'bar',
-            data: dadosRelatorios.volume,
-            options: { responsive: true, plugins: { legend: { display: false } } }
-          };
-          break;
-        case 'atrasos':
-          config = {
-            type: 'bar',
-            data: dadosRelatorios.atrasos,
-            options: { responsive: true, plugins: { legend: { display: false } } }
-          };
-          break;
-        case 'estadia':
-          config = {
-            type: 'pie',
-            data: {
-              labels: dadosRelatorios.estadia.labels,
-              datasets: [{ label: 'Tempo Médio', data: dadosRelatorios.estadia.datasets[0].data, backgroundColor: dadosRelatorios.estadia.datasets[0].backgroundColor }]
-            },
-            options: { responsive: true }
-          };
-          break;
-        case 'fornecedor':
-          config = {
-            type: 'bar',
-            data: dadosRelatorios.fornecedor,
-            options: { responsive: true, plugins: { legend: { display: false } } }
-          };
-          break;
-        case 'transportadora':
-          config = {
-            type: 'bar',
-            data: dadosRelatorios.transportadora,
-            options: { responsive: true, plugins: { legend: { display: false } } }
-          };
-          break;
-      }
-      chart = new Chart(ctx, config);
-    }
-    document.getElementById('tipoRelatorio').addEventListener('change', function(e) {
-      renderChart(e.target.value);
+    // Renderização dinâmica dos cards
+    const cards = document.querySelectorAll('.report-card');
+    const details = document.getElementById('reportDetails');
+    let expanded = null;
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => c.classList.remove('expanded'));
+        card.classList.add('expanded');
+        renderReport(card.dataset.report);
+        expanded = card.dataset.report;
+      });
     });
-    // Inicialização
-    renderChart(document.getElementById('tipoRelatorio').value);
-    // Exportação (placeholders)
-    document.getElementById('exportExcel').onclick = function() { alert('Exportação para Excel em desenvolvimento.'); };
-    document.getElementById('exportPDF').onclick = function() { alert('Exportação para PDF em desenvolvimento.'); };
+    function renderReport(type) {
+      const data = reportData[type];
+      details.innerHTML = `
+        <div class="report-details">
+          <div class="filters">
+            <label for="periodo">Período:</label>
+            <select id="periodo">
+              <option value="6m">Últimos 6 meses</option>
+              <option value="12m">Últimos 12 meses</option>
+              <option value="custom">Personalizado</option>
+            </select>
+            <label for="filtroExtra">Filtro:</label>
+            <input id="filtroExtra" type="text" placeholder="Buscar..." aria-label="Filtro extra">
+          </div>
+          <div class="export-btns">
+            <button class="export-btn" onclick="alert('Exportação Excel simulada')"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+            <button class="export-btn" onclick="alert('Exportação PDF simulada')"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+          </div>
+          <div class="chart-area">
+            <canvas id="chartReport" height="220"></canvas>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>${data.table.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${data.table.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      setTimeout(() => drawChart(data.chart), 50);
+    }
+    function drawChart(cfg) {
+      const ctx = document.getElementById('chartReport').getContext('2d');
+      if (window.currentChart) window.currentChart.destroy();
+      window.currentChart = new Chart(ctx, {
+        type: cfg.type,
+        data: {
+          labels: cfg.labels,
+          datasets: cfg.datasets
+        },
+        options: {
+          plugins: {
+            legend: { labels: { color: '#002846', font: { size: 14 } } }
+          },
+          scales: {
+            x: { ticks: { color: '#002846' }, grid: { color: '#e1e9ee' } },
+            y: { ticks: { color: '#002846' }, grid: { color: '#e1e9ee' } }
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
