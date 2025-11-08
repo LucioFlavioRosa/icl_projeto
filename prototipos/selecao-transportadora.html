@@ -2,226 +2,133 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Seleção de Transportadora - Gestão de Fretes ICL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Seleção de Transportadora | Gestão de Fretes</title>
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
   <style>
-    body {
-      font-family: 'Demo', 'Inter', Arial, sans-serif;
-      background: #f7fafc;
-      margin: 0;
-      color: #002846;
+    body { background: #f8fafb; }
+    .main-container { max-width: 900px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 38px 32px 32px 32px; }
+    .section-title { color: #00B5D3; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
+    .resumo-solicitacao { background: #f2f7fa; border-radius: 12px; padding: 18px 18px 10px 18px; margin-bottom: 24px; }
+    .resumo-solicitacao dl { display: flex; flex-wrap: wrap; }
+    .resumo-solicitacao dt { width: 45%; font-weight: 500; color: #002846; margin-bottom: 5px; }
+    .resumo-solicitacao dd { width: 55%; margin: 0 0 5px 0; color: #333; }
+    .elementor-field-group { margin-bottom: 18px; }
+    .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
+    .form-row { display: flex; gap: 18px; }
+    .form-row > .elementor-field-group { flex: 1; }
+    .elementor-button { min-width: 140px; margin-top: 10px; }
+    .cards-row { display: flex; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
+    .card-transp { background: #f2f7fa; border-radius: 12px; box-shadow: 0 1px 6px #00284610; padding: 18px 18px 12px 18px; flex: 1 1 250px; min-width: 220px; max-width: 320px; display: flex; flex-direction: column; align-items: flex-start; }
+    .card-transp h3 { font-size: 1.1rem; color: #00B5D3; margin-bottom: 6px; font-weight: 500; }
+    .card-transp p { font-size: 14px; margin-bottom: 6px; color: #002846; }
+    .card-transp .elementor-button { margin-top: 8px; min-width: 100px; }
+    @media (max-width: 900px) {
+      .main-container { padding: 16px 2vw; }
+      .cards-row { flex-direction: column; gap: 14px; }
     }
-    .container {
-      max-width: 680px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-      padding: 40px 32px 32px 32px;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      color: #00B5D3;
-      margin-bottom: 24px;
-      text-align: left;
-    }
-    form {
-      display: grid;
-      gap: 22px;
-    }
-    label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00284640;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Inter', Arial, sans-serif;
-      box-sizing: border-box;
-      margin-top: 4px;
-    }
-    .actions {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
-    .btn {
-      background: #00B5D3;
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 12px 32px;
-      font-size: 1rem;
-      font-family: 'Demo', Arial, sans-serif;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background: #002846;
-      color: #fff;
-    }
-    .section-collapsible {
-      margin-top: 16px;
-      border: 1px solid #00B5D3;
-      border-radius: 10px;
-      background: #f4fafd;
-    }
-    .collapsible-header {
-      padding: 14px 18px;
-      cursor: pointer;
-      font-weight: 500;
-      color: #00B5D3;
-      background: #fff;
-      border-radius: 10px 10px 0 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .collapsible-content {
-      display: none;
-      padding: 18px;
-    }
-    .collapsible-header.open + .collapsible-content {
-      display: block;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background: #fff;
-    }
-    th, td {
-      border: 1px solid #e0e0e0;
-      padding: 8px 12px;
-      text-align: left;
-      font-size: 0.98rem;
-    }
-    th {
-      background: #eaf7fa;
-      color: #00B5D3;
-      font-weight: 500;
-    }
-    .modal-group {
-      display: flex;
-      gap: 18px;
-      margin-top: 8px;
-    }
-    .modal-group label {
-      font-weight: 400;
-      margin-bottom: 0;
-    }
-    @media (max-width: 700px) {
-      .container {
-        padding: 24px 8px;
-      }
-      h1 {
-        font-size: 1.3rem;
-      }
-      .actions {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .modal-group {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
+    .select2-container { width: 100% !important; }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Seleção e Solicitação de Transportadora</h1>
-    <form id="selecaoTransportadora" autocomplete="off">
-      <div>
-        <label for="tipoVeiculo">Tipo de Veículo <span style="color:#cf2e2e">*</span></label>
-        <select id="tipoVeiculo" name="tipoVeiculo" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="toco">Toco</option>
-          <option value="truck">Truck</option>
-          <option value="carreta">Carreta</option>
-          <option value="vanderleia">Vanderleia</option>
-          <option value="bitrem">Bitrem</option>
-        </select>
-      </div>
-      <div>
-        <label for="transportadora">Transportadora <span style="color:#cf2e2e">*</span></label>
-        <select id="transportadora" name="transportadora" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="TransLog">TransLog</option>
-          <option value="ExpressoSul">Expresso Sul</option>
-          <option value="Rodofrete">Rodofrete</option>
-          <option value="CargasBR">CargasBR</option>
-        </select>
-      </div>
-      <div>
-        <label for="dataEntrega">Data estimada de entrega <span style="color:#cf2e2e">*</span></label>
-        <input type="date" id="dataEntrega" name="dataEntrega" required aria-required="true">
-      </div>
-      <div>
-        <label>Modal</label>
-        <div class="modal-group">
-          <label><input type="radio" name="modal" value="lotacao" checked> Lotação</label>
-          <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
+  <header class="header_section" style="background:#002846;">
+    <div class="header_wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:16px 32px;">
+      <a href="#" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" style="height:38px;"></a>
+      <nav class="menu_nav_trees">
+        <a href="solicitacao-agendamento.html" style="color:#fff;margin-right:24px;">Agendamento</a>
+        <a href="confirmacao-fornecedor.html" style="color:#fff;margin-right:24px;">Confirmação</a>
+        <a href="selecao-transportadora.html" style="color:#00B5D3;font-weight:600;">Transportadora</a>
+      </nav>
+    </div>
+  </header>
+  <main class="main-container">
+    <h1 class="section-title">Seleção e Solicitação de Transportadora</h1>
+    <section class="resumo-solicitacao" aria-label="Resumo da Solicitação">
+      <dl>
+        <dt>Fornecedor:</dt><dd>Fornecedor Alfa</dd>
+        <dt>Unidade:</dt><dd>SP</dd>
+        <dt>Data/Hora Coleta:</dt><dd>2024-07-15 09:00</dd>
+        <dt>Tipo de Carga:</dt><dd>Paletizado</dd>
+        <dt>Peso Total:</dt><dd>1200 kg</dd>
+        <dt>Local de Entrega:</dt><dd>ICL São Paulo</dd>
+      </dl>
+    </section>
+    <form id="transpForm" autocomplete="off">
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="tipo_veiculo">Tipo de Veículo *</label>
+          <select id="tipo_veiculo" name="tipo_veiculo" class="elementor-field-textual" required>
+            <option value="">Sugestão automática</option>
+            <option value="toco">Toco (até 8t)</option>
+            <option value="truck">Truck (até 14t)</option>
+            <option value="carreta">Carreta (até 27t)</option>
+            <option value="vanderleia">Vanderleia (até 32t)</option>
+          </select>
+        </div>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="transportadora">Transportadora *</label>
+          <select id="transportadora" name="transportadora" class="elementor-field-textual" required>
+            <option value="">Selecione</option>
+            <option value="transp1">Translog</option>
+            <option value="transp2">Rodonaves</option>
+            <option value="transp3">Jamef</option>
+            <option value="transp4">Rapidex</option>
+          </select>
         </div>
       </div>
-      <div class="section-collapsible">
-        <div class="collapsible-header" id="collapsibleHeader">
-          <span>▼</span> Tabela de Parametrização de Veículos
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="data_entrega">Data de Entrega Estimada *</label>
+          <input type="date" id="data_entrega" name="data_entrega" class="elementor-field-textual" required>
         </div>
-        <div class="collapsible-content">
-          <table aria-label="Tabela de parametrização de veículos">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Peso Máx. (kg)</th>
-                <th>Volume Máx. (m³)</th>
-                <th>Modal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Toco</td><td>7.000</td><td>35</td><td>Lotação</td></tr>
-              <tr><td>Truck</td><td>14.000</td><td>55</td><td>Lotação</td></tr>
-              <tr><td>Carreta</td><td>28.000</td><td>90</td><td>Lotação</td></tr>
-              <tr><td>Vanderleia</td><td>32.000</td><td>100</td><td>Lotação</td></tr>
-              <tr><td>Bitrem</td><td>36.000</td><td>120</td><td>Lotação</td></tr>
-            </tbody>
-          </table>
+        <div class="elementor-field-group">
+          <label class="elementor-label">Modal *</label>
+          <div style="display:flex;gap:16px;align-items:center;">
+            <label><input type="radio" name="modal" value="lotacao" required> Lotação</label>
+            <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
+          </div>
         </div>
       </div>
-      <div class="actions">
-        <button type="submit" class="btn">Solicitar Transporte</button>
-      </div>
+      <button type="submit" class="elementor-button elementor-size-md">Solicitar Transporte</button>
     </form>
-  </div>
+    <h2 style="margin-top:38px;font-size:1.1rem;color:#002846;font-weight:500;">Sugestões de Transportadoras</h2>
+    <div class="cards-row">
+      <div class="card-transp">
+        <h3>Translog</h3>
+        <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp1'">Selecionar</button>
+      </div>
+      <div class="card-transp">
+        <h3>Rodonaves</h3>
+        <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp2'">Selecionar</button>
+      </div>
+      <div class="card-transp">
+        <h3>Jamef</h3>
+        <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp3'">Selecionar</button>
+      </div>
+    </div>
+  </main>
   <script>
-    // Sugestão automática de tipo de veículo
-    const tipoVeiculo = document.getElementById('tipoVeiculo');
-    const pesoSimulado = 12000; // Exemplo: peso total da carga
-    tipoVeiculo.addEventListener('focus', function() {
-      if(tipoVeiculo.value === '') {
-        if(pesoSimulado <= 7000) tipoVeiculo.value = 'toco';
-        else if(pesoSimulado <= 14000) tipoVeiculo.value = 'truck';
-        else if(pesoSimulado <= 28000) tipoVeiculo.value = 'carreta';
-        else if(pesoSimulado <= 32000) tipoVeiculo.value = 'vanderleia';
-        else tipoVeiculo.value = 'bitrem';
-      }
+    // Sugestão automática de tipo de veículo baseada em peso (simulação)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Simule que o peso é 1200kg
+      var peso = 1200;
+      var tipoVeiculo = document.getElementById('tipo_veiculo');
+      if (peso <= 8000) tipoVeiculo.value = 'toco';
+      else if (peso <= 14000) tipoVeiculo.value = 'truck';
+      else if (peso <= 27000) tipoVeiculo.value = 'carreta';
+      else tipoVeiculo.value = 'vanderleia';
     });
-    // Colapsável
-    document.getElementById('collapsibleHeader').addEventListener('click', function() {
-      this.classList.toggle('open');
-    });
-    // Form submit
-    document.getElementById('selecaoTransportadora').addEventListener('submit', function(e) {
+    document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Solicitação enviada para transportadora!');
+      alert('Solicitação de transporte enviada! (Fluxo simulado)');
+      window.location.href = 'solicitacao-agendamento.html';
     });
   </script>
 </body>
