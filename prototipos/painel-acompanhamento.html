@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Acompanhamento - Gestão de Fretes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body {
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #002846;
+      color: #fff;
+      padding: 0 0 0 0;
+      border-bottom: 1px solid #00B5D3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    .logo {
+      height: 36px;
+      margin-left: 32px;
+    }
+    nav {
+      margin-right: 32px;
+      display: flex;
+      gap: 24px;
+    }
+    nav a {
+      color: #fff;
+      font-size: 1.08rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 22px;
+      transition: background 0.2s;
+    }
+    nav a.active, nav a:hover {
+      background: #00B5D3;
+      color: #fff;
+    }
+    .main-content {
+      max-width: 1200px;
+      margin: 32px auto 32px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 36px 32px 32px 32px;
+    }
+    h1 {
+      color: #00B5D3;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 18px;
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .status-card {
+      background: #f0fcff;
+      border-radius: 12px;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      box-shadow: 0 2px 8px rgba(0,181,211,0.06);
+      border: 1px solid #e6f7fb;
+    }
+    .status-card.solicitados { border-left: 8px solid #0693e3; }
+    .status-card.confirmados { border-left: 8px solid #00d084; }
+    .status-card.transito { border-left: 8px solid #fcb900; }
+    .status-card.concluidos { border-left: 8px solid #002846; }
+    .status-title {
+      font-size: 1.09rem;
+      font-weight: 500;
+      color: #002846;
+      margin-bottom: 6px;
+    }
+    .status-count {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0;
+      color: #00B5D3;
+    }
+    .status-card.solicitados .status-count { color: #0693e3; }
+    .status-card.confirmados .status-count { color: #00d084; }
+    .status-card.transito .status-count { color: #fcb900; }
+    .status-card.concluidos .status-count { color: #002846; }
+    .filtros {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .filtros label {
+      font-weight: 500;
+      color: #002846;
+      margin-right: 6px;
+    }
+    .filtros input, .filtros select {
+      padding: 8px 12px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      min-width: 120px;
+    }
+    .filtros .multiselect {
+      min-width: 140px;
+    }
+    .busca-rapida {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .busca-rapida input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .busca-rapida button {
+      background: #00B5D3;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .busca-rapida button:hover {
+      background: #002846;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+    }
+    th, td {
+      padding: 12px 8px;
+      text-align: left;
+      border-bottom: 1px solid #e6f7fb;
+      font-size: 1rem;
+      color: #002846;
+    }
+    th {
+      background: #f0fcff;
+      font-weight: 500;
+      color: #00B5D3;
+    }
+    .acoes {
+      display: flex;
+      gap: 12px;
+    }
+    .acoes a {
+      color: #00B5D3;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .acoes a:hover {
+      color: #002846;
+    }
+    .btn-flutuante {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: linear-gradient(90deg,#00B5D3 0%,#8FE6E5 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 33px;
+      padding: 18px 38px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 16px rgba(0,181,211,0.16);
+      z-index: 99;
+      transition: background 0.2s;
+    }
+    .btn-flutuante:hover {
+      background: #00B5D3;
+    }
+    @media (max-width: 900px) {
+      .status-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 18px 8px 18px 8px;
+      }
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 0;
+      }
+      .logo {
+        margin-left: 0;
+      }
+      nav {
+        margin-right: 0;
+        gap: 12px;
+      }
+      .btn-flutuante {
+        right: 12px;
+        bottom: 12px;
+        padding: 12px 22px;
+        font-size: 1rem;
+      }
+    }
+    /* Ícones */
+    .icon-view::before { content: '\f06e'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+    .icon-edit::before { content: '\f044'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+  </style>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274">
+</head>
+<body>
+  <header>
+    <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Logo ICL" class="logo" aria-label="Logo da ICL">
+    <nav aria-label="Menu principal">
+      <a href="#" class="active">Painel</a>
+      <a href="relatorios.html">Relatórios</a>
+    </nav>
+  </header>
+  <main class="main-content" aria-label="Painel de acompanhamento de fretes">
+    <h1>Painel de Acompanhamento</h1>
+    <section class="status-grid">
+      <div class="status-card solicitados">
+        <span class="status-title">Solicitados</span>
+        <span class="status-count" id="countSolicitados">8</span>
+      </div>
+      <div class="status-card confirmados">
+        <span class="status-title">Confirmados</span>
+        <span class="status-count" id="countConfirmados">5</span>
+      </div>
+      <div class="status-card transito">
+        <span class="status-title">Em Trânsito</span>
+        <span class="status-count" id="countTransito">3</span>
+      </div>
+      <div class="status-card concluidos">
+        <span class="status-title">Concluídos</span>
+        <span class="status-count" id="countConcluidos">12</span>
+      </div>
+    </section>
+    <form class="filtros" id="filtrosForm" autocomplete="off">
+      <label for="dataInicio">Período:</label>
+      <input type="date" id="dataInicio" aria-label="Data inicial">
+      <span>até</span>
+      <input type="date" id="dataFim" aria-label="Data final">
+      <label for="fornecedores">Fornecedores:</label>
+      <select id="fornecedores" class="multiselect" multiple aria-label="Selecione fornecedores">
+        <option>Unidade Piracicaba</option>
+        <option>Unidade Cubatão</option>
+        <option>Unidade Uberaba</option>
+      </select>
+      <label for="transportadoras">Transportadoras:</label>
+      <select id="transportadoras" class="multiselect" multiple aria-label="Selecione transportadoras">
+        <option>Translog</option>
+        <option>Braspress</option>
+        <option>Jamef</option>
+      </select>
+      <label for="status">Status:</label>
+      <select id="status" aria-label="Selecione status">
+        <option value="">Todos</option>
+        <option value="solicitado">Solicitado</option>
+        <option value="confirmado">Confirmado</option>
+        <option value="transito">Em Trânsito</option>
+        <option value="concluido">Concluído</option>
+      </select>
+    </form>
+    <div class="busca-rapida">
+      <input type="text" id="buscaRapida" placeholder="Buscar por ID, placa, nota fiscal..." aria-label="Busca rápida">
+      <button type="button" id="btnBuscar">Buscar</button>
+    </div>
+    <table aria-label="Tabela de agendamentos">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fornecedor</th>
+          <th>Transportadora</th>
+          <th>Status</th>
+          <th>Data de Coleta</th>
+          <th>Data de Entrega</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="agendamentosTable">
+        <tr>
+          <td>AG001</td>
+          <td>Unidade Piracicaba</td>
+          <td>Translog</td>
+          <td>Solicitado</td>
+          <td>12/06/2024</td>
+          <td>13/06/2024</td>
+          <td class="acoes">
+            <a href="#" title="Visualizar"><i class="fas icon-view" aria-hidden="true"></i></a>
+            <a href="#" title="Editar"><i class="fas icon-edit" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>AG002</td>
+          <td>Unidade Cubatão</td>
+          <td>Braspress</td>
+          <td>Confirmado</td>
+          <td>13/06/2024</td>
+          <td>14/06/2024</td>
+          <td class="acoes">
+            <a href="#" title="Visualizar"><i class="fas icon-view" aria-hidden="true"></i></a>
+            <a href="#" title="Editar"><i class="fas icon-edit" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>AG003</td>
+          <td>Unidade Uberaba</td>
+          <td>Jamef</td>
+          <td>Em Trânsito</td>
+          <td>14/06/2024</td>
+          <td>15/06/2024</td>
+          <td class="acoes">
+            <a href="#" title="Visualizar"><i class="fas icon-view" aria-hidden="true"></i></a>
+            <a href="#" title="Editar"><i class="fas icon-edit" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+        <tr>
+          <td>AG004</td>
+          <td>Unidade Piracicaba</td>
+          <td>Translog</td>
+          <td>Concluído</td>
+          <td>11/06/2024</td>
+          <td>12/06/2024</td>
+          <td class="acoes">
+            <a href="#" title="Visualizar"><i class="fas icon-view" aria-hidden="true"></i></a>
+            <a href="#" title="Editar"><i class="fas icon-edit" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn-flutuante" id="novaSolicitacao" aria-label="Nova Solicitação">Nova Solicitação</button>
+  </main>
+  <script>
+    // Simulação de contadores
+    function atualizarContadores(){
+      var table = document.getElementById('agendamentosTable');
+      var counts = {solicitados:0, confirmados:0, transito:0, concluidos:0};
+      for(var i=0; i<table.rows.length; i++){
+        var status = table.rows[i].cells[3].textContent.trim().toLowerCase();
+        if(status==='solicitado') counts.solicitados++;
+        else if(status==='confirmado') counts.confirmados++;
+        else if(status==='em trânsito') counts.transito++;
+        else if(status==='concluído') counts.concluidos++;
+      }
+      document.getElementById('countSolicitados').textContent = counts.solicitados;
+      document.getElementById('countConfirmados').textContent = counts.confirmados;
+      document.getElementById('countTransito').textContent = counts.transito;
+      document.getElementById('countConcluidos').textContent = counts.concluidos;
+    }
+    atualizarContadores();
+    // Nova Solicitação
+    document.getElementById('novaSolicitacao').addEventListener('click', function(){
+      window.location.href = 'solicitacao-agendamento.html';
+    });
+    // Busca rápida
+    document.getElementById('btnBuscar').addEventListener('click', function(){
+      var termo = document.getElementById('buscaRapida').value.trim().toLowerCase();
+      var table = document.getElementById('agendamentosTable');
+      for(var i=0; i<table.rows.length; i++){
+        var row = table.rows[i];
+        var match = false;
+        for(var j=0; j<row.cells.length-1; j++){
+          if(row.cells[j].textContent.toLowerCase().includes(termo)) match = true;
+        }
+        row.style.display = match||!termo ? '' : 'none';
+      }
+    });
+    // Filtros (simulação)
+    document.getElementById('filtrosForm').addEventListener('change', function(){
+      // Simulação: não filtra de verdade, pois dados são estáticos
+    });
+  </script>
+</body>
+</html>
