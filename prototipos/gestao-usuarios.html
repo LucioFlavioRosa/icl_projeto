@@ -2,258 +2,226 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Gestão de Usuários - ICL Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gestão de Usuários | Gestão de Fretes ICL</title>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" media="all" />
   <style>
-    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7fafd; }
-    .section-usuarios { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 40px 32px; }
-    .usuarios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-    .usuarios-title { font-size: 2.2rem; color: #00B5D3; font-weight: 400; }
-    .usuarios-actions { display: flex; gap: 16px; }
-    .btn-novo { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-    .btn-novo:hover { background: #002846; }
-    table.usuarios-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    table.usuarios-table th, table.usuarios-table td { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; }
-    table.usuarios-table th { background: #f7fafd; font-weight: 500; color: #002846; }
-    table.usuarios-table td.status { font-weight: 500; }
-    .status.ativo { color: #00d084; }
-    .status.inativo { color: #cf2e2e; }
-    .btn-editar, .btn-desativar { background: none; border: none; color: #00B5D3; cursor: pointer; margin-right: 8px; font-size: 1rem; }
-    .btn-desativar { color: #cf2e2e; }
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background: rgba(0,0,0,0.4); }
-    .modal-content { background: #fff; margin: 10% auto; padding: 32px; border-radius: 18px; max-width: 480px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-    .modal-footer { text-align: right; margin-top: 24px; }
-    .modal-footer button { margin-left: 12px; }
-    .form-usuario label { display: block; margin-top: 16px; font-weight: 500; color: #002846; }
-    .form-usuario input, .form-usuario select { width: 100%; padding: 8px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; margin-top: 4px; }
-    .permissoes-group { margin-top: 16px; }
-    .permissoes-group label { font-weight: 400; margin-right: 12px; }
-    .tabs { display: flex; gap: 18px; margin-bottom: 18px; }
-    .tab { cursor: pointer; padding: 10px 24px; border-radius: 33px; background: #f7fafd; color: #002846; font-weight: 500; }
-    .tab.active { background: #00B5D3; color: #fff; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    .log-table { width: 100%; border-collapse: collapse; }
-    .log-table th, .log-table td { padding: 10px 8px; border-bottom: 1px solid #eee; text-align: left; }
-    .log-table th { background: #f7fafd; font-weight: 500; color: #002846; }
-    @media (max-width: 900px) { .section-usuarios { padding: 16px; } }
+    body { background: #f6fafd; margin: 0; font-family: 'Inter', 'Demo', sans-serif; }
+    .main-container { max-width: 1100px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,.05); padding: 36px 32px 32px 32px; }
+    .usuarios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .usuarios-header h1 { font-size: 2.1rem; color: #002846; font-weight: 400; margin: 0; }
+    .btn-novo { background: #00B5D3; color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 15px; font-family: inherit; cursor: pointer; transition: background .2s; display: flex; align-items: center; gap: 7px; }
+    .btn-novo:hover { background: #0090a8; }
+    .usuarios-table { width: 100%; border-collapse: collapse; background: #f6fafd; border-radius: 12px; overflow: hidden; }
+    .usuarios-table th, .usuarios-table td { padding: 13px 12px; text-align: left; font-size: 15px; }
+    .usuarios-table th { background: #e6f6fa; color: #00B5D3; font-weight: 600; }
+    .usuarios-table tr:not(:last-child) { border-bottom: 1px solid #e6e6e6; }
+    .usuarios-table td.status-ativo { color: #61CE70; font-weight: 500; }
+    .usuarios-table td.status-inativo { color: #cf2e2e; font-weight: 500; }
+    .usuarios-table td .btn-acao { background: none; border: none; color: #00B5D3; cursor: pointer; font-size: 16px; margin-right: 10px; transition: color .2s; }
+    .usuarios-table td .btn-acao:last-child { margin-right: 0; }
+    .usuarios-table td .btn-acao:hover { color: #002846; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.23); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: #fff; border-radius: 16px; max-width: 420px; width: 96vw; padding: 32px 28px 24px 28px; box-shadow: 0 8px 32px rgba(0,0,0,.13); position: relative; }
+    .modal h2 { font-size: 1.3rem; color: #00B5D3; margin-bottom: 18px; }
+    .modal form label { display: block; font-size: 15px; color: #002846; margin-bottom: 3px; font-weight: 500; }
+    .modal form input, .modal form select { width: 100%; border: 1px solid #cce2e8; border-radius: 8px; padding: 7px 10px; font-size: 15px; margin-bottom: 13px; background: #f6fafd; color: #002846; }
+    .modal .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
+    .modal .btn-cancelar { background: none; border: none; color: #cf2e2e; font-size: 15px; cursor: pointer; }
+    .modal .btn-salvar { background: #00B5D3; color: #fff; border: none; border-radius: 8px; padding: 8px 20px; font-size: 15px; cursor: pointer; }
+    .modal .btn-salvar:hover { background: #0090a8; }
+    .modal .close-modal { position: absolute; top: 10px; right: 18px; background: none; border: none; font-size: 22px; color: #888; cursor: pointer; }
+    .log-section { margin-top: 38px; background: #f6fafd; border-radius: 12px; padding: 18px 18px 8px 18px; }
+    .log-section h2 { font-size: 1.1rem; color: #00B5D3; margin-bottom: 10px; }
+    .log-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .log-table th, .log-table td { padding: 7px 8px; text-align: left; }
+    .log-table th { background: #e6f6fa; color: #00B5D3; font-weight: 600; }
+    .log-table tr:not(:last-child) { border-bottom: 1px solid #e6e6e6; }
+    @media (max-width: 900px) {
+      .main-container { padding: 18px 4vw; }
+      .usuarios-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+    }
   </style>
 </head>
 <body>
-  <header class="header_section">
-    <div class="header_wrapper">
-      <div class="logo_wrapper">
-        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
-      </div>
-      <nav class="menu_container">
-        <ul class="menu_primary_trees">
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="agendamentos.html">Agendamentos</a></li>
-          <li><a href="usuarios.html" class="active">Usuários</a></li>
-          <li><a href="relatorios.html">Relatórios</a></li>
-        </ul>
-      </nav>
-      <div class="user_menu">
-        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
-        <div class="user_dropdown">
-          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário" style="width:32px; border-radius:50%;">
-          <div class="dropdown-content">
-            <a href="#perfil">Perfil</a>
-            <a href="#configuracoes">Configurações</a>
-            <a href="#logout">Sair</a>
-          </div>
-        </div>
-      </div>
+  <!-- Header reutilizável -->
+  <div id="header-placeholder"></div>
+  <main class="main-container">
+    <div class="usuarios-header">
+      <h1>Gestão de Usuários</h1>
+      <button class="btn-novo" onclick="abrirModalNovoUsuario()">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        Novo Usuário
+      </button>
     </div>
-  </header>
-  <main>
-    <section class="section-usuarios">
-      <div class="usuarios-header">
-        <span class="usuarios-title">Gestão de Usuários</span>
-        <div class="usuarios-actions">
-          <button class="btn-novo" id="btnNovoUsuario">Novo Usuário</button>
-        </div>
-      </div>
-      <div class="tabs">
-        <div class="tab active" data-tab="usuarios">Usuários</div>
-        <div class="tab" data-tab="auditoria">Log de Auditoria</div>
-      </div>
-      <div class="tab-content active" id="tab-usuarios">
-        <table class="usuarios-table" aria-label="Tabela de Usuários">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Perfil</th>
-              <th>Status</th>
-              <th>Última Atividade</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="usuariosBody">
-            <tr>
-              <td>João Silva</td>
-              <td>joao@icl.com</td>
-              <td>Administrador ICL</td>
-              <td class="status ativo">Ativo</td>
-              <td>2024-06-12 14:32</td>
-              <td><button class="btn-editar" onclick="editarUsuario(0)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(0)">Desativar</button></td>
-            </tr>
-            <tr>
-              <td>Maria Souza</td>
-              <td>maria@fornecedor.com</td>
-              <td>Fornecedor</td>
-              <td class="status ativo">Ativo</td>
-              <td>2024-06-10 09:15</td>
-              <td><button class="btn-editar" onclick="editarUsuario(1)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(1)">Desativar</button></td>
-            </tr>
-            <tr>
-              <td>Pedro Lima</td>
-              <td>pedro@transp.com</td>
-              <td>Transportadora</td>
-              <td class="status inativo">Inativo</td>
-              <td>2024-05-28 17:41</td>
-              <td><button class="btn-editar" onclick="editarUsuario(2)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(2)">Desativar</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="tab-auditoria">
-        <table class="log-table" aria-label="Log de Auditoria">
-          <thead>
-            <tr>
-              <th>Data/Hora</th>
-              <th>Usuário</th>
-              <th>Ação</th>
-              <th>Detalhes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>2024-06-12 14:32</td>
-              <td>João Silva</td>
-              <td>Login</td>
-              <td>Autenticação realizada</td>
-            </tr>
-            <tr>
-              <td>2024-06-10 09:16</td>
-              <td>Maria Souza</td>
-              <td>Upload NF</td>
-              <td>Nota Fiscal XML enviada</td>
-            </tr>
-            <tr>
-              <td>2024-05-28 17:41</td>
-              <td>Pedro Lima</td>
-              <td>Desativação</td>
-              <td>Usuário desativado pelo admin</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-    <!-- Modal Cadastro/Edição -->
-    <div class="modal" id="modalUsuario">
-      <div class="modal-content">
-        <form class="form-usuario" id="formUsuario">
-          <h2 id="modalTitulo">Novo Usuário</h2>
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" name="nome" required>
-          <label for="email">E-mail:</label>
-          <input type="email" id="email" name="email" required>
-          <label for="perfil">Perfil de Acesso:</label>
+    <div style="overflow-x:auto;">
+      <table class="usuarios-table" aria-label="Tabela de usuários">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="usuariosBody">
+          <!-- Usuários mockados -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal de novo/editar usuário -->
+    <div class="modal-overlay" id="modalUsuario">
+      <div class="modal" role="dialog" aria-modal="true">
+        <button class="close-modal" onclick="fecharModalUsuario()" aria-label="Fechar">&times;</button>
+        <h2 id="modalTitulo">Novo Usuário</h2>
+        <form id="formUsuario" onsubmit="salvarUsuario(event)">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required />
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" required />
+          <label for="perfil">Perfil</label>
           <select id="perfil" name="perfil" required>
-            <option value="admin">Administrador ICL</option>
-            <option value="operador">Operador ICL</option>
-            <option value="fornecedor">Fornecedor</option>
-            <option value="transportadora">Transportadora</option>
+            <option value="Administrador ICL">Administrador ICL</option>
+            <option value="Operador ICL">Operador ICL</option>
+            <option value="Fornecedor">Fornecedor</option>
+            <option value="Transportadora">Transportadora</option>
           </select>
-          <div class="permissoes-group">
-            <span>Permissões:</span><br>
-            <label><input type="checkbox" name="permissao" value="agendar"> Agendar Coleta</label>
-            <label><input type="checkbox" name="permissao" value="confirmar"> Confirmar Volume</label>
-            <label><input type="checkbox" name="permissao" value="aceitar"> Aceitar Transporte</label>
-            <label><input type="checkbox" name="permissao" value="checkin"> Realizar Check-in</label>
-            <label><input type="checkbox" name="permissao" value="relatorios"> Visualizar Relatórios</label>
-          </div>
-          <div class="modal-footer">
-            <button type="button" onclick="closeModal()">Cancelar</button>
-            <button type="submit">Salvar</button>
+          <label for="status">Status</label>
+          <select id="status" name="status" required>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancelar" onclick="fecharModalUsuario()">Cancelar</button>
+            <button type="submit" class="btn-salvar">Salvar</button>
           </div>
         </form>
       </div>
     </div>
-    <!-- Modal Desativação -->
-    <div class="modal" id="modalDesativar">
-      <div class="modal-content">
-        <h2>Confirmar Desativação</h2>
-        <p>Tem certeza que deseja desativar este usuário?</p>
-        <div class="modal-footer">
-          <button type="button" onclick="closeModalDesativar()">Cancelar</button>
-          <button type="button" onclick="desativarUsuarioConfirmado()">Desativar</button>
-        </div>
-      </div>
-    </div>
+    <!-- Log de auditoria -->
+    <section class="log-section">
+      <h2>Log de Auditoria</h2>
+      <table class="log-table" aria-label="Log de auditoria">
+        <thead>
+          <tr>
+            <th>Data/Hora</th>
+            <th>Usuário</th>
+            <th>Ação</th>
+            <th>Detalhes</th>
+          </tr>
+        </thead>
+        <tbody id="logBody">
+          <!-- Logs mockados -->
+        </tbody>
+      </table>
+    </section>
   </main>
   <script>
-    // Tabs
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-      });
+    // Header dinâmico reutilizável
+    fetch('/prototipos/components/header.html').then(res => res.text()).then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
     });
-    // Modal Usuário
-    document.getElementById('btnNovoUsuario').onclick = function() {
-      document.getElementById('modalTitulo').innerText = 'Novo Usuário';
+    // Mock de usuários
+    let usuarios = [
+      { nome: 'Ana Souza', email: 'ana@icl.com', perfil: 'Administrador ICL', status: 'ativo' },
+      { nome: 'Carlos Lima', email: 'carlos@icl.com', perfil: 'Operador ICL', status: 'ativo' },
+      { nome: 'Fornecedor XPTO', email: 'contato@fornecedorxpto.com', perfil: 'Fornecedor', status: 'ativo' },
+      { nome: 'Transp. Alfa', email: 'alfa@transportes.com', perfil: 'Transportadora', status: 'inativo' }
+    ];
+    let editIndex = null;
+    function renderUsuarios() {
+      const tbody = document.getElementById('usuariosBody');
+      tbody.innerHTML = '';
+      usuarios.forEach((u, i) => {
+        tbody.innerHTML += `<tr>
+          <td>${u.nome}</td>
+          <td>${u.email}</td>
+          <td>${u.perfil}</td>
+          <td class="status-${u.status}">${u.status.charAt(0).toUpperCase() + u.status.slice(1)}</td>
+          <td>
+            <button class="btn-acao" title="Editar" onclick="editarUsuario(${i})">✏️</button>
+            <button class="btn-acao" title="Desativar" onclick="desativarUsuario(${i})">🚫</button>
+          </td>
+        </tr>`;
+      });
+    }
+    renderUsuarios();
+    function abrirModalNovoUsuario() {
+      editIndex = null;
+      document.getElementById('modalTitulo').textContent = 'Novo Usuário';
       document.getElementById('formUsuario').reset();
-      document.getElementById('modalUsuario').style.display = 'block';
-    };
-    function closeModal() { document.getElementById('modalUsuario').style.display = 'none'; }
-    document.getElementById('formUsuario').onsubmit = function(e) {
-      e.preventDefault();
-      alert('Usuário salvo (mock).');
-      closeModal();
-    };
-    // Edição (mock)
-    function editarUsuario(idx) {
-      document.getElementById('modalTitulo').innerText = 'Editar Usuário';
-      document.getElementById('modalUsuario').style.display = 'block';
-      // Preencher campos (mock)
-      if (idx === 0) {
-        document.getElementById('nome').value = 'João Silva';
-        document.getElementById('email').value = 'joao@icl.com';
-        document.getElementById('perfil').value = 'admin';
-      } else if (idx === 1) {
-        document.getElementById('nome').value = 'Maria Souza';
-        document.getElementById('email').value = 'maria@fornecedor.com';
-        document.getElementById('perfil').value = 'fornecedor';
-      } else {
-        document.getElementById('nome').value = 'Pedro Lima';
-        document.getElementById('email').value = 'pedro@transp.com';
-        document.getElementById('perfil').value = 'transportadora';
+      document.getElementById('modalUsuario').classList.add('active');
+    }
+    function editarUsuario(i) {
+      editIndex = i;
+      const u = usuarios[i];
+      document.getElementById('modalTitulo').textContent = 'Editar Usuário';
+      document.getElementById('nome').value = u.nome;
+      document.getElementById('email').value = u.email;
+      document.getElementById('perfil').value = u.perfil;
+      document.getElementById('status').value = u.status;
+      document.getElementById('modalUsuario').classList.add('active');
+    }
+    function desativarUsuario(i) {
+      if (confirm('Deseja desativar este usuário?')) {
+        usuarios[i].status = 'inativo';
+        renderUsuarios();
+        adicionarLog('Desativação', usuarios[i].nome, 'Usuário desativado');
       }
     }
-    // Modal Desativar
-    let usuarioDesativarIdx = null;
-    function confirmDesativar(idx) {
-      usuarioDesativarIdx = idx;
-      document.getElementById('modalDesativar').style.display = 'block';
+    function fecharModalUsuario() {
+      document.getElementById('modalUsuario').classList.remove('active');
     }
-    function closeModalDesativar() { document.getElementById('modalDesativar').style.display = 'none'; }
-    function desativarUsuarioConfirmado() {
-      alert('Usuário desativado (mock).');
-      closeModalDesativar();
+    function salvarUsuario(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const perfil = document.getElementById('perfil').value;
+      const status = document.getElementById('status').value;
+      if (editIndex !== null) {
+        usuarios[editIndex] = { nome, email, perfil, status };
+        adicionarLog('Edição', nome, 'Usuário editado');
+      } else {
+        usuarios.push({ nome, email, perfil, status });
+        adicionarLog('Criação', nome, 'Novo usuário cadastrado');
+      }
+      renderUsuarios();
+      fecharModalUsuario();
+    }
+    // Log de auditoria mock
+    let logs = [
+      { data: '2024-06-01 10:12', usuario: 'Ana Souza', acao: 'Login', detalhes: 'Acesso ao sistema' },
+      { data: '2024-06-01 10:15', usuario: 'Carlos Lima', acao: 'Criação', detalhes: 'Novo usuário cadastrado: Fornecedor XPTO' },
+      { data: '2024-06-01 10:18', usuario: 'Ana Souza', acao: 'Desativação', detalhes: 'Usuário desativado: Transp. Alfa' }
+    ];
+    function renderLogs() {
+      const tbody = document.getElementById('logBody');
+      tbody.innerHTML = '';
+      logs.forEach(l => {
+        tbody.innerHTML += `<tr>
+          <td>${l.data}</td>
+          <td>${l.usuario}</td>
+          <td>${l.acao}</td>
+          <td>${l.detalhes}</td>
+        </tr>`;
+      });
+    }
+    renderLogs();
+    function adicionarLog(acao, usuario, detalhes) {
+      const now = new Date();
+      const data = now.toLocaleString('pt-BR', { hour12: false });
+      logs.unshift({ data, usuario, acao, detalhes });
+      renderLogs();
     }
     // Fechar modal ao clicar fora
-    window.onclick = function(event) {
-      if (event.target === document.getElementById('modalUsuario')) closeModal();
-      if (event.target === document.getElementById('modalDesativar')) closeModalDesativar();
-    };
+    document.getElementById('modalUsuario').addEventListener('click', function(e) {
+      if (e.target === this) fecharModalUsuario();
+    });
   </script>
 </body>
 </html>
