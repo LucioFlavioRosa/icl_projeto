@@ -2,227 +2,196 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Seleção de Transportadora | Gestão de Fretes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <style>
     body {
+      background: #fff;
       font-family: 'Demo', 'Inter', Arial, sans-serif;
-      background: #f7fafc;
       margin: 0;
-      color: #002846;
+      padding: 0;
     }
     .container {
-      max-width: 680px;
+      max-width: 900px;
       margin: 40px auto;
+      padding: 24px;
       background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-      padding: 40px 32px 32px 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
     }
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      color: #00B5D3;
+    .card-sugestao {
+      border: 2px solid #00B5D3;
+      border-radius: 12px;
+      padding: 24px;
       margin-bottom: 24px;
-      text-align: left;
-    }
-    form {
-      display: grid;
-      gap: 22px;
-    }
-    label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00284640;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Inter', Arial, sans-serif;
-      box-sizing: border-box;
-      margin-top: 4px;
-    }
-    .actions {
+      background: #F8FCFD;
       display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 18px;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-alternativa {
+      border: 1px solid #abb8c3;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #F7F7F7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .card-alternativa label {
+      flex: 1;
+      cursor: pointer;
     }
     .btn {
       background: #00B5D3;
       color: #fff;
       border: none;
       border-radius: 100px;
-      padding: 12px 32px;
-      font-size: 1rem;
-      font-family: 'Demo', Arial, sans-serif;
+      padding: 10px 28px;
+      font-size: 18px;
+      font-family: 'Demo', sans-serif;
+      font-weight: 400;
       cursor: pointer;
       transition: background 0.2s;
     }
-    .btn:hover {
-      background: #002846;
-      color: #fff;
-    }
-    .section-collapsible {
-      margin-top: 16px;
-      border: 1px solid #00B5D3;
-      border-radius: 10px;
-      background: #f4fafd;
-    }
-    .collapsible-header {
-      padding: 14px 18px;
-      cursor: pointer;
-      font-weight: 500;
+    .btn:hover, .btn:focus {
+      background: #00B5D300;
       color: #00B5D3;
-      background: #fff;
-      border-radius: 10px 10px 0 0;
+      border: 2px solid #00B5D3;
+    }
+    .section-title {
+      font-size: 28px;
+      color: #002846;
+      font-weight: 500;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+    }
+    .selected-list {
+      background: #F2F2F2;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 20px;
+      margin-bottom: 24px;
+    }
+    .selected-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .selected-list li {
+      padding: 6px 0;
+      font-size: 16px;
+      color: #002846;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
     }
-    .collapsible-content {
-      display: none;
-      padding: 18px;
+    .selected-list .remove-btn {
+      background: none;
+      border: none;
+      color: #cf2e2e;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 8px;
     }
-    .collapsible-header.open + .collapsible-content {
-      display: block;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background: #fff;
-    }
-    th, td {
-      border: 1px solid #e0e0e0;
-      padding: 8px 12px;
-      text-align: left;
-      font-size: 0.98rem;
-    }
-    th {
-      background: #eaf7fa;
-      color: #00B5D3;
-      font-weight: 500;
-    }
-    .modal-group {
-      display: flex;
-      gap: 18px;
-      margin-top: 8px;
-    }
-    .modal-group label {
-      font-weight: 400;
-      margin-bottom: 0;
-    }
-    @media (max-width: 700px) {
+    @media (max-width: 600px) {
       .container {
-        padding: 24px 8px;
+        padding: 8px;
       }
-      h1 {
-        font-size: 1.3rem;
+      .card-sugestao, .card-alternativa {
+        padding: 10px;
       }
-      .actions {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .modal-group {
-        flex-direction: column;
-        gap: 10px;
+      .section-title {
+        font-size: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Seleção e Solicitação de Transportadora</h1>
-    <form id="selecaoTransportadora" autocomplete="off">
-      <div>
-        <label for="tipoVeiculo">Tipo de Veículo <span style="color:#cf2e2e">*</span></label>
-        <select id="tipoVeiculo" name="tipoVeiculo" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="toco">Toco</option>
-          <option value="truck">Truck</option>
-          <option value="carreta">Carreta</option>
-          <option value="vanderleia">Vanderleia</option>
-          <option value="bitrem">Bitrem</option>
-        </select>
+  <div class="container">
+    <div class="section-title">Seleção e Solicitação de Transportadora</div>
+    <div class="card-sugestao">
+      <strong>Sugestão Automática</strong>
+      <div>Tipo de Veículo: <span id="veiculo-sugerido">Truck 3/4</span></div>
+      <div>Transportadora Recomendada: <span id="transportadora-sugerida">TransLogística BR</span></div>
+      <div>Data Estimada de Entrega: <span id="data-entrega">18/07/2024</span></div>
+      <button class="btn" id="btnSolicitarSugestao">Solicitar Cotação</button>
+    </div>
+    <div class="section-title" style="font-size:20px; margin-bottom:10px;">Alternativas</div>
+    <div id="alternativas">
+      <div class="card-alternativa">
+        <label for="alt1">
+          <input type="checkbox" id="alt1" value="TransVia Express" style="margin-right:8px;">
+          <span>TransVia Express - Veículo: Toco | Entrega: 19/07/2024</span>
+        </label>
+        <button class="btn" onclick="solicitarCotacao('TransVia Express')">Solicitar Cotação</button>
       </div>
-      <div>
-        <label for="transportadora">Transportadora <span style="color:#cf2e2e">*</span></label>
-        <select id="transportadora" name="transportadora" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="TransLog">TransLog</option>
-          <option value="ExpressoSul">Expresso Sul</option>
-          <option value="Rodofrete">Rodofrete</option>
-          <option value="CargasBR">CargasBR</option>
-        </select>
+      <div class="card-alternativa">
+        <label for="alt2">
+          <input type="checkbox" id="alt2" value="CargoSul" style="margin-right:8px;">
+          <span>CargoSul - Veículo: VUC | Entrega: 20/07/2024</span>
+        </label>
+        <button class="btn" onclick="solicitarCotacao('CargoSul')">Solicitar Cotação</button>
       </div>
-      <div>
-        <label for="dataEntrega">Data estimada de entrega <span style="color:#cf2e2e">*</span></label>
-        <input type="date" id="dataEntrega" name="dataEntrega" required aria-required="true">
+      <div class="card-alternativa">
+        <label for="alt3">
+          <input type="checkbox" id="alt3" value="Rápido Oeste" style="margin-right:8px;">
+          <span>Rápido Oeste - Veículo: Carreta | Entrega: 22/07/2024</span>
+        </label>
+        <button class="btn" onclick="solicitarCotacao('Rápido Oeste')">Solicitar Cotação</button>
       </div>
-      <div>
-        <label>Modal</label>
-        <div class="modal-group">
-          <label><input type="radio" name="modal" value="lotacao" checked> Lotação</label>
-          <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
-        </div>
-      </div>
-      <div class="section-collapsible">
-        <div class="collapsible-header" id="collapsibleHeader">
-          <span>▼</span> Tabela de Parametrização de Veículos
-        </div>
-        <div class="collapsible-content">
-          <table aria-label="Tabela de parametrização de veículos">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Peso Máx. (kg)</th>
-                <th>Volume Máx. (m³)</th>
-                <th>Modal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Toco</td><td>7.000</td><td>35</td><td>Lotação</td></tr>
-              <tr><td>Truck</td><td>14.000</td><td>55</td><td>Lotação</td></tr>
-              <tr><td>Carreta</td><td>28.000</td><td>90</td><td>Lotação</td></tr>
-              <tr><td>Vanderleia</td><td>32.000</td><td>100</td><td>Lotação</td></tr>
-              <tr><td>Bitrem</td><td>36.000</td><td>120</td><td>Lotação</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="actions">
-        <button type="submit" class="btn">Solicitar Transporte</button>
-      </div>
-    </form>
+    </div>
+    <div class="selected-list">
+      <strong>Transportadoras Selecionadas:</strong>
+      <ul id="listaSelecionadas">
+        <!-- Dinâmico -->
+      </ul>
+    </div>
+    <button class="btn" id="btnEnviar" style="width:100%;font-size:20px;">Enviar Solicitações</button>
   </div>
   <script>
-    // Sugestão automática de tipo de veículo
-    const tipoVeiculo = document.getElementById('tipoVeiculo');
-    const pesoSimulado = 12000; // Exemplo: peso total da carga
-    tipoVeiculo.addEventListener('focus', function() {
-      if(tipoVeiculo.value === '') {
-        if(pesoSimulado <= 7000) tipoVeiculo.value = 'toco';
-        else if(pesoSimulado <= 14000) tipoVeiculo.value = 'truck';
-        else if(pesoSimulado <= 28000) tipoVeiculo.value = 'carreta';
-        else if(pesoSimulado <= 32000) tipoVeiculo.value = 'vanderleia';
-        else tipoVeiculo.value = 'bitrem';
+    // Lista dinâmica
+    const listaSelecionadas = document.getElementById('listaSelecionadas');
+    let selecionadas = [];
+    function atualizarLista() {
+      listaSelecionadas.innerHTML = '';
+      selecionadas.forEach(function(nome, idx) {
+        const li = document.createElement('li');
+        li.innerHTML = nome + '<button class="remove-btn" onclick="removerSelecionada(' + idx + ')">Remover</button>';
+        listaSelecionadas.appendChild(li);
+      });
+    }
+    function solicitarCotacao(nome) {
+      if (!selecionadas.includes(nome)) {
+        selecionadas.push(nome);
+        atualizarLista();
       }
+    }
+    function removerSelecionada(idx) {
+      selecionadas.splice(idx, 1);
+      atualizarLista();
+    }
+    document.getElementById('btnSolicitarSugestao').onclick = function() {
+      solicitarCotacao(document.getElementById('transportadora-sugerida').textContent);
+    };
+    // Checkbox alternativos
+    ['alt1','alt2','alt3'].forEach(function(id) {
+      document.getElementById(id).addEventListener('change', function(e) {
+        if (e.target.checked) {
+          solicitarCotacao(e.target.value);
+        } else {
+          const idx = selecionadas.indexOf(e.target.value);
+          if (idx > -1) removerSelecionada(idx);
+        }
+      });
     });
-    // Colapsável
-    document.getElementById('collapsibleHeader').addEventListener('click', function() {
-      this.classList.toggle('open');
-    });
-    // Form submit
-    document.getElementById('selecaoTransportadora').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Solicitação enviada para transportadora!');
-    });
+    document.getElementById('btnEnviar').onclick = function() {
+      window.location.href = 'aceite-transportadora.html';
+    };
   </script>
 </body>
 </html>
