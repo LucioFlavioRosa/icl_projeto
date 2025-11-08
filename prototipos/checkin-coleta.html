@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check-in de Chegada no Fornecedor - Gestão de Fretes</title>
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.32.5" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" />
+  <style>
+    body { font-family: 'Inter', 'Demo', Arial, sans-serif; background: #f7f9fa; margin: 0; }
+    .container-checkin { max-width: 430px; margin: 60px auto 0; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.08); padding: 36px 32px; }
+    .container-checkin h1 { color: #00B5D3; font-size: 2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
+    .form-group { margin-bottom: 22px; }
+    label { display: block; font-weight: 500; color: #002846; margin-bottom: 7px; }
+    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1.1rem; font-family: inherit; }
+    .btn-validar { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 0; width: 100%; font-size: 1.1rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .btn-validar:hover { background: #002846; }
+    .alerta { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 1rem; }
+    .alerta.sucesso { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
+    .alerta.erro { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
+    .timestamp { margin-top: 22px; font-size: 1.05rem; color: #54595F; }
+    .diferenca-horario { margin-top: 8px; font-weight: 500; font-size: 1.15rem; }
+    .diferenca-horario.verde { color: #00B5D3; }
+    .diferenca-horario.vermelho { color: #cf2e2e; }
+    .info-agendado { font-size: 0.97rem; color: #7A7A7A; margin-bottom: 14px; }
+    @media (max-width: 520px) { .container-checkin { padding: 18px 9px; } }
+  </style>
+</head>
+<body>
+  <div class="container-checkin">
+    <h1><i class="fas fa-truck-loading"></i> Check-in de Chegada</h1>
+    <div class="info-agendado">
+      Horário agendado: <span id="horarioAgendado">14:00</span> &mdash; Janela operacional: 13:30 &ndash; 15:00
+    </div>
+    <form id="formCheckin">
+      <div class="form-group">
+        <label for="token">Token de Check-in (6 dígitos)</label>
+        <input type="text" id="token" maxlength="6" pattern="[A-Za-z0-9]{6}" required autocomplete="off" placeholder="Digite o token recebido">
+      </div>
+      <button type="submit" class="btn-validar"><i class="fas fa-check-circle"></i> Validar Check-in</button>
+    </form>
+    <div id="alertaCheckin" style="display:none;"></div>
+    <div class="timestamp" id="timestampChegada" style="display:none;"></div>
+    <div class="diferenca-horario" id="diferencaHorario" style="display:none;"></div>
+  </div>
+  <script>
+    // Simulação de horário agendado
+    const horarioAgendado = '14:00';
+    const inicioJanela = '13:30';
+    const fimJanela = '15:00';
+    function minutos(horaStr) {
+      const [h,m] = horaStr.split(':').map(Number);
+      return h*60+m;
+    }
+    document.getElementById('formCheckin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const token = document.getElementById('token').value.trim();
+      const alerta = document.getElementById('alertaCheckin');
+      alerta.style.display = 'none';
+      if (!token.match(/^[A-Za-z0-9]{6}$/)) {
+        alerta.className = 'alerta erro';
+        alerta.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Token inválido. Informe os 6 dígitos alfanuméricos.';
+        alerta.style.display = 'flex';
+        return;
+      }
+      // Simula timestamp de chegada
+      const agora = new Date();
+      const horaChegada = agora.getHours().toString().padStart(2,'0') + ':' + agora.getMinutes().toString().padStart(2,'0');
+      document.getElementById('timestampChegada').innerHTML = '<i class="fas fa-clock"></i> Chegada registrada: <strong>' + horaChegada + '</strong>';
+      document.getElementById('timestampChegada').style.display = 'block';
+      // Calcula diferença
+      const minChegada = minutos(horaChegada);
+      const minInicio = minutos(inicioJanela);
+      const minFim = minutos(fimJanela);
+      let diffStr = '', diffClass = '';
+      if (minChegada >= minInicio && minChegada <= minFim) {
+        diffStr = '<i class="fas fa-check-circle"></i> Dentro da janela operacional (' + inicioJanela + ' - ' + fimJanela + ')';
+        diffClass = 'verde';
+        alerta.className = 'alerta sucesso';
+        alerta.innerHTML = '<i class="fas fa-check"></i> Check-in realizado com sucesso!';
+      } else {
+        diffStr = '<i class="fas fa-times-circle"></i> Fora da janela operacional!';
+        diffClass = 'vermelho';
+        alerta.className = 'alerta erro';
+        alerta.innerHTML = '<i class="fas fa-exclamation-circle"></i> Check-in fora da janela. Alerta enviado.';
+      }
+      document.getElementById('diferencaHorario').innerHTML = diffStr;
+      document.getElementById('diferencaHorario').className = 'diferenca-horario ' + diffClass;
+      document.getElementById('diferencaHorario').style.display = 'block';
+      alerta.style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
