@@ -2,79 +2,81 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Dashboard - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard | Gestão de Fretes ICL</title>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
   <style>
-    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; }
-    .dashboard-header { background: #002846; color: #fff; padding: 24px 0; }
-    .dashboard-header .logo { height: 40px; }
-    nav.dashboard-nav { background: #00B5D3; padding: 0 0 0 0; }
-    nav.dashboard-nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0 32px; }
-    nav.dashboard-nav ul li a { color: #fff; font-weight: 500; font-family: 'Demo', sans-serif; text-decoration: none; padding: 16px 0; display: block; transition: color .2s; }
-    nav.dashboard-nav ul li a:hover { color: #002846; }
-    main.dashboard-main { max-width: 1200px; margin: 32px auto; padding: 0 24px; }
-    .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; margin-top: 32px; }
-    .dashboard-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 32px 24px; display: flex; flex-direction: column; align-items: flex-start; }
-    .dashboard-card h3 { color: #00B5D3; font-size: 1.3em; margin-bottom: 10px; font-family: 'Demo', sans-serif; }
-    .dashboard-card p { color: #002846; font-size: 1em; margin-bottom: 18px; }
-    .dashboard-card a.elementor-button { background: #00B5D3; color: #fff; border-radius: 33px; font-family: 'Demo', sans-serif; font-size: 1em; padding: 12px 28px; text-decoration: none; border: none; transition: background .2s; }
-    .dashboard-card a.elementor-button:hover { background: #002846; color: #fff; }
-    footer.dashboard-footer { background: #002846; color: #fff; text-align: center; padding: 24px 0; margin-top: 48px; font-size: 0.95em; }
-    @media (max-width: 767px) {
-      main.dashboard-main { padding: 0 8px; }
-      .dashboard-cards { gap: 16px; }
-      .dashboard-card { padding: 18px 10px; }
-    }
+    body { font-family: 'Demo', Sans-serif; background: #f7fafd; margin: 0; }
+    .dashboard-header { background: #002846; color: #fff; padding: 0; }
+    .dashboard-header .header_wrapper { height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    .dashboard-header .logo_wrapper { display: flex; align-items: center; }
+    .dashboard-header nav { display: flex; gap: 32px; }
+    .dashboard-header nav a { color: #fff; font-weight: 500; font-size: 16px; text-decoration: none; padding: 0 18px; border-radius: 20px; transition: background .2s; line-height: 70px; }
+    .dashboard-header nav a.active, .dashboard-header nav a:hover { background: #00B5D3; color: #fff; }
+    .dashboard-main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+    .dashboard-title { font-size: 36px; color: #002846; font-weight: 400; margin-bottom: 24px; }
+    .dashboard-cards { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+    .dashboard-card { flex: 1 1 280px; background: linear-gradient(135deg, #8FE6E5 0%, #00B5D3 100%); color: #002846; border-radius: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 32px 24px; display: flex; flex-direction: column; align-items: flex-start; min-width: 220px; }
+    .dashboard-card .card-title { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+    .dashboard-card .card-value { font-size: 38px; font-weight: 700; color: #002846; margin-bottom: 8px; }
+    .dashboard-card .card-icon { font-size: 32px; margin-bottom: 10px; color: #002846; }
+    .dashboard-actions { display: flex; gap: 18px; flex-wrap: wrap; }
+    .dashboard-actions a { background: #002846; color: #fff; border-radius: 33px; font-size: 18px; font-weight: 500; padding: 14px 36px; text-decoration: none; transition: background .2s; display: flex; align-items: center; gap: 10px; }
+    .dashboard-actions a:hover { background: #00B5D3; }
+    @media (max-width: 900px) { .dashboard-cards { flex-direction: column; } }
+    footer { background: #002846; color: #fff; padding: 30px 0 0 0; margin-top: 40px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; font-size: 14px; }
   </style>
 </head>
 <body>
   <header class="dashboard-header">
-    <div style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 24px;">
-      <a href="#"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" class="logo" /></a>
-      <span style="font-size:1.2em;font-family:'Demo',sans-serif;">Gestão de Fretes</span>
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="#"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36" /></a>
+      </div>
+      <nav aria-label="Menu principal">
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="solicitacao-agendamento.html">Solicitações</a>
+        <a href="#" onclick="alert('Em breve!')">Cadastros</a>
+        <a href="#" onclick="alert('Em breve!')">Relatórios</a>
+        <a href="#" onclick="alert('Em breve!')">Configurações</a>
+      </nav>
     </div>
   </header>
-  <nav class="dashboard-nav">
-    <ul>
-      <li><a href="index.html">Dashboard</a></li>
-      <li><a href="solicitacao-agendamento.html">Solicitar Agendamento</a></li>
-      <li><a href="#">Pendências</a></li>
-      <li><a href="#">Relatórios</a></li>
-      <li><a href="#">Cadastros</a></li>
-      <li><a href="#">Sair</a></li>
-    </ul>
-  </nav>
   <main class="dashboard-main">
-    <h1 style="font-family:'Demo',sans-serif;color:#002846;font-size:2em;margin-bottom:12px;">Painel de Gestão de Fretes</h1>
-    <p style="color:#7A7A7A;max-width:700px;">Acompanhe e gerencie todas as etapas do transporte inbound, desde solicitações até relatórios de performance. Utilize os atalhos abaixo para acessar funcionalidades principais do sistema.</p>
-    <div class="dashboard-cards">
+    <h1 class="dashboard-title">Gestão de Fretes - Dashboard</h1>
+    <section class="dashboard-cards">
       <div class="dashboard-card">
-        <h3>Solicitar Agendamento</h3>
-        <p>Crie uma nova solicitação de coleta FOB/CIF e acompanhe o status em tempo real.</p>
-        <a href="solicitacao-agendamento.html" class="elementor-button">Nova Solicitação</a>
+        <span class="card-icon"><i class="fas fa-truck-moving" aria-label="Solicitações"></i></span>
+        <span class="card-title">Solicitações Ativas</span>
+        <span class="card-value" id="solicitacoesAtivas">12</span>
+        <span>Mês atual</span>
       </div>
       <div class="dashboard-card">
-        <h3>Painel de Pendências</h3>
-        <p>Visualize solicitações pendentes, ações necessárias e notificações críticas.</p>
-        <a href="#" class="elementor-button">Ver Pendências</a>
+        <span class="card-icon"><i class="fas fa-exclamation-circle" aria-label="Pendências"></i></span>
+        <span class="card-title">Pendências</span>
+        <span class="card-value" id="pendencias">3</span>
+        <span>Necessitam ação</span>
       </div>
       <div class="dashboard-card">
-        <h3>Relatórios & Performance</h3>
-        <p>Consulte relatórios de fretes, atrasos, SLA e exporte dados para Excel/PDF.</p>
-        <a href="#" class="elementor-button">Acessar Relatórios</a>
+        <span class="card-icon"><i class="fas fa-shipping-fast" aria-label="Em trânsito"></i></span>
+        <span class="card-title">Fretes em Trânsito</span>
+        <span class="card-value" id="fretesTransito">5</span>
+        <span>Hoje</span>
       </div>
-      <div class="dashboard-card">
-        <h3>Cadastros & Parametrizações</h3>
-        <p>Gerencie fornecedores, transportadoras, veículos e locais de entrega.</p>
-        <a href="#" class="elementor-button">Ir para Cadastros</a>
-      </div>
-    </div>
+    </section>
+    <section class="dashboard-actions">
+      <a href="solicitacao-agendamento.html"><i class="fas fa-plus-circle"></i> Nova Solicitação</a>
+      <a href="confirmacao-fornecedor.html"><i class="fas fa-clipboard-check"></i> Confirmação Fornecedor</a>
+    </section>
   </main>
-  <footer class="dashboard-footer">
-    ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" style="color:#00B5D3;text-decoration:underline;">Netrise</a>
+  <footer>
+    <div class="footer-content">
+      <p>ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener" style="color:#fff;">Netrise</a></p>
+    </div>
   </footer>
 </body>
 </html>
