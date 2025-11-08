@@ -2,71 +2,205 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Header Componente | Gestão de Fretes ICL</title>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <title>Header - Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <style>
-    .header_section { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .header_wrapper { display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 80px; }
-    .logo_wrapper { display: flex; align-items: center; }
-    .header_logo img { height: 36px; }
-    .menu_container { margin-left: 40px; }
-    .menu_primary_trees { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
-    .menu_primary_trees li a { font-family: Demo, sans-serif; font-size: 16px; color: #002846; font-weight: 400; text-decoration: none; padding: 0 18px; line-height: 80px; transition: color .3s; position: relative; }
-    .menu_primary_trees li a.active, .menu_primary_trees li a:hover { color: #00B5D3; }
-    .menu_primary_trees li .dropdown { position: absolute; top: 80px; left: 0; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 8px; display: none; min-width: 180px; z-index: 999; }
-    .menu_primary_trees li:hover .dropdown { display: block; }
-    .menu_primary_trees li .dropdown a { display: block; padding: 12px 18px; color: #002846; border-bottom: 1px solid #f2f2f2; }
-    .menu_primary_trees li .dropdown a:last-child { border-bottom: none; }
-    .user_menu { display: flex; align-items: center; gap: 22px; }
-    .notificacao { position: relative; font-size: 22px; color: #00B5D3; cursor: pointer; }
-    .notificacao .badge { position: absolute; top: -6px; right: -10px; background: #cf2e2e; color: #fff; font-size: 12px; border-radius: 50%; padding: 2px 7px; font-weight: 500; }
-    .user_dropdown { position: relative; display: inline-block; }
-    .user_dropdown img { width: 32px; border-radius: 50%; cursor: pointer; }
-    .user_dropdown .dropdown-content { display: none; position: absolute; right: 0; top: 40px; background: #fff; min-width: 160px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); border-radius: 10px; z-index: 999; }
-    .user_dropdown:hover .dropdown-content, .user_dropdown:focus-within .dropdown-content { display: block; }
-    .user_dropdown .dropdown-content a { color: #002846; padding: 12px 18px; text-decoration: none; display: block; border-bottom: 1px solid #f2f2f2; }
-    .user_dropdown .dropdown-content a:last-child { border-bottom: none; }
-    @media (max-width: 900px) { .header_wrapper { padding: 0 12px; } .menu_primary_trees li a { padding: 0 8px; } }
+    .icl-header {
+      background: #002846;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      font-family: 'Demo', 'Inter', sans-serif;
+      color: #fff;
+      position: relative;
+      z-index: 100;
+    }
+    .icl-header .logo {
+      display: flex;
+      align-items: center;
+    }
+    .icl-header .logo img {
+      height: 38px;
+      width: auto;
+    }
+    .icl-header .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .icl-header .nav-item {
+      position: relative;
+      padding: 0 12px;
+      font-size: 16px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .icl-header .nav-item:hover {
+      color: #00B5D3;
+    }
+    .icl-header .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      color: #002846;
+      min-width: 180px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-radius: 8px;
+      display: none;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .icl-header .nav-item:hover .dropdown,
+    .icl-header .nav-item:focus-within .dropdown {
+      display: flex;
+    }
+    .icl-header .dropdown a {
+      padding: 12px 18px;
+      text-decoration: none;
+      color: #002846;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .icl-header .dropdown a:hover {
+      background: #00B5D3;
+      color: #fff;
+    }
+    .icl-header .actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .icl-header .notification {
+      position: relative;
+      cursor: pointer;
+    }
+    .icl-header .notification .badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #cf2e2e;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+    .icl-header .avatar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .icl-header .avatar img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00B5D3;
+      margin-right: 8px;
+    }
+    .icl-header .avatar .dropdown {
+      right: 0;
+      left: auto;
+      top: 110%;
+      min-width: 140px;
+      background: #fff;
+      color: #002846;
+    }
+    .icl-header .avatar .dropdown a {
+      color: #002846;
+      font-size: 15px;
+      padding: 10px 18px;
+      display: block;
+    }
+    .icl-header .avatar .dropdown a:hover {
+      background: #00B5D3;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .icl-header {
+        flex-direction: column;
+        height: auto;
+        padding: 0 12px;
+      }
+      .icl-header .main-nav {
+        gap: 18px;
+      }
+      .icl-header .actions {
+        gap: 12px;
+      }
+    }
   </style>
 </head>
 <body>
-  <header class="header_section">
-    <div class="header_wrapper">
-      <div class="logo_wrapper">
-        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
+  <header class="icl-header" aria-label="Cabeçalho principal">
+    <div class="logo">
+      <a href="index.html" aria-label="Página inicial">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="Logo ICL">
+      </a>
+    </div>
+    <nav class="main-nav" aria-label="Menu principal">
+      <a class="nav-item" href="index.html">Dashboard</a>
+      <div class="nav-item" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        Solicitações
+        <div class="dropdown" role="menu">
+          <a href="nova_solicitacao.html">Nova Solicitação</a>
+          <a href="minhas_solicitacoes.html">Minhas Solicitações</a>
+        </div>
       </div>
-      <nav class="menu_container">
-        <ul class="menu_primary_trees">
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li>
-            <a href="#">Módulos</a>
-            <div class="dropdown">
-              <a href="agendamentos.html">Agendamentos</a>
-              <a href="usuarios.html">Usuários</a>
-              <a href="relatorios.html">Relatórios</a>
-              <a href="cadastros.html">Cadastros</a>
-            </div>
-          </li>
-          <li><a href="configuracoes.html">Configurações</a></li>
-        </ul>
-      </nav>
-      <div class="user_menu">
-        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
-        <div class="user_dropdown" tabindex="0">
-          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário">
-          <div class="dropdown-content">
-            <a href="#perfil">Perfil</a>
-            <a href="#configuracoes">Configurações</a>
-            <a href="#logout">Sair</a>
-          </div>
+      <a class="nav-item" href="cadastros.html">Cadastros</a>
+      <a class="nav-item" href="relatorios.html">Relatórios</a>
+      <div class="nav-item" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        Configurações
+        <div class="dropdown" role="menu">
+          <a href="usuarios.html">Usuários</a>
+          <a href="perfil.html">Perfil</a>
+        </div>
+      </div>
+    </nav>
+    <div class="actions">
+      <div class="notification" aria-label="Notificações" tabindex="0">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" style="vertical-align:middle">
+          <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 002 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.63 5.36 6 7.92 6 11v5l-1.7 1.7a1 1 0 00.7 1.7h14a1 1 0 00.7-1.7L18 16z" fill="#fff"/>
+        </svg>
+        <span class="badge" id="notif-count">3</span>
+      </div>
+      <div class="avatar" tabindex="0" aria-haspopup="true" aria-expanded="false">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar do usuário">
+        <span>João Silva</span>
+        <div class="dropdown" role="menu">
+          <a href="perfil.html">Meu Perfil</a>
+          <a href="#" onclick="localStorage.clear();location.href='login.html'">Logout</a>
         </div>
       </div>
     </div>
   </header>
   <script>
-    // Nenhum JS adicional necessário para dropdowns simples, pois o CSS cobre hover/focus
+    // Dropdowns para avatar e menu
+    document.querySelectorAll('.avatar, .nav-item').forEach(function(el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          var dd = el.querySelector('.dropdown');
+          if (dd) dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
+        }
+      });
+      el.addEventListener('mouseleave', function() {
+        var dd = el.querySelector('.dropdown');
+        if (dd) dd.style.display = 'none';
+      });
+    });
+    // Notificação badge dinâmica
+    var notifCount = localStorage.getItem('notifCount') || 3;
+    document.getElementById('notif-count').textContent = notifCount;
   </script>
 </body>
 </html>
