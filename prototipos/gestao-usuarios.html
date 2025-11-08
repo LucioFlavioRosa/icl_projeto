@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestão de Usuários | Gestão de Fretes ICL</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <style>
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7fafd; }
+    .section-usuarios { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 40px 32px; }
+    .usuarios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .usuarios-title { font-size: 2.2rem; color: #00B5D3; font-weight: 400; }
+    .usuarios-actions { display: flex; gap: 16px; }
+    .btn-novo { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn-novo:hover { background: #002846; }
+    table.usuarios-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    table.usuarios-table th, table.usuarios-table td { padding: 12px 10px; border-bottom: 1px solid #eee; text-align: left; }
+    table.usuarios-table th { background: #f7fafd; font-weight: 500; color: #002846; }
+    table.usuarios-table td.status { font-weight: 500; }
+    .status.ativo { color: #00d084; }
+    .status.inativo { color: #cf2e2e; }
+    .btn-editar, .btn-desativar { background: none; border: none; color: #00B5D3; cursor: pointer; margin-right: 8px; font-size: 1rem; }
+    .btn-desativar { color: #cf2e2e; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background: rgba(0,0,0,0.4); }
+    .modal-content { background: #fff; margin: 10% auto; padding: 32px; border-radius: 18px; max-width: 480px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .modal-footer { text-align: right; margin-top: 24px; }
+    .modal-footer button { margin-left: 12px; }
+    .form-usuario label { display: block; margin-top: 16px; font-weight: 500; color: #002846; }
+    .form-usuario input, .form-usuario select { width: 100%; padding: 8px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; margin-top: 4px; }
+    .permissoes-group { margin-top: 16px; }
+    .permissoes-group label { font-weight: 400; margin-right: 12px; }
+    .tabs { display: flex; gap: 18px; margin-bottom: 18px; }
+    .tab { cursor: pointer; padding: 10px 24px; border-radius: 33px; background: #f7fafd; color: #002846; font-weight: 500; }
+    .tab.active { background: #00B5D3; color: #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .log-table { width: 100%; border-collapse: collapse; }
+    .log-table th, .log-table td { padding: 10px 8px; border-bottom: 1px solid #eee; text-align: left; }
+    .log-table th { background: #f7fafd; font-weight: 500; color: #002846; }
+    @media (max-width: 900px) { .section-usuarios { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
+      </div>
+      <nav class="menu_container">
+        <ul class="menu_primary_trees">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="agendamentos.html">Agendamentos</a></li>
+          <li><a href="usuarios.html" class="active">Usuários</a></li>
+          <li><a href="relatorios.html">Relatórios</a></li>
+        </ul>
+      </nav>
+      <div class="user_menu">
+        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
+        <div class="user_dropdown">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário" style="width:32px; border-radius:50%;">
+          <div class="dropdown-content">
+            <a href="#perfil">Perfil</a>
+            <a href="#configuracoes">Configurações</a>
+            <a href="#logout">Sair</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="section-usuarios">
+      <div class="usuarios-header">
+        <span class="usuarios-title">Gestão de Usuários</span>
+        <div class="usuarios-actions">
+          <button class="btn-novo" id="btnNovoUsuario">Novo Usuário</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" data-tab="usuarios">Usuários</div>
+        <div class="tab" data-tab="auditoria">Log de Auditoria</div>
+      </div>
+      <div class="tab-content active" id="tab-usuarios">
+        <table class="usuarios-table" aria-label="Tabela de Usuários">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Perfil</th>
+              <th>Status</th>
+              <th>Última Atividade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="usuariosBody">
+            <tr>
+              <td>João Silva</td>
+              <td>joao@icl.com</td>
+              <td>Administrador ICL</td>
+              <td class="status ativo">Ativo</td>
+              <td>2024-06-12 14:32</td>
+              <td><button class="btn-editar" onclick="editarUsuario(0)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(0)">Desativar</button></td>
+            </tr>
+            <tr>
+              <td>Maria Souza</td>
+              <td>maria@fornecedor.com</td>
+              <td>Fornecedor</td>
+              <td class="status ativo">Ativo</td>
+              <td>2024-06-10 09:15</td>
+              <td><button class="btn-editar" onclick="editarUsuario(1)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(1)">Desativar</button></td>
+            </tr>
+            <tr>
+              <td>Pedro Lima</td>
+              <td>pedro@transp.com</td>
+              <td>Transportadora</td>
+              <td class="status inativo">Inativo</td>
+              <td>2024-05-28 17:41</td>
+              <td><button class="btn-editar" onclick="editarUsuario(2)">Editar</button><button class="btn-desativar" onclick="confirmDesativar(2)">Desativar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-content" id="tab-auditoria">
+        <table class="log-table" aria-label="Log de Auditoria">
+          <thead>
+            <tr>
+              <th>Data/Hora</th>
+              <th>Usuário</th>
+              <th>Ação</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2024-06-12 14:32</td>
+              <td>João Silva</td>
+              <td>Login</td>
+              <td>Autenticação realizada</td>
+            </tr>
+            <tr>
+              <td>2024-06-10 09:16</td>
+              <td>Maria Souza</td>
+              <td>Upload NF</td>
+              <td>Nota Fiscal XML enviada</td>
+            </tr>
+            <tr>
+              <td>2024-05-28 17:41</td>
+              <td>Pedro Lima</td>
+              <td>Desativação</td>
+              <td>Usuário desativado pelo admin</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Modal Cadastro/Edição -->
+    <div class="modal" id="modalUsuario">
+      <div class="modal-content">
+        <form class="form-usuario" id="formUsuario">
+          <h2 id="modalTitulo">Novo Usuário</h2>
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" name="nome" required>
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" name="email" required>
+          <label for="perfil">Perfil de Acesso:</label>
+          <select id="perfil" name="perfil" required>
+            <option value="admin">Administrador ICL</option>
+            <option value="operador">Operador ICL</option>
+            <option value="fornecedor">Fornecedor</option>
+            <option value="transportadora">Transportadora</option>
+          </select>
+          <div class="permissoes-group">
+            <span>Permissões:</span><br>
+            <label><input type="checkbox" name="permissao" value="agendar"> Agendar Coleta</label>
+            <label><input type="checkbox" name="permissao" value="confirmar"> Confirmar Volume</label>
+            <label><input type="checkbox" name="permissao" value="aceitar"> Aceitar Transporte</label>
+            <label><input type="checkbox" name="permissao" value="checkin"> Realizar Check-in</label>
+            <label><input type="checkbox" name="permissao" value="relatorios"> Visualizar Relatórios</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" onclick="closeModal()">Cancelar</button>
+            <button type="submit">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal Desativação -->
+    <div class="modal" id="modalDesativar">
+      <div class="modal-content">
+        <h2>Confirmar Desativação</h2>
+        <p>Tem certeza que deseja desativar este usuário?</p>
+        <div class="modal-footer">
+          <button type="button" onclick="closeModalDesativar()">Cancelar</button>
+          <button type="button" onclick="desativarUsuarioConfirmado()">Desativar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    // Tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+    // Modal Usuário
+    document.getElementById('btnNovoUsuario').onclick = function() {
+      document.getElementById('modalTitulo').innerText = 'Novo Usuário';
+      document.getElementById('formUsuario').reset();
+      document.getElementById('modalUsuario').style.display = 'block';
+    };
+    function closeModal() { document.getElementById('modalUsuario').style.display = 'none'; }
+    document.getElementById('formUsuario').onsubmit = function(e) {
+      e.preventDefault();
+      alert('Usuário salvo (mock).');
+      closeModal();
+    };
+    // Edição (mock)
+    function editarUsuario(idx) {
+      document.getElementById('modalTitulo').innerText = 'Editar Usuário';
+      document.getElementById('modalUsuario').style.display = 'block';
+      // Preencher campos (mock)
+      if (idx === 0) {
+        document.getElementById('nome').value = 'João Silva';
+        document.getElementById('email').value = 'joao@icl.com';
+        document.getElementById('perfil').value = 'admin';
+      } else if (idx === 1) {
+        document.getElementById('nome').value = 'Maria Souza';
+        document.getElementById('email').value = 'maria@fornecedor.com';
+        document.getElementById('perfil').value = 'fornecedor';
+      } else {
+        document.getElementById('nome').value = 'Pedro Lima';
+        document.getElementById('email').value = 'pedro@transp.com';
+        document.getElementById('perfil').value = 'transportadora';
+      }
+    }
+    // Modal Desativar
+    let usuarioDesativarIdx = null;
+    function confirmDesativar(idx) {
+      usuarioDesativarIdx = idx;
+      document.getElementById('modalDesativar').style.display = 'block';
+    }
+    function closeModalDesativar() { document.getElementById('modalDesativar').style.display = 'none'; }
+    function desativarUsuarioConfirmado() {
+      alert('Usuário desativado (mock).');
+      closeModalDesativar();
+    }
+    // Fechar modal ao clicar fora
+    window.onclick = function(event) {
+      if (event.target === document.getElementById('modalUsuario')) closeModal();
+      if (event.target === document.getElementById('modalDesativar')) closeModalDesativar();
+    };
+  </script>
+</body>
+</html>
