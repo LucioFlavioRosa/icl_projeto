@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anexo de Documentos | Gestão de Fretes</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.32.5">
+  <style>
+    body { background: #f7fafd; font-family: 'Inter', 'Demo', Arial, sans-serif; }
+    .container-main { max-width: 600px; margin: 48px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.09); padding: 36px 32px 32px 32px; }
+    .titulo { font-size: 2rem; color: #00B5D3; font-weight: 400; margin-bottom: 10px; }
+    .subtitulo { color: #002846; font-size: 1.1rem; margin-bottom: 24px; }
+    .dropzone { border: 2px dashed #00B5D3; border-radius: 12px; background: #f0f7fa; padding: 36px 16px; text-align: center; cursor: pointer; transition: border-color 0.2s; margin-bottom: 12px; }
+    .dropzone.dragover { border-color: #009bb8; background: #e0f4fa; }
+    .dropzone input { display: none; }
+    .dropzone .fa-file-upload { font-size: 2.2rem; color: #00B5D3; margin-bottom: 8px; }
+    .dropzone-label { color: #002846; font-weight: 500; margin-bottom: 8px; display: block; }
+    .msg-erro { color: #cf2e2e; font-size: 0.98rem; margin-top: 2px; }
+    .cards { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+    .card-info { flex: 1 1 220px; background: #f9f9fc; border-radius: 10px; padding: 16px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .card-info dt { color: #00B5D3; font-weight: 500; font-size: 1rem; }
+    .card-info dd { margin: 0 0 8px 0; color: #002846; font-size: 1rem; }
+    .section-cte { margin-top: 36px; background: #f0f7fa; border-radius: 12px; padding: 24px 18px; }
+    .section-cte h2 { color: #00B5D3; font-size: 1.2rem; font-weight: 500; margin-bottom: 14px; }
+    .upload-status { font-size: 1rem; margin-top: 8px; }
+    .upload-status.pendente { color: #cf2e2e; }
+    .upload-status.concluido { color: #00B5D3; }
+    .btn-upload { background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 12px 0; font-size: 1rem; font-weight: 500; cursor: pointer; width: 100%; margin-top: 8px; transition: background 0.2s; }
+    .btn-upload:hover { background: #009bb8; }
+    @media (max-width: 700px) {
+      .container-main { padding: 18px 4vw; }
+      .cards { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container-main" aria-label="Anexo de Documentos">
+    <h1 class="titulo">Anexar Nota Fiscal (XML)</h1>
+    <p class="subtitulo">Faça upload do arquivo XML da Nota Fiscal emitida pelo fornecedor.</p>
+    <form id="formNF" autocomplete="off" novalidate>
+      <label class="dropzone" id="dropzoneNF">
+        <i class="fas fa-file-upload"></i><br>
+        <span class="dropzone-label">Arraste o arquivo XML aqui ou clique para selecionar</span>
+        <input type="file" accept=".xml,application/xml,text/xml" id="inputNF" aria-label="Upload XML NF">
+      </label>
+      <span class="msg-erro" id="erroNF"></span>
+    </form>
+    <section class="cards" id="dadosNF" style="display:none;">
+      <div class="card-info">
+        <dt>Número da Nota</dt>
+        <dd id="nfNumero">-</dd>
+        <dt>Valor</dt>
+        <dd id="nfValor">-</dd>
+      </div>
+      <div class="card-info">
+        <dt>Peso</dt>
+        <dd id="nfPeso">-</dd>
+        <dt>Destinatário</dt>
+        <dd id="nfDestinatario">-</dd>
+      </div>
+    </section>
+    <section class="section-cte">
+      <h2>Anexar CT-e (Transportadora)</h2>
+      <form id="formCTe" autocomplete="off" novalidate>
+        <label class="dropzone" id="dropzoneCTe">
+          <i class="fas fa-file-upload"></i><br>
+          <span class="dropzone-label">Arraste o XML do CT-e aqui ou clique para selecionar</span>
+          <input type="file" accept=".xml,application/xml,text/xml" id="inputCTe" aria-label="Upload XML CT-e">
+        </label>
+        <span class="msg-erro" id="erroCTe"></span>
+      </form>
+      <div class="upload-status" id="statusCTe">Status: <span class="pendente">Pendente</span></div>
+    </section>
+  </main>
+  <script>
+    // Drag and drop para NF
+    const dropzoneNF = document.getElementById('dropzoneNF');
+    const inputNF = document.getElementById('inputNF');
+    const erroNF = document.getElementById('erroNF');
+    const dadosNF = document.getElementById('dadosNF');
+    function highlightNF(e) { dropzoneNF.classList.add('dragover'); e.preventDefault(); }
+    function unhighlightNF(e) { dropzoneNF.classList.remove('dragover'); e.preventDefault(); }
+    ['dragenter','dragover'].forEach(ev => dropzoneNF.addEventListener(ev, highlightNF));
+    ['dragleave','drop'].forEach(ev => dropzoneNF.addEventListener(ev, unhighlightNF));
+    dropzoneNF.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (e.dataTransfer.files.length) {
+        inputNF.files = e.dataTransfer.files;
+        handleNFFile(inputNF.files[0]);
+      }
+    });
+    dropzoneNF.addEventListener('click', function() { inputNF.click(); });
+    inputNF.addEventListener('change', function() {
+      if (this.files.length) handleNFFile(this.files[0]);
+    });
+    function handleNFFile(file) {
+      erroNF.textContent = '';
+      if (!file.name.endsWith('.xml')) {
+        erroNF.textContent = 'Arquivo inválido. Envie um XML.';
+        dadosNF.style.display = 'none';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(e.target.result, 'application/xml');
+          // Simulação: busca tags comuns de NF-e
+          const numero = xml.querySelector('ide > nNF')?.textContent || '123456';
+          const valor = xml.querySelector('total > vNF')?.textContent || '7.200,00';
+          const peso = xml.querySelector('transp > vol > pesoB')?.textContent || '7.200';
+          const destinatario = xml.querySelector('dest > xNome')?.textContent || 'Unidade ICL SP';
+          document.getElementById('nfNumero').textContent = numero;
+          document.getElementById('nfValor').textContent = 'R$ ' + valor;
+          document.getElementById('nfPeso').textContent = peso + ' kg';
+          document.getElementById('nfDestinatario').textContent = destinatario;
+          dadosNF.style.display = 'flex';
+        } catch (err) {
+          erroNF.textContent = 'Erro ao ler XML.';
+          dadosNF.style.display = 'none';
+        }
+      };
+      reader.readAsText(file);
+    }
+    // Drag and drop para CT-e
+    const dropzoneCTe = document.getElementById('dropzoneCTe');
+    const inputCTe = document.getElementById('inputCTe');
+    const erroCTe = document.getElementById('erroCTe');
+    const statusCTe = document.getElementById('statusCTe');
+    function highlightCTe(e) { dropzoneCTe.classList.add('dragover'); e.preventDefault(); }
+    function unhighlightCTe(e) { dropzoneCTe.classList.remove('dragover'); e.preventDefault(); }
+    ['dragenter','dragover'].forEach(ev => dropzoneCTe.addEventListener(ev, highlightCTe));
+    ['dragleave','drop'].forEach(ev => dropzoneCTe.addEventListener(ev, unhighlightCTe));
+    dropzoneCTe.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (e.dataTransfer.files.length) {
+        inputCTe.files = e.dataTransfer.files;
+        handleCTeFile(inputCTe.files[0]);
+      }
+    });
+    dropzoneCTe.addEventListener('click', function() { inputCTe.click(); });
+    inputCTe.addEventListener('change', function() {
+      if (this.files.length) handleCTeFile(this.files[0]);
+    });
+    function handleCTeFile(file) {
+      erroCTe.textContent = '';
+      if (!file.name.endsWith('.xml')) {
+        erroCTe.textContent = 'Arquivo inválido. Envie um XML.';
+        statusCTe.innerHTML = 'Status: <span class="pendente">Pendente</span>';
+        return;
+      }
+      statusCTe.innerHTML = 'Status: <span class="concluido">Concluído</span>';
+      setTimeout(function(){ window.location.href = 'checkin-destino.html'; }, 1500);
+    }
+  </script>
+</body>
+</html>
