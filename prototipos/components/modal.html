@@ -1,105 +1,102 @@
-<!-- Modal Reutilizável - Sistema de Gestão de Fretes -->
-<div id="modal-reutilizavel" class="modal-overlay" aria-modal="true" aria-hidden="true" style="display:none;">
-  <div class="modal-content" role="dialog" aria-labelledby="modal-header" aria-describedby="modal-body">
-    <div class="modal-header" id="modal-header">
-      <h3 style="margin:0; font-size:22px; color:#00B5D3; font-family:'Demo',sans-serif;">Título do Modal</h3>
-      <button class="modal-close" aria-label="Fechar" id="modal-close-btn"><i class="fa fa-times"></i></button>
-    </div>
-    <div class="modal-body" id="modal-body" style="padding:18px 0; color:#002846; font-size:16px; font-family:'Inter',sans-serif;">
-      Conteúdo do modal aqui...
-    </div>
-    <div class="modal-footer" id="modal-footer" style="text-align:right; padding-top:12px;">
-      <button class="modal-action" style="background:#00B5D3; color:#fff; border:none; border-radius:33px; padding:10px 28px; font-family:'Demo',sans-serif; font-size:16px; cursor:pointer;">Confirmar</button>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Componente Modal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <style>
-    .modal-overlay {
+    .icl-modal-overlay {
+      display: none;
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,40,70,0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s;
-    }
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-      display: flex;
-    }
-    .modal-content {
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-      min-width: 320px;
-      max-width: 470px;
-      width: 90vw;
-      padding: 30px 32px 18px 32px;
-      animation: modalOpen .35s cubic-bezier(.4,0,.2,1);
-    }
-    @keyframes modalOpen {
-      0% { transform: scale(0.92); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .modal-header {
-      display: flex;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
       align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 8px;
+      transition: opacity 0.2s;
     }
-    .modal-close {
+    .icl-modal-overlay.active {
+      display: flex;
+    }
+    .icl-modal {
+      background: #FAFAFA;
+      border-radius: 18px;
+      box-shadow: 2px 8px 23px 3px rgba(0,0,0,0.2);
+      max-width: 480px;
+      width: 90vw;
+      padding: 36px 32px 32px 32px;
+      position: relative;
+      animation: fadeInModal 0.4s;
+    }
+    @keyframes fadeInModal {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .icl-modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
       background: none;
       border: none;
+      font-size: 28px;
       color: #00B5D3;
-      font-size: 22px;
       cursor: pointer;
-      transition: color .2s;
+      transition: color 0.2s;
+      z-index: 2;
     }
-    .modal-close:hover { color: #002846; }
-    .modal-footer button.modal-action {
-      background: #00B5D3;
-      color: #fff;
-      border: none;
-      border-radius: 33px;
-      padding: 10px 28px;
-      font-family: 'Demo',sans-serif;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background .2s;
+    .icl-modal-close:hover {
+      color: #002846;
     }
-    .modal-footer button.modal-action:hover { background: #002846; }
-    @media (max-width: 600px) {
-      .modal-content { padding: 18px 8px 12px 8px; min-width: 90vw; }
-      .modal-header h3 { font-size: 18px; }
+    .icl-modal-title {
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #00B5D3;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .icl-modal-content {
+      font-size: 18px;
+      color: #002846;
+      font-family: 'Inter', Arial, sans-serif;
+      line-height: 1.5;
+    }
+    @media (max-width: 480px) {
+      .icl-modal { padding: 24px 10px; }
+      .icl-modal-title { font-size: 22px; }
+      .icl-modal-content { font-size: 16px; }
     }
   </style>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
+</head>
+<body>
+  <!-- Modal Overlay -->
+  <div class="icl-modal-overlay" id="iclModalOverlay" role="dialog" aria-modal="true" aria-labelledby="iclModalTitle">
+    <div class="icl-modal">
+      <button class="icl-modal-close" id="iclModalCloseBtn" aria-label="Fechar modal">&times;</button>
+      <div class="icl-modal-title" id="iclModalTitle">Título do Modal</div>
+      <div class="icl-modal-content" id="iclModalContent">Conteúdo dinâmico do modal.</div>
+    </div>
+  </div>
   <script>
-    function openModal(contentHtml, title, footerHtml) {
-      const overlay = document.getElementById('modal-reutilizavel');
-      overlay.classList.add('active');
-      overlay.style.display = 'flex';
-      overlay.setAttribute('aria-hidden','false');
-      if(title) document.getElementById('modal-header').querySelector('h3').innerText = title;
-      if(contentHtml) document.getElementById('modal-body').innerHTML = contentHtml;
-      if(footerHtml) document.getElementById('modal-footer').innerHTML = footerHtml;
+    // Funções para abrir e fechar o modal
+    function openIclModal(title, contentHtml) {
+      document.getElementById('iclModalTitle').textContent = title || 'Título do Modal';
+      document.getElementById('iclModalContent').innerHTML = contentHtml || '';
+      document.getElementById('iclModalOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
-    function closeModal() {
-      const overlay = document.getElementById('modal-reutilizavel');
-      overlay.classList.remove('active');
-      overlay.setAttribute('aria-hidden','true');
-      setTimeout(()=>{ overlay.style.display = 'none'; }, 300);
+    function closeIclModal() {
+      document.getElementById('iclModalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
     }
-    document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-    // Fecha modal ao clicar fora do conteúdo
-    document.getElementById('modal-reutilizavel').addEventListener('click', function(e){
-      if(e.target === this) closeModal();
+    document.getElementById('iclModalCloseBtn').addEventListener('click', closeIclModal);
+    document.getElementById('iclModalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeIclModal();
     });
-    // Exemplo de uso:
-    // openModal('<p>Conteúdo personalizado</p>', 'Título Exemplo', '<button class="modal-action">OK</button>');
+    // Exemplo de uso (remova em produção):
+    // openIclModal('Exemplo de Modal', 'Este é um conteúdo de exemplo para o modal.');
   </script>
-</div>
+</body>
+</html>
