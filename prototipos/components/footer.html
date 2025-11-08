@@ -1,40 +1,116 @@
-<!-- Footer Reutilizável - Sistema de Gestão de Fretes -->
-<footer class="elementor-location-footer" style="background:#002846; color:#fff; font-family:'Demo',sans-serif;">
-  <div style="padding:35px 30px 30px 30px; max-width:1760px; margin:auto;">
-    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;">
-      <div style="display:flex; align-items:center;">
-        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="Logo Gestão de Fretes" width="92" height="38" style="margin-right:20px;" />
-        <nav aria-label="Links principais">
-          <a href="#sobre" style="color:#fff; margin-right:18px; text-decoration:none; font-weight:500;">Sobre o Sistema</a>
-          <a href="#agendamentos" style="color:#fff; margin-right:18px; text-decoration:none; font-weight:500;">Agendamentos</a>
-          <a href="#cadastros" style="color:#fff; margin-right:18px; text-decoration:none; font-weight:500;">Cadastros</a>
-          <a href="#contato" style="color:#fff; text-decoration:none; font-weight:500;">Contato</a>
-        </nav>
-      </div>
-      <div class="footer_socials" style="text-align:right; font-size:18px;">
-        <a class="lin" target="_blank" href="https://www.linkedin.com/company/icl-group/?viewAsMember=true" aria-label="LinkedIn" style="margin:0 5px;"><i class="fa fa-linkedin"></i></a>
-        <a class="yt" target="_blank" href="https://www.youtube.com/user/IsraelChemicals" aria-label="YouTube" style="margin:0 5px;"><i class="fa fa-youtube"></i></a>
-        <a class="fb" target="_blank" href="https://www.facebook.com/ICL-GROUP-1796603550469377/?modal=admin_todo_tour" aria-label="Facebook" style="margin:0 5px;"><i class="fa fa-facebook"></i></a>
-        <a class="in" target="_blank" href="https://www.instagram.com/betterfuture_today/" aria-label="Instagram" style="margin:0 5px;"><i class="fa fa-instagram"></i></a>
-        <a class="tw" target="_blank" href="https://x.com/group_icl?s=21&t=y9LwfKwH4QrQpH5osOjptA" aria-label="X/Twitter" style="margin:0 5px;"><i class="fab fa-x-twitter"></i></a>
-      </div>
-    </div>
-    <div style="margin-top:30px; text-align:center; font-size:14px; color:#fff;">
-      <p style="margin:0;">ICL Gestão de Fretes © 2025 | Todos os direitos reservados | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener" style="color:#00B5D3; text-decoration:underline;">Netrise</a></p>
-      <p style="margin:0; font-size:13px; color:#fff;">
-        <a href="#politica" style="color:#fff; text-decoration:underline;">Política de Privacidade</a> │ 
-        <a href="#termos" style="color:#fff; text-decoration:underline;">Termos de Uso</a>
-      </p>
-    </div>
-  </div>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Componente Footer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.32.5">
   <style>
-    .footer_socials i { color: #fff; transition: color .2s; }
-    .footer_socials a:hover i { color: #00B5D3; }
+    .icl-footer {
+      background: #002846;
+      color: #fff;
+      padding: 40px 0 10px 0;
+      font-family: 'Inter', 'Demo', Arial, sans-serif;
+    }
+    .icl-footer .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .icl-footer .footer-logo img {
+      max-width: 92px;
+      margin-bottom: 18px;
+    }
+    .icl-footer .footer-links, .icl-footer .footer-legal {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+    }
+    .icl-footer .footer-links a,
+    .icl-footer .footer-legal a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 400;
+    }
+    .icl-footer .footer-links a:hover,
+    .icl-footer .footer-legal a:hover {
+      color: #00B5D3;
+    }
+    .icl-footer .footer-socials {
+      display: flex;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: 22px;
+      justify-content: flex-end;
+    }
+    .icl-footer .footer-socials a {
+      color: #fff;
+      transition: color 0.2s;
+    }
+    .icl-footer .footer-socials a:hover {
+      color: #00B5D3;
+    }
+    .icl-footer .footer-bottom {
+      border-top: 1px solid #FFFFFF1F;
+      margin-top: 32px;
+      padding-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      color: #FFFFFFB8;
+    }
     @media (max-width: 767px) {
-      .elementor-location-footer > div { padding: 20px 10px 20px 10px; }
-      .footer_socials { font-size: 16px; }
-      .elementor-location-footer nav a { margin-right: 10px; font-size: 15px; }
+      .icl-footer .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 0 20px;
+      }
+      .icl-footer .footer-socials {
+        justify-content: flex-start;
+      }
     }
   </style>
-</footer>
+</head>
+<body>
+  <footer class="icl-footer" aria-label="Rodapé">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="Logo ICL">
+      </div>
+      <nav class="footer-links" aria-label="Links principais">
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a>
+        <a href="https://bra.icl-group.com/nosso-negocio/">Nosso Negócio</a>
+        <a href="https://bra.icl-group.com/inovacao/">Nossa Inovação</a>
+        <a href="https://bra.icl-group.com/sustentabilidade/">Sustentabilidade</a>
+        <a href="https://investors.icl-group.com/overview/default.aspx">Investidores</a>
+        <a href="https://bra.icl-group.com/carreira/">Carreira</a>
+        <a href="https://bra.icl-group.com/blog/">Central de Mídia</a>
+        <a href="https://bra.icl-group.com/contatos/">Entre em Contato</a>
+      </nav>
+      <div class="footer-legal">
+        <a href="https://www.icl-group.com/commercial-terms/">Recursos para Fornecedor e Cliente</a>
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+        <a href="https://bra.icl-group.com/wp-content/uploads/2022/04/Terms-Of-Use-translated-Portuguese-1-1.pdf" target="_blank" rel="noopener">Termos de uso</a>
+      </div>
+      <div class="footer-socials" aria-label="Redes sociais">
+        <a href="https://www.linkedin.com/company/icl-group/?viewAsMember=true" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.youtube.com/user/IsraelChemicals" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/ICL-GROUP-1796603550469377/?modal=admin_todo_tour" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/betterfuture_today/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://x.com/group_icl?s=21&t=y9LwfKwH4QrQpH5osOjptA" target="_blank" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a>
+    </div>
+  </footer>
+</body>
+</html>
