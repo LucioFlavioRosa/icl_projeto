@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitação de Agendamento | Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <style>
+    body { background: #f7fafd; }
+    .main-header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 0 32px; display: flex; align-items: center; height: 72px; justify-content: space-between; }
+    .main-header img { height: 38px; }
+    .main-header nav a { color: #002846; text-decoration: none; font-family: 'Demo', sans-serif; font-size: 17px; margin-left: 32px; font-weight: 400; transition: color 0.2s; }
+    .main-header nav a.active, .main-header nav a:hover { color: #00B5D3; }
+    .form-container { max-width: 540px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 40px 32px; }
+    .form-title { font-family: 'Demo', sans-serif; color: #002846; font-size: 1.6rem; margin-bottom: 24px; font-weight: 400; }
+    label { display: block; margin-bottom: 6px; color: #002846; font-weight: 500; font-family: 'Demo', sans-serif; }
+    input, select { width: 100%; padding: 12px 14px; margin-bottom: 18px; border: 1px solid #00284640; border-radius: 8px; font-size: 16px; font-family: 'Inter', sans-serif; background: #f9f9f9; }
+    input:focus, select:focus { border-color: #00B5D3; outline: none; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 16px; }
+    .btn-primary { background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 12px 32px; font-size: 16px; font-family: 'Demo', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: #008ba7; }
+    .btn-secondary { background: #fff; color: #00B5D3; border: 2px solid #00B5D3; border-radius: 100px; padding: 12px 32px; font-size: 16px; font-family: 'Demo', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .btn-secondary:hover { background: #e7f6fa; }
+    .success-message { color: #00B5D3; font-size: 1.1rem; margin-top: 16px; text-align: center; }
+  </style>
+  <script>
+    function submitAgendamento(e) {
+      e.preventDefault();
+      document.getElementById('successMsg').style.display = 'block';
+      setTimeout(function(){ window.location.href = 'painel.html'; }, 1200);
+    }
+  </script>
+</head>
+<body>
+  <header class="main-header">
+    <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Logo ICL">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="agendamento.html" class="active">Agendamento</a>
+      <a href="confirmacao-fornecedor.html">Confirmação</a>
+      <a href="definicao-transporte.html">Transporte</a>
+      <a href="cadastros.html">Cadastros</a>
+      <a href="painel.html">Painel</a>
+      <a href="relatorios.html">Relatórios</a>
+      <a href="usuarios.html">Usuários</a>
+      <a href="login.html">Sair</a>
+    </nav>
+  </header>
+  <main class="form-container">
+    <h2 class="form-title">Solicitação de Agendamento de Coleta</h2>
+    <form onsubmit="submitAgendamento(event)">
+      <label for="fornecedor">Fornecedor *</label>
+      <input id="fornecedor" name="fornecedor" required placeholder="Selecione ou digite o fornecedor">
+      <label for="unidade">Unidade *</label>
+      <input id="unidade" name="unidade" required placeholder="Ex: Planta SP, Filial RJ">
+      <label for="data">Data de Coleta *</label>
+      <input id="data" name="data" type="date" required>
+      <label for="hora">Horário de Coleta *</label>
+      <input id="hora" name="hora" type="time" required>
+      <label for="janela">Janela Operacional *</label>
+      <select id="janela" name="janela" required>
+        <option value="">Selecione...</option>
+        <option>08:00 - 10:00</option>
+        <option>10:00 - 12:00</option>
+        <option>13:00 - 15:00</option>
+        <option>15:00 - 17:00</option>
+      </select>
+      <label for="frete">Tipo de Frete *</label>
+      <select id="frete" name="frete" required>
+        <option value="">Selecione...</option>
+        <option value="FOB">FOB</option>
+        <option value="CIF">CIF</option>
+      </select>
+      <label for="local">Local de Entrega *</label>
+      <input id="local" name="local" required placeholder="Endereço ou unidade de entrega">
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="window.location.href='dashboard.html'">Cancelar</button>
+        <button type="submit" class="btn-primary">Solicitar</button>
+      </div>
+      <div class="success-message" id="successMsg" style="display:none;">Solicitação enviada! Redirecionando...</div>
+    </form>
+  </main>
+</body>
+</html>
