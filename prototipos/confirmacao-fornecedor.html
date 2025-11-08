@@ -2,149 +2,156 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Confirmação do Fornecedor - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Confirmação de Volumes - Fornecedor | Gestão de Fretes</title>
-  <!-- Estilos herdados do template -->
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
   <style>
-    body {
-      font-family: 'Demo', 'Inter', Arial, sans-serif;
-      background: #f7fafc;
-      margin: 0;
-      color: #002846;
-    }
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-      padding: 40px 32px 32px 32px;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      color: #00B5D3;
-      margin-bottom: 24px;
-      text-align: left;
-    }
-    form {
-      display: grid;
-      gap: 22px;
-    }
-    label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00284640;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Inter', Arial, sans-serif;
-      box-sizing: border-box;
-      margin-top: 4px;
-    }
-    .actions {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
-    .btn {
-      background: #00B5D3;
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 12px 32px;
-      font-size: 1rem;
-      font-family: 'Demo', Arial, sans-serif;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn.adjust {
-      background: #fff;
-      color: #00B5D3;
-      border: 2px solid #00B5D3;
-    }
-    .btn:hover {
-      background: #002846;
-      color: #fff;
-    }
-    .btn.adjust:hover {
-      background: #00B5D3;
-      color: #fff;
-    }
-    @media (max-width: 700px) {
-      .container {
-        padding: 24px 8px;
-      }
-      h1 {
-        font-size: 1.3rem;
-      }
-      .actions {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
+    body { font-family: 'Demo', Sans-serif; background: #f7fafd; margin: 0; }
+    .header_wrapper { height: 80px; display: flex; align-items: center; justify-content: space-between; background: #002846; }
+    .logo_wrapper { display: flex; align-items: center; }
+    nav { display: flex; gap: 32px; }
+    nav a { color: #fff; font-weight: 500; font-size: 16px; text-decoration: none; padding: 0 18px; border-radius: 20px; transition: background .2s; line-height: 70px; }
+    nav a.active, nav a:hover { background: #00B5D3; color: #fff; }
+    .confirmacao-main { max-width: 950px; margin: 48px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.09); padding: 38px 32px; display: flex; gap: 36px; }
+    .confirmacao-col { flex: 1; }
+    .confirmacao-title { font-size: 28px; color: #002846; font-weight: 400; margin-bottom: 24px; text-align: center; }
+    .dados-solicitacao { background: #f2f8fa; border-radius: 12px; padding: 24px 18px; margin-bottom: 12px; }
+    .dados-solicitacao h2 { font-size: 20px; color: #00B5D3; font-weight: 500; margin-bottom: 18px; }
+    .dados-solicitacao p { margin: 0 0 8px 0; font-size: 16px; color: #002846; }
+    form label { display: block; font-weight: 500; margin-bottom: 6px; color: #002846; }
+    form select, form input[type="number"], form input[type="text"], form input[type="date"], form input[type="time"] { width: 100%; padding: 10px; margin-bottom: 18px; border-radius: 8px; border: 1px solid #00284640; font-size: 17px; font-family: 'Demo', Sans-serif; }
+    .form-row { display: flex; gap: 18px; }
+    .form-row > div { flex: 1; }
+    .error-msg { color: #cf2e2e; font-size: 15px; margin-bottom: 10px; font-family: 'Demo', Sans-serif; }
+    .btn-group { display: flex; gap: 18px; margin-top: 10px; }
+    .btn-confirmar { background: #61CE70; color: #fff; border: none; border-radius: 33px; font-size: 18px; font-family: 'Demo', Sans-serif; font-weight: 500; padding: 14px 36px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background .2s; }
+    .btn-confirmar:hover { background: #43b95c; }
+    .btn-alterar { background: #FFBC7D; color: #002846; border: none; border-radius: 33px; font-size: 18px; font-family: 'Demo', Sans-serif; font-weight: 500; padding: 14px 36px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background .2s; }
+    .btn-alterar:hover { background: #ff9900; color: #fff; }
+    .link-next { display: block; text-align: right; margin-top: 22px; font-size: 16px; color: #00B5D3; text-decoration: underline; font-weight: 500; }
+    @media (max-width: 950px) { .confirmacao-main { flex-direction: column; gap: 0; } }
+    @media (max-width: 600px) { .confirmacao-main { padding: 18px 8px; } }
+    footer { background: #002846; color: #fff; padding: 30px 0 0 0; margin-top: 40px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; font-size: 14px; }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Confirmação de Volumes</h1>
-    <form id="confirmacaoFornecedor" autocomplete="off">
-      <div>
-        <label for="volume">Volume <span style="color:#cf2e2e">*</span></label>
-        <input type="number" id="volume" name="volume" min="1" required aria-required="true" placeholder="Informe a quantidade">
+  <header>
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="index.html"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36" /></a>
       </div>
-      <div>
-        <label for="unidade">Unidade de Medida <span style="color:#cf2e2e">*</span></label>
-        <select id="unidade" name="unidade" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="caixa">Caixa</option>
-          <option value="palete">Palete</option>
-          <option value="bigbag">Big Bag</option>
-          <option value="litro">Litro</option>
-        </select>
+      <nav aria-label="Menu principal">
+        <a href="index.html">Dashboard</a>
+        <a href="solicitacao-agendamento.html">Solicitações</a>
+        <a href="#" onclick="alert('Em breve!')">Cadastros</a>
+        <a href="#" onclick="alert('Em breve!')">Relatórios</a>
+        <a href="#" onclick="alert('Em breve!')">Configurações</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="confirmacao-main">
+      <div class="confirmacao-col">
+        <h1 class="confirmacao-title">Confirmação do Fornecedor</h1>
+        <div class="dados-solicitacao">
+          <h2>Dados da Solicitação</h2>
+          <p><strong>Fornecedor:</strong> Fornecedor A</p>
+          <p><strong>Unidade:</strong> Unidade 1</p>
+          <p><strong>Data/Horário Coleta:</strong> 2024-07-10 09:00</p>
+          <p><strong>Janela Operacional:</strong> 08:00-10:00</p>
+          <p><strong>Tipo de Frete:</strong> FOB</p>
+          <p><strong>Local de Entrega:</strong> ICL Planta SP</p>
+        </div>
       </div>
-      <div>
-        <label for="tipoCarga">Tipo de Carga <span style="color:#cf2e2e">*</span></label>
-        <select id="tipoCarga" name="tipoCarga" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="paletizado">Paletizado</option>
-          <option value="granel">Granel</option>
-          <option value="bigbag">Big Bag</option>
-        </select>
+      <div class="confirmacao-col">
+        <form id="formConfirmacao" autocomplete="off">
+          <div class="form-row">
+            <div>
+              <label for="volume">Volume *</label>
+              <input type="number" id="volume" name="volume" min="1" required />
+            </div>
+            <div>
+              <label for="unidadeMedida">Unidade de Medida *</label>
+              <select id="unidadeMedida" name="unidadeMedida" required>
+                <option value="">Selecione...</option>
+                <option value="Caixa">Caixa</option>
+                <option value="Palete">Palete</option>
+                <option value="Big Bag">Big Bag</option>
+                <option value="Litro">Litro</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="pesoTotal">Peso Total (kg) *</label>
+            <input type="number" id="pesoTotal" name="pesoTotal" min="1" required />
+          </div>
+          <div>
+            <label for="tipoCarga">Tipo de Carga *</label>
+            <select id="tipoCarga" name="tipoCarga" required>
+              <option value="">Selecione...</option>
+              <option value="Paletizado">Paletizado</option>
+              <option value="Granel">Granel</option>
+              <option value="Big Bag">Big Bag</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="novaData">Nova Data (opcional)</label>
+              <input type="date" id="novaData" name="novaData" />
+            </div>
+            <div>
+              <label for="novaHora">Nova Hora (opcional)</label>
+              <input type="time" id="novaHora" name="novaHora" />
+            </div>
+          </div>
+          <div id="errorMsg" class="error-msg" style="display:none;"></div>
+          <div class="btn-group">
+            <button type="submit" class="btn-confirmar"><i class="fas fa-check"></i> Confirmar</button>
+            <button type="button" class="btn-alterar" id="btnAlterar"><i class="fas fa-edit"></i> Propor Alteração</button>
+          </div>
+        </form>
+        <a href="selecao-transportadora.html" class="link-next">Ir para Seleção de Transportadora &rarr;</a>
       </div>
-      <div>
-        <label for="pesoTotal">Peso Total (kg) <span style="color:#cf2e2e">*</span></label>
-        <input type="number" id="pesoTotal" name="pesoTotal" min="1" step="0.01" required aria-required="true" placeholder="Informe o peso total">
-      </div>
-      <div>
-        <label for="novaJanela">Proposta de Nova Janela Operacional</label>
-        <input type="datetime-local" id="novaJanela" name="novaJanela">
-      </div>
-      <div class="actions">
-        <button type="submit" class="btn">Confirmar</button>
-        <button type="button" class="btn adjust" id="btnProporAjuste">Propor Ajuste</button>
-      </div>
-    </form>
-  </div>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <p>ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener" style="color:#fff;">Netrise</a></p>
+    </div>
+  </footer>
   <script>
-    document.getElementById('confirmacaoFornecedor').addEventListener('submit', function(e) {
+    document.getElementById('formConfirmacao').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Confirmação enviada com sucesso!');
+      var volume = document.getElementById('volume').value;
+      var unidadeMedida = document.getElementById('unidadeMedida').value;
+      var pesoTotal = document.getElementById('pesoTotal').value;
+      var tipoCarga = document.getElementById('tipoCarga').value;
+      var errorMsg = document.getElementById('errorMsg');
+      errorMsg.style.display = 'none';
+      if (!volume || !unidadeMedida || !pesoTotal || !tipoCarga) {
+        errorMsg.innerText = 'Preencha todos os campos obrigatórios.';
+        errorMsg.style.display = 'block';
+        return false;
+      }
+      errorMsg.style.display = 'none';
+      alert('Volume confirmado com sucesso!');
+      window.location.href = 'selecao-transportadora.html';
     });
-    document.getElementById('btnProporAjuste').addEventListener('click', function() {
-      if(document.getElementById('novaJanela').value === '') {
-        alert('Para propor ajuste, informe uma nova janela operacional.');
-        document.getElementById('novaJanela').focus();
+    document.getElementById('btnAlterar').addEventListener('click', function() {
+      var novaData = document.getElementById('novaData').value;
+      var novaHora = document.getElementById('novaHora').value;
+      if (!novaData || !novaHora) {
+        document.getElementById('errorMsg').innerText = 'Preencha nova data e hora para propor alteração.';
+        document.getElementById('errorMsg').style.display = 'block';
         return;
       }
-      alert('Proposta de ajuste enviada para análise.');
+      document.getElementById('errorMsg').style.display = 'none';
+      alert('Proposta de alteração enviada!');
+      window.location.href = 'selecao-transportadora.html';
     });
   </script>
 </body>
