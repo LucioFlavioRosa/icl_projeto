@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Locais de Descarga | Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Estilos do template original -->
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; margin: 0; }
+    .container-main { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 24px #00284622; padding: 40px 32px; }
+    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
+    .crud-form { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    .crud-form label { font-weight: 500; color: #002846; margin-bottom: 6px; display: block; }
+    .crud-form input, .crud-form textarea, .crud-form select { width: 100%; padding: 10px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; margin-bottom: 12px; font-family: 'Inter', sans-serif; }
+    .crud-form textarea { min-height: 48px; resize: vertical; }
+    .crud-actions { display: flex; gap: 16px; margin-bottom: 32px; }
+    .btn-primary { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 32px; font-size: 1.1rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background .2s; }
+    .btn-primary:hover { background: #002846; }
+    .crud-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .crud-table th, .crud-table td { padding: 12px 10px; border-bottom: 1px solid #eaeaea; text-align: left; font-size: 1rem; }
+    .crud-table th { background: #f2f7fb; color: #002846; font-weight: 500; }
+    .crud-table tr:last-child td { border-bottom: none; }
+    .crud-table td .btn-edit, .crud-table td .btn-delete { background: #fff; border: 1px solid #00B5D3; color: #00B5D3; border-radius: 20px; padding: 6px 18px; font-size: .95rem; margin-right: 8px; cursor: pointer; transition: background .2s, color .2s; }
+    .crud-table td .btn-edit:hover { background: #00B5D3; color: #fff; }
+    .crud-table td .btn-delete:hover { background: #cf2e2e; color: #fff; border-color: #cf2e2e; }
+    .map-placeholder { background: linear-gradient(135deg, #8FE6E5 0%, #00B5D3 100%); border-radius: 12px; height: 220px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; font-weight: 500; margin-bottom: 32px; }
+    @media (max-width: 900px) { .crud-form { grid-template-columns: 1fr; } .container-main { padding: 20px 8px; } }
+  </style>
+  <script>
+    // CRUD Simulado (apenas frontend)
+    let locais = [];
+    function renderTable() {
+      const tbody = document.getElementById('locais-tbody');
+      tbody.innerHTML = locais.map((l, idx) => `
+        <tr>
+          <td>${l.nome}</td>
+          <td>${l.endereco}</td>
+          <td>${l.docas}</td>
+          <td>${l.restricoes}</td>
+          <td>${l.horario}</td>
+          <td>
+            <button class='btn-edit' onclick='editarLocal(${idx})' aria-label='Editar local'>Editar</button>
+            <button class='btn-delete' onclick='deletarLocal(${idx})' aria-label='Excluir local'>Excluir</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+    function limparForm() {
+      document.getElementById('form-locais').reset();
+      document.getElementById('edit-index').value = '';
+    }
+    function adicionarLocal(e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const endereco = document.getElementById('endereco').value.trim();
+      const docas = document.getElementById('docas').value.trim();
+      const restricoes = document.getElementById('restricoes').value.trim();
+      const horario = document.getElementById('horario').value.trim();
+      if (!nome || !endereco || !docas || !horario) { alert('Preencha todos os campos obrigatórios.'); return; }
+      const idx = document.getElementById('edit-index').value;
+      if (idx !== '') { locais[idx] = { nome, endereco, docas, restricoes, horario }; } else { locais.push({ nome, endereco, docas, restricoes, horario }); }
+      renderTable(); limparForm();
+    }
+    function editarLocal(idx) {
+      const l = locais[idx];
+      document.getElementById('nome').value = l.nome;
+      document.getElementById('endereco').value = l.endereco;
+      document.getElementById('docas').value = l.docas;
+      document.getElementById('restricoes').value = l.restricoes;
+      document.getElementById('horario').value = l.horario;
+      document.getElementById('edit-index').value = idx;
+    }
+    function deletarLocal(idx) {
+      if (confirm('Deseja excluir este local?')) { locais.splice(idx, 1); renderTable(); }
+    }
+    window.onload = renderTable;
+  </script>
+</head>
+<body>
+  <header class="header_section" style="background:#002846;">
+    <div class="logo_wrapper" style="padding:18px 0 18px 32px;">
+      <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="36"></a>
+    </div>
+  </header>
+  <main class="container-main">
+    <h1>Cadastro de Locais de Descarga ICL</h1>
+    <form id="form-locais" class="crud-form" onsubmit="adicionarLocal(event)">
+      <div>
+        <label for="nome">Nome do Local *</label>
+        <input type="text" id="nome" name="nome" required aria-required="true">
+        <label for="endereco">Endereço Completo *</label>
+        <textarea id="endereco" name="endereco" required aria-required="true"></textarea>
+        <label for="docas">Capacidade de Docas *</label>
+        <input type="number" id="docas" name="docas" min="1" required aria-required="true">
+      </div>
+      <div>
+        <label for="restricoes">Restrições de Tipo de Carga</label>
+        <input type="text" id="restricoes" name="restricoes" placeholder="Ex: Não aceita granel">
+        <label for="horario">Horário de Funcionamento *</label>
+        <input type="text" id="horario" name="horario" required aria-required="true" placeholder="Ex: 08:00 - 18:00">
+        <input type="hidden" id="edit-index">
+        <div class="crud-actions">
+          <button type="submit" class="btn-primary">Salvar</button>
+          <button type="button" class="btn-edit" onclick="limparForm()">Limpar</button>
+        </div>
+      </div>
+    </form>
+    <div class="map-placeholder" aria-label="Mapa de localização">
+      <span>Mapa de localização (Google Maps - Integração futura)</span>
+    </div>
+    <table class="crud-table" aria-label="Locais cadastrados">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Endereço</th>
+          <th>Docas</th>
+          <th>Restrições</th>
+          <th>Horário</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="locais-tbody"></tbody>
+    </table>
+  </main>
+  <footer class="main-footer" style="background:#002846; color:#fff; text-align:center; padding:18px 0;">
+    <span>ICL 2025, todos os direitos reservados © 2025</span>
+  </footer>
+</body>
+</html>
