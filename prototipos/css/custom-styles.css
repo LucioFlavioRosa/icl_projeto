@@ -1,0 +1,163 @@
+/* custom-styles.css - Estilos customizados do protótipo Gestão de Fretes ICL */
+:root {
+  --color-success: #61ce70;
+  --color-error: #cf2e2e;
+  --color-warning: #ffbc7d;
+  --color-info: #00b5d3;
+  --color-bg-modal: rgba(0,40,70,0.85);
+  --transition-fast: 0.2s;
+  --transition-medium: 0.4s;
+}
+
+/* Estados de formulário */
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--color-info);
+  box-shadow: 0 0 0 2px rgba(0,181,211,0.15);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.form-group.success input, .form-group.success select, .form-group.success textarea {
+  border-color: var(--color-success);
+}
+.form-group.error input, .form-group.error select, .form-group.error textarea {
+  border-color: var(--color-error);
+}
+.form-group .form-message {
+  font-size: 0.95em;
+  margin-top: 4px;
+  color: var(--color-error);
+  display: none;
+}
+.form-group.error .form-message {
+  display: block;
+}
+.form-group.success .form-message {
+  color: var(--color-success);
+  display: block;
+}
+
+/* Botão carregando */
+.btn-loading {
+  pointer-events: none;
+  opacity: 0.7;
+  position: relative;
+}
+.btn-loading:after {
+  content: '';
+  border: 2px solid var(--color-info);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Toasts */
+.toast {
+  position: fixed;
+  z-index: 9999;
+  right: 24px;
+  bottom: 24px;
+  min-width: 240px;
+  max-width: 350px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium);
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.toast.success { background: var(--color-success); }
+.toast.error { background: var(--color-error); }
+.toast.info { background: var(--color-info); }
+.toast.warning { background: var(--color-warning); color: #002846; }
+
+/* Modal genérico */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--color-bg-modal);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-medium);
+}
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 90vw;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 4px 32px rgba(0,40,70,0.18);
+  position: relative;
+  animation: modalIn var(--transition-medium) cubic-bezier(.4,1.6,.6,1) both;
+}
+@keyframes modalIn {
+  0% { transform: translateY(40px) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.modal .modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #002846;
+  cursor: pointer;
+}
+
+/* Responsividade adicional */
+@media (max-width: 600px) {
+  .modal { padding: 18px 8px 16px 8px; }
+  .toast { right: 8px; bottom: 8px; max-width: 95vw; }
+}
+
+/* Animações de transição entre telas */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all var(--transition-medium) cubic-bezier(.4,1.6,.6,1);
+}
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-24px) scale(0.98);
+  transition: all var(--transition-medium) cubic-bezier(.4,1.6,.6,1);
+}
+
+/* Ajustes para header/footer fixos em telas pequenas */
+@media (max-width: 480px) {
+  header.header_section, footer {
+    min-width: 100vw;
+    font-size: 0.97em;
+  }
+}
