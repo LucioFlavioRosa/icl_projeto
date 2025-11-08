@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | Gestão de Fretes ICL</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <style>
+    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; }
+    .login-container { max-width: 390px; margin: 80px auto 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.09); padding: 38px 32px 32px 32px; display: flex; flex-direction: column; align-items: center; }
+    .login-container img { height: 40px; margin-bottom: 18px; }
+    .login-container h2 { font-family: 'Demo', sans-serif; color: #002846; font-size: 1.5em; margin-bottom: 16px; }
+    .login-container form { width: 100%; display: flex; flex-direction: column; gap: 18px; }
+    .elementor-field-textual { font-family: 'Inter', sans-serif; font-size: 1em; border: 1px solid #00284640; border-radius: 8px; padding: 10px 12px; color: #002846; background: #f7f9fa; transition: border .2s; }
+    .elementor-field-textual:focus { border: 1.5px solid #00B5D3; outline: none; }
+    .elementor-button { background: #00B5D3; color: #fff; border-radius: 33px; font-family: 'Demo', sans-serif; font-size: 1em; padding: 12px 0; border: none; cursor: pointer; transition: background .2s; width: 100%; }
+    .elementor-button:hover { background: #002846; color: #fff; }
+    .login-error { color: #cf2e2e; font-size: 0.98em; margin-bottom: 8px; display: none; }
+    @media (max-width: 600px) {
+      .login-container { max-width: 98vw; padding: 18px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Logo ICL">
+    <h2>Acesse o Sistema</h2>
+    <form id="loginForm" autocomplete="off" novalidate>
+      <input type="text" id="username" name="username" class="elementor-field-textual" placeholder="Usuário ou E-mail" required aria-label="Usuário ou E-mail">
+      <input type="password" id="password" name="password" class="elementor-field-textual" placeholder="Senha" required aria-label="Senha">
+      <span class="login-error" id="loginError">Usuário ou senha inválidos.</span>
+      <button type="submit" class="elementor-button">Entrar</button>
+    </form>
+    <div style="margin-top:18px;font-size:0.98em;color:#7A7A7A;text-align:center;">
+      <a href="#" style="color:#00B5D3;text-decoration:underline;">Esqueci minha senha</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var username = document.getElementById('username').value.trim();
+      var password = document.getElementById('password').value.trim();
+      var errorSpan = document.getElementById('loginError');
+      if (!username || !password) {
+        errorSpan.textContent = 'Preencha todos os campos.';
+        errorSpan.style.display = 'block';
+        return;
+      }
+      // Simulação de autenticação
+      if (username === 'admin' && password === 'icl2025') {
+        errorSpan.style.display = 'none';
+        window.location.href = 'index.html';
+      } else {
+        errorSpan.textContent = 'Usuário ou senha inválidos.';
+        errorSpan.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
