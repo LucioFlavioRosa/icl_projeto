@@ -2,139 +2,292 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Anexo de Documentos Fiscais - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Anexo de NF-e e CT-e - Gestão de Fretes</title>
   <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.32.5" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <style>
-    body { font-family: 'Inter', 'Demo', Arial, sans-serif; background: #f7f9fa; margin: 0; }
-    .container-upload { max-width: 520px; margin: 60px auto 0; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.08); padding: 38px 34px; }
-    .container-upload h1 { color: #00B5D3; font-size: 2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
-    .upload-area { border: 2px dashed #00B5D3; border-radius: 12px; padding: 32px 18px; text-align: center; background: #f3fcfe; margin-bottom: 18px; cursor: pointer; transition: border-color 0.2s; }
-    .upload-area.dragover { border-color: #002846; background: #e6f9f6; }
-    .upload-area i { font-size: 2.4rem; color: #00B5D3; }
-    .upload-area span { display: block; margin-top: 8px; color: #002846; font-weight: 500; }
-    .form-group { margin-bottom: 18px; }
-    label { display: block; font-weight: 500; color: #002846; margin-bottom: 7px; }
-    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1.1rem; font-family: inherit; }
-    .btn-upload { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 0; width: 100%; font-size: 1.1rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
-    .btn-upload:hover { background: #002846; }
-    .preview-xml { background: #e6f9f6; border: 1px solid #00B5D3; border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
-    .preview-xml h2 { font-size: 1.05rem; color: #00B5D3; margin-bottom: 10px; }
-    .preview-xml .info { font-size: 1rem; color: #002846; margin-bottom: 5px; }
-    .alerta { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 1rem; }
-    .alerta.sucesso { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
-    .alerta.erro { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
-    .separador { border-top: 1px solid #00B5D340; margin: 28px 0 18px; }
-    @media (max-width: 600px) { .container-upload { padding: 18px 7px; } }
+    body {
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 48px auto 32px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 36px 32px 32px 32px;
+    }
+    h1 {
+      color: #00B5D3;
+      font-size: 2.2rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .drag-area {
+      border: 2px dashed #00B5D3;
+      border-radius: 12px;
+      background: #f0fcff;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .drag-area.dragover {
+      background: #e6f7fb;
+    }
+    .drag-area i {
+      font-size: 2.6rem;
+      color: #00B5D3;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .drag-area span {
+      color: #002846;
+      font-size: 1.1rem;
+    }
+    .input-group {
+      margin-bottom: 18px;
+    }
+    .input-group label {
+      font-weight: 500;
+      color: #002846;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .input-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .preview-card {
+      background: #f0fcff;
+      border-radius: 10px;
+      padding: 18px 18px 12px 18px;
+      margin-bottom: 18px;
+      border: 1px solid #00B5D3;
+    }
+    .preview-card h2 {
+      font-size: 1.1rem;
+      color: #00B5D3;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .preview-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .preview-list li {
+      color: #002846;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      color: #00B5D3;
+      font-weight: 500;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
+    .doc-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f6fafd;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: #002846;
+    }
+    .doc-list .doc-icon {
+      color: #00B5D3;
+      margin-right: 8px;
+      font-size: 1.3rem;
+    }
+    .doc-list .doc-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .doc-list .doc-actions a {
+      color: #00B5D3;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .doc-list .doc-actions a:hover {
+      color: #002846;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg,#00B5D3 0%,#8FE6E5 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 33px;
+      padding: 12px 32px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,181,211,0.09);
+      display: block;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background: #00B5D3;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 18px 8px 18px 8px;
+      }
+      .drag-area {
+        padding: 18px;
+      }
+    }
+    /* Ícones */
+    .icon-upload::before { content: '\f093'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+    .icon-file::before { content: '\f15b'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+    .icon-download::before { content: '\f019'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+    .icon-xml::before { content: '\f1c9'; font-family: 'Font Awesome 5 Free'; font-weight: 900; }
   </style>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274">
 </head>
 <body>
-  <div class="container-upload">
-    <h1><i class="fas fa-file-upload"></i> Anexo de NF-e e CT-e</h1>
-    <form id="formUploadXML">
-      <div class="upload-area" id="dropArea">
-        <i class="fas fa-file-code"></i>
+  <div class="container" aria-label="Área principal de anexo de documentos fiscais">
+    <h1>Anexo de Documentos Fiscais</h1>
+    <form id="uploadForm" autocomplete="off">
+      <div class="drag-area" id="dragArea" tabindex="0" aria-label="Arraste e solte o XML da NF-e aqui">
+        <i class="fas icon-upload" aria-hidden="true"></i>
         <span>Arraste e solte o arquivo XML da NF-e aqui<br>ou clique para selecionar</span>
-        <input type="file" id="inputXML" accept=".xml" style="display:none;">
+        <input type="file" id="xmlInput" accept=".xml" style="display:none;" aria-label="Selecione o arquivo XML da NF-e">
       </div>
-      <div class="form-group">
-        <label for="chaveAcesso">Ou insira a chave de acesso da NF-e (44 dígitos)</label>
-        <input type="text" id="chaveAcesso" maxlength="44" pattern="[0-9]{44}" placeholder="Digite a chave de acesso">
+      <div class="input-group">
+        <label for="chaveAcesso">Ou informe a chave de acesso (44 dígitos):</label>
+        <input type="text" id="chaveAcesso" maxlength="44" pattern="\d{44}" placeholder="Digite a chave de acesso" aria-label="Chave de acesso da NF-e">
       </div>
-      <button type="submit" class="btn-upload"><i class="fas fa-upload"></i> Enviar NF-e</button>
+      <div id="previewCard" class="preview-card" style="display:none;">
+        <h2>Dados extraídos do XML</h2>
+        <ul class="preview-list">
+          <li><strong>Número da Nota:</strong> <span id="previewNumero">-</span></li>
+          <li><strong>Valor:</strong> R$ <span id="previewValor">-</span></li>
+          <li><strong>Peso:</strong> <span id="previewPeso">-</span> kg</li>
+          <li><strong>Destinatário:</strong> <span id="previewDestinatario">-</span></li>
+        </ul>
+      </div>
+      <div class="section-title">Documentos Anexados</div>
+      <ul class="doc-list" id="docList">
+        <!-- Documentos anexados aparecem aqui -->
+      </ul>
+      <div id="cteSection" style="display:none;">
+        <div class="section-title">Upload do CT-e (Transportadora)</div>
+        <div class="drag-area" id="dragAreaCTE" tabindex="0" aria-label="Arraste e solte o XML do CT-e aqui">
+          <i class="fas icon-upload" aria-hidden="true"></i>
+          <span>Arraste e solte o arquivo XML do CT-e aqui<br>ou clique para selecionar</span>
+          <input type="file" id="cteInput" accept=".xml" style="display:none;" aria-label="Selecione o arquivo XML do CT-e">
+        </div>
+      </div>
+      <button type="button" class="btn-primary" id="btnProsseguir" aria-label="Prosseguir para check-in no destino">Prosseguir</button>
     </form>
-    <div id="alertaUpload" style="display:none;"></div>
-    <div class="preview-xml" id="previewXML" style="display:none;"></div>
-    <div class="separador"></div>
-    <form id="formUploadCTe">
-      <div class="form-group">
-        <label for="inputCTe">Upload do XML do CT-e (Transportadora)</label>
-        <input type="file" id="inputCTe" accept=".xml">
-      </div>
-      <button type="submit" class="btn-upload"><i class="fas fa-upload"></i> Enviar CT-e</button>
-    </form>
-    <div id="alertaCTe" style="display:none;"></div>
   </div>
   <script>
-    // Drag and drop NF-e XML
-    const dropArea = document.getElementById('dropArea');
-    const inputXML = document.getElementById('inputXML');
-    dropArea.addEventListener('click', () => inputXML.click());
-    dropArea.addEventListener('dragover', (e) => {
-      e.preventDefault(); dropArea.classList.add('dragover');
+    // Simulação de perfil: se for transportadora, mostra seção CT-e
+    var perfil = 'transportadora'; // Troque para 'fornecedor' para ocultar CT-e
+    document.getElementById('cteSection').style.display = (perfil === 'transportadora') ? 'block' : 'none';
+
+    // Drag & Drop XML NF-e
+    var dragArea = document.getElementById('dragArea');
+    var xmlInput = document.getElementById('xmlInput');
+    dragArea.addEventListener('click', function(){ xmlInput.click(); });
+    dragArea.addEventListener('dragover', function(e){ e.preventDefault(); dragArea.classList.add('dragover'); });
+    dragArea.addEventListener('dragleave', function(){ dragArea.classList.remove('dragover'); });
+    dragArea.addEventListener('drop', function(e){
+      e.preventDefault(); dragArea.classList.remove('dragover');
+      if(e.dataTransfer.files.length) handleXML(e.dataTransfer.files[0]);
     });
-    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
-    dropArea.addEventListener('drop', (e) => {
-      e.preventDefault(); dropArea.classList.remove('dragover');
-      inputXML.files = e.dataTransfer.files;
-    });
-    // NF-e upload
-    document.getElementById('formUploadXML').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const alerta = document.getElementById('alertaUpload');
-      alerta.style.display = 'none';
-      const preview = document.getElementById('previewXML');
-      preview.style.display = 'none';
-      let xmlFile = inputXML.files[0];
-      let chave = document.getElementById('chaveAcesso').value.trim();
-      if (!xmlFile && !chave) {
-        alerta.className = 'alerta erro';
-        alerta.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Selecione o arquivo XML ou insira a chave de acesso.';
-        alerta.style.display = 'flex';
-        return;
-      }
-      // Simulação de extração do XML
-      let info = {
-        numero: '123456',
-        valor: 'R$ 8.500,00',
-        peso: '2.000 kg',
-        destinatario: 'Transportadora XYZ',
-      };
-      if (xmlFile) {
-        alerta.className = 'alerta sucesso';
-        alerta.innerHTML = '<i class="fas fa-check"></i> XML da NF-e enviado com sucesso!';
-        alerta.style.display = 'flex';
-        preview.innerHTML = `<h2><i class='fas fa-file-alt'></i> Informações extraídas:</h2>
-          <div class='info'><strong>Número:</strong> ${info.numero}</div>
-          <div class='info'><strong>Valor:</strong> ${info.valor}</div>
-          <div class='info'><strong>Peso:</strong> ${info.peso}</div>
-          <div class='info'><strong>Destinatário:</strong> ${info.destinatario}</div>`;
-        preview.style.display = 'block';
-      } else if (chave.match(/^[0-9]{44}$/)) {
-        alerta.className = 'alerta sucesso';
-        alerta.innerHTML = '<i class="fas fa-check"></i> Chave de acesso validada! XML localizado.';
-        alerta.style.display = 'flex';
-        preview.innerHTML = `<h2><i class='fas fa-file-alt'></i> Informações extraídas:</h2>
-          <div class='info'><strong>Número:</strong> ${info.numero}</div>
-          <div class='info'><strong>Valor:</strong> ${info.valor}</div>
-          <div class='info'><strong>Peso:</strong> ${info.peso}</div>
-          <div class='info'><strong>Destinatário:</strong> ${info.destinatario}</div>`;
-        preview.style.display = 'block';
-      } else {
-        alerta.className = 'alerta erro';
-        alerta.innerHTML = '<i class="fas fa-exclamation-circle"></i> Chave de acesso inválida. Deve conter 44 dígitos.';
-        alerta.style.display = 'flex';
+    xmlInput.addEventListener('change', function(){ if(this.files.length) handleXML(this.files[0]); });
+    function handleXML(file){
+      // Simulação: extrai dados fictícios
+      document.getElementById('previewCard').style.display = 'block';
+      document.getElementById('previewNumero').textContent = '123456';
+      document.getElementById('previewValor').textContent = '18.500,00';
+      document.getElementById('previewPeso').textContent = '12.000';
+      document.getElementById('previewDestinatario').textContent = 'ICL Unidade Piracicaba';
+      addDocToList('NF-e', file.name);
+    }
+    // Chave de acesso
+    document.getElementById('chaveAcesso').addEventListener('input', function(){
+      if(this.value.length === 44){
+        document.getElementById('previewCard').style.display = 'block';
+        document.getElementById('previewNumero').textContent = '654321';
+        document.getElementById('previewValor').textContent = '10.200,00';
+        document.getElementById('previewPeso').textContent = '8.500';
+        document.getElementById('previewDestinatario').textContent = 'ICL Unidade Cubatão';
+        addDocToList('NF-e', 'Chave: '+this.value);
       }
     });
-    // CT-e upload
-    document.getElementById('formUploadCTe').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const inputCTe = document.getElementById('inputCTe');
-      const alerta = document.getElementById('alertaCTe');
-      alerta.style.display = 'none';
-      if (!inputCTe.files[0]) {
-        alerta.className = 'alerta erro';
-        alerta.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Selecione o arquivo XML do CT-e.';
-        alerta.style.display = 'flex';
-        return;
-      }
-      alerta.className = 'alerta sucesso';
-      alerta.innerHTML = '<i class="fas fa-check"></i> XML do CT-e enviado com sucesso!';
-      alerta.style.display = 'flex';
+    // Drag & Drop CT-e
+    var dragAreaCTE = document.getElementById('dragAreaCTE');
+    var cteInput = document.getElementById('cteInput');
+    if(dragAreaCTE){
+      dragAreaCTE.addEventListener('click', function(){ cteInput.click(); });
+      dragAreaCTE.addEventListener('dragover', function(e){ e.preventDefault(); dragAreaCTE.classList.add('dragover'); });
+      dragAreaCTE.addEventListener('dragleave', function(){ dragAreaCTE.classList.remove('dragover'); });
+      dragAreaCTE.addEventListener('drop', function(e){
+        e.preventDefault(); dragAreaCTE.classList.remove('dragover');
+        if(e.dataTransfer.files.length) handleCTE(e.dataTransfer.files[0]);
+      });
+      cteInput.addEventListener('change', function(){ if(this.files.length) handleCTE(this.files[0]); });
+    }
+    function handleCTE(file){
+      addDocToList('CT-e', file.name);
+    }
+    // Lista de documentos
+    function addDocToList(tipo, nome){
+      var docList = document.getElementById('docList');
+      var li = document.createElement('li');
+      var icon = document.createElement('span');
+      icon.className = 'doc-icon fas ' + (tipo==='NF-e'?'icon-xml':'icon-file');
+      icon.setAttribute('aria-label', tipo);
+      var nameSpan = document.createElement('span');
+      nameSpan.textContent = tipo+': '+nome;
+      var time = document.createElement('span');
+      time.style.fontSize = '0.95em';
+      time.style.color = '#7A7A7A';
+      time.textContent = 'Anexado em '+(new Date()).toLocaleString('pt-BR');
+      var actions = document.createElement('span');
+      actions.className = 'doc-actions';
+      var download = document.createElement('a');
+      download.href = '#';
+      download.title = 'Download';
+      download.innerHTML = '<i class="fas icon-download" aria-hidden="true"></i>';
+      actions.appendChild(download);
+      li.appendChild(icon);
+      li.appendChild(nameSpan);
+      li.appendChild(time);
+      li.appendChild(actions);
+      docList.appendChild(li);
+    }
+    // Prosseguir
+    document.getElementById('btnProsseguir').addEventListener('click', function(){
+      window.location.href = 'checkin-destino.html';
     });
   </script>
 </body>
