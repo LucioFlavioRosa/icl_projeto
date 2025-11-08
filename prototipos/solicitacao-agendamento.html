@@ -2,123 +2,136 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Solicitação de Agendamento - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Solicitação de Agendamento | Gestão de Fretes ICL</title>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
   <style>
-    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; }
-    .agendamento-container { max-width: 540px; margin: 48px auto 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.09); padding: 38px 32px 32px 32px; }
-    .agendamento-container h2 { font-family: 'Demo', sans-serif; color: #002846; font-size: 1.5em; margin-bottom: 18px; }
-    form#agendamentoForm { display: flex; flex-direction: column; gap: 18px; }
-    label { font-family: 'Demo', sans-serif; color: #002846; font-size: 1em; margin-bottom: 6px; }
-    .elementor-field-textual, select, input[type="datetime-local"] { font-family: 'Inter', sans-serif; font-size: 1em; border: 1px solid #00284640; border-radius: 8px; padding: 10px 12px; color: #002846; background: #f7f9fa; transition: border .2s; }
-    .elementor-field-textual:focus, select:focus, input[type="datetime-local"]:focus { border: 1.5px solid #00B5D3; outline: none; }
-    .elementor-button { background: #00B5D3; color: #fff; border-radius: 33px; font-family: 'Demo', sans-serif; font-size: 1em; padding: 12px 0; border: none; cursor: pointer; transition: background .2s; width: 100%; margin-top: 12px; }
-    .elementor-button:hover { background: #002846; color: #fff; }
-    .form-row { display: flex; gap: 18px; }
-    .form-row > div { flex: 1; }
-    .agendamento-error { color: #cf2e2e; font-size: 0.98em; margin-bottom: 8px; display: none; }
-    .success-message { color: #00B5D3; font-size: 1.05em; margin-bottom: 8px; display: none; }
-    .radio-group { display: flex; gap: 24px; align-items: center; margin-bottom: 8px; }
-    .radio-group label { margin-bottom: 0; font-weight: 400; }
-    @media (max-width: 600px) {
-      .agendamento-container { max-width: 98vw; padding: 18px 8px; }
-      .form-row { flex-direction: column; gap: 8px; }
-    }
+    body { font-family: 'Demo', Sans-serif; background: linear-gradient(135deg, #8FE6E5 0%, #00B5D3 100%); margin: 0; }
+    .header_wrapper { height: 80px; display: flex; align-items: center; justify-content: space-between; background: #002846; }
+    .logo_wrapper { display: flex; align-items: center; }
+    nav { display: flex; gap: 32px; }
+    nav a { color: #fff; font-weight: 500; font-size: 16px; text-decoration: none; padding: 0 18px; border-radius: 20px; transition: background .2s; line-height: 70px; }
+    nav a.active, nav a:hover { background: #00B5D3; color: #fff; }
+    .solicitacao-main { max-width: 540px; margin: 48px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.09); padding: 38px 32px; }
+    .solicitacao-title { font-size: 28px; color: #002846; font-weight: 400; margin-bottom: 24px; text-align: center; }
+    form label { display: block; font-weight: 500; margin-bottom: 6px; color: #002846; }
+    form select, form input[type="text"], form input[type="date"], form input[type="time"] { width: 100%; padding: 10px; margin-bottom: 18px; border-radius: 8px; border: 1px solid #00284640; font-size: 17px; font-family: 'Demo', Sans-serif; }
+    .radio-group { display: flex; gap: 22px; margin-bottom: 18px; }
+    .radio-group label { font-weight: 400; color: #002846; }
+    .error-msg { color: #cf2e2e; font-size: 15px; margin-bottom: 10px; font-family: 'Demo', Sans-serif; }
+    .solicitacao-btn { width: 100%; background: #fff; color: #002846; border: 3px solid #fff; border-radius: 33px; font-size: 22px; font-family: 'Demo', Sans-serif; font-weight: 500; padding: 16px 0; margin-top: 12px; cursor: pointer; transition: background .2s, color .2s; }
+    .solicitacao-btn:hover { background: #00B5D3; color: #fff; border-color: #00B5D3; }
+    .link-next { display: block; text-align: right; margin-top: 22px; font-size: 16px; color: #00B5D3; text-decoration: underline; font-weight: 500; }
+    @media (max-width: 600px) { .solicitacao-main { padding: 18px 8px; } }
+    footer { background: #002846; color: #fff; padding: 30px 0 0 0; margin-top: 40px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; font-size: 14px; }
   </style>
 </head>
 <body>
-  <div class="agendamento-container">
-    <h2>Solicitação de Agendamento de Coleta</h2>
-    <form id="agendamentoForm" autocomplete="off" novalidate>
-      <div class="form-row">
+  <header>
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="index.html"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36" /></a>
+      </div>
+      <nav aria-label="Menu principal">
+        <a href="index.html">Dashboard</a>
+        <a href="solicitacao-agendamento.html" class="active">Solicitações</a>
+        <a href="#" onclick="alert('Em breve!')">Cadastros</a>
+        <a href="#" onclick="alert('Em breve!')">Relatórios</a>
+        <a href="#" onclick="alert('Em breve!')">Configurações</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="solicitacao-main">
+      <h1 class="solicitacao-title">Solicitação de Agendamento de Coleta</h1>
+      <form id="formSolicitacao" autocomplete="off">
         <div>
           <label for="fornecedor">Fornecedor *</label>
-          <select id="fornecedor" name="fornecedor" required aria-label="Fornecedor">
+          <select id="fornecedor" name="fornecedor" required>
             <option value="">Selecione...</option>
-            <option value="forn1">Fornecedor Alfa</option>
-            <option value="forn2">Fornecedor Beta</option>
-            <option value="forn3">Fornecedor Gama</option>
+            <option value="Fornecedor A">Fornecedor A</option>
+            <option value="Fornecedor B">Fornecedor B</option>
+            <option value="Fornecedor C">Fornecedor C</option>
           </select>
         </div>
         <div>
           <label for="unidade">Unidade *</label>
-          <select id="unidade" name="unidade" required aria-label="Unidade">
+          <select id="unidade" name="unidade" required>
             <option value="">Selecione...</option>
-            <option value="un1">Unidade 1</option>
-            <option value="un2">Unidade 2</option>
-            <option value="un3">Unidade 3</option>
+            <option value="Unidade 1">Unidade 1</option>
+            <option value="Unidade 2">Unidade 2</option>
           </select>
         </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label for="dataColeta">Data/Horário de Coleta *</label>
-          <input type="datetime-local" id="dataColeta" name="dataColeta" required aria-label="Data/Horário de Coleta">
+        <div style="display: flex; gap: 15px;">
+          <div style="flex:1;">
+            <label for="dataColeta">Data da Coleta *</label>
+            <input type="date" id="dataColeta" name="dataColeta" required />
+          </div>
+          <div style="flex:1;">
+            <label for="horaColeta">Horário *</label>
+            <input type="time" id="horaColeta" name="horaColeta" required />
+          </div>
         </div>
         <div>
           <label for="janela">Janela Operacional *</label>
-          <select id="janela" name="janela" required aria-label="Janela Operacional">
+          <select id="janela" name="janela" required>
             <option value="">Selecione...</option>
-            <option value="jan1">07:00 - 09:00</option>
-            <option value="jan2">09:00 - 12:00</option>
-            <option value="jan3">13:00 - 16:00</option>
+            <option value="08:00-10:00">08:00-10:00</option>
+            <option value="10:00-12:00">10:00-12:00</option>
+            <option value="13:00-15:00">13:00-15:00</option>
           </select>
         </div>
-      </div>
-      <div>
-        <label>Tipo de Frete *</label>
-        <div class="radio-group">
-          <input type="radio" id="freteFOB" name="tipoFrete" value="FOB" required>
-          <label for="freteFOB">FOB</label>
-          <input type="radio" id="freteCIF" name="tipoFrete" value="CIF">
-          <label for="freteCIF">CIF</label>
+        <div>
+          <label>Tipo de Frete *</label>
+          <div class="radio-group">
+            <label><input type="radio" name="tipoFrete" value="FOB" required /> FOB</label>
+            <label><input type="radio" name="tipoFrete" value="CIF" /> CIF</label>
+          </div>
         </div>
-      </div>
-      <div>
-        <label for="localEntrega">Local de Entrega *</label>
-        <input type="text" id="localEntrega" name="localEntrega" class="elementor-field-textual" placeholder="Endereço ou unidade de entrega" required aria-label="Local de Entrega">
-      </div>
-      <span class="agendamento-error" id="agendamentoError">Preencha todos os campos obrigatórios.</span>
-      <span class="success-message" id="successMessage">Solicitação enviada com sucesso!</span>
-      <button type="submit" class="elementor-button">Enviar Solicitação</button>
-    </form>
-  </div>
+        <div>
+          <label for="localEntrega">Local de Entrega *</label>
+          <select id="localEntrega" name="localEntrega" required>
+            <option value="">Selecione...</option>
+            <option value="ICL Planta SP">ICL Planta SP</option>
+            <option value="ICL Planta RJ">ICL Planta RJ</option>
+            <option value="ICL Planta MG">ICL Planta MG</option>
+          </select>
+        </div>
+        <div id="errorMsg" class="error-msg" style="display:none;"></div>
+        <button type="submit" class="solicitacao-btn">Solicitar Agendamento</button>
+      </form>
+      <a href="confirmacao-fornecedor.html" class="link-next">Ir para Confirmação do Fornecedor &rarr;</a>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <p>ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener" style="color:#fff;">Netrise</a></p>
+    </div>
+  </footer>
   <script>
-    document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
+    document.getElementById('formSolicitacao').addEventListener('submit', function(e) {
       e.preventDefault();
-      var fornecedor = document.getElementById('fornecedor').value.trim();
-      var unidade = document.getElementById('unidade').value.trim();
-      var dataColeta = document.getElementById('dataColeta').value.trim();
-      var janela = document.getElementById('janela').value.trim();
+      var fornecedor = document.getElementById('fornecedor').value;
+      var unidade = document.getElementById('unidade').value;
+      var dataColeta = document.getElementById('dataColeta').value;
+      var horaColeta = document.getElementById('horaColeta').value;
+      var janela = document.getElementById('janela').value;
       var tipoFrete = document.querySelector('input[name="tipoFrete"]:checked');
-      var localEntrega = document.getElementById('localEntrega').value.trim();
-      var errorSpan = document.getElementById('agendamentoError');
-      var successSpan = document.getElementById('successMessage');
-      // Validação obrigatórios
-      if (!fornecedor || !unidade || !dataColeta || !janela || !tipoFrete || !localEntrega) {
-        errorSpan.textContent = 'Preencha todos os campos obrigatórios.';
-        errorSpan.style.display = 'block';
-        successSpan.style.display = 'none';
-        return;
+      var localEntrega = document.getElementById('localEntrega').value;
+      var errorMsg = document.getElementById('errorMsg');
+      errorMsg.style.display = 'none';
+      if (!fornecedor || !unidade || !dataColeta || !horaColeta || !janela || !tipoFrete || !localEntrega) {
+        errorMsg.innerText = 'Preencha todos os campos obrigatórios.';
+        errorMsg.style.display = 'block';
+        return false;
       }
-      // Validação de janela operacional (exemplo: apenas horários válidos)
-      var dt = new Date(dataColeta);
-      if (isNaN(dt.getTime())) {
-        errorSpan.textContent = 'Data/Horário inválido.';
-        errorSpan.style.display = 'block';
-        successSpan.style.display = 'none';
-        return;
-      }
-      // Simulação de envio
-      errorSpan.style.display = 'none';
-      successSpan.style.display = 'block';
-      setTimeout(function(){
-        successSpan.style.display = 'none';
-        window.location.href = 'index.html';
-      }, 1800);
+      errorMsg.style.display = 'none';
+      alert('Solicitação enviada com sucesso!');
+      window.location.href = 'confirmacao-fornecedor.html';
     });
   </script>
 </body>
