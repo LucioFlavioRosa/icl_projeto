@@ -1,0 +1,18 @@
+{
+  "name": "icl-gestao-fretes-prototipos",
+  "version": "1.0.0",
+  "description": "Protótipos de telas para o sistema de gestão de fretes ICL, baseados no layout do template novo_teste.html.",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'Nenhum build necessário para protótipos HTML puros.'"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0",
+    "moment": "^2.29.4",
+    "serve": "^14.2.0"
+  },
+  "devDependencies": {},
+  "author": "Equipe Frontend ICL",
+  "license": "MIT"
+}
