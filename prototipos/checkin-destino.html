@@ -2,125 +2,214 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Check-in no Destino - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Check-in no Destino e Confirmação de Descarga - Gestão de Fretes</title>
   <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.32.5" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" />
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <style>
-    body { font-family: 'Inter', 'Demo', Arial, sans-serif; background: #f7f9fa; margin: 0; }
-    .container-destino { max-width: 430px; margin: 60px auto 0; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px rgba(0,0,0,0.08); padding: 36px 32px; }
-    .container-destino h1 { color: #00B5D3; font-size: 2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
-    .form-group { margin-bottom: 22px; }
-    label { display: block; font-weight: 500; color: #002846; margin-bottom: 7px; }
-    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1.1rem; font-family: inherit; }
-    .btn-validar { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 0; width: 100%; font-size: 1.1rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
-    .btn-validar:hover { background: #002846; }
-    .alerta { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 1rem; }
-    .alerta.sucesso { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
-    .alerta.erro { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
-    .timestamp { margin-top: 22px; font-size: 1.05rem; color: #54595F; }
-    .checkbox-group { margin-top: 18px; display: flex; align-items: center; gap: 8px; }
-    input[type="checkbox"] { accent-color: #00B5D3; width: 22px; height: 22px; }
-    .sla-badge { display: inline-flex; align-items: center; gap: 7px; border-radius: 18px; padding: 6px 16px; font-weight: 500; font-size: 1.08rem; margin-top: 18px; }
-    .sla-verde { background: #e6f9f6; color: #008b6b; border: 1px solid #00B5D3; }
-    .sla-amarelo { background: #fffbe6; color: #ff6900; border: 1px solid #ff6900; }
-    .sla-vermelho { background: #ffeaea; color: #cf2e2e; border: 1px solid #cf2e2e; }
-    .tempo-transporte { margin-top: 10px; font-size: 1.08rem; color: #002846; font-weight: 500; }
-    @media (max-width: 520px) { .container-destino { padding: 18px 9px; } }
+    body {
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 48px auto 32px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 36px 32px 32px 32px;
+    }
+    h1 {
+      color: #00B5D3;
+      font-size: 2.2rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+    }
+    .input-group label {
+      font-weight: 500;
+      color: #002846;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .input-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .card-resumo {
+      background: #f0fcff;
+      border-radius: 10px;
+      padding: 18px 18px 12px 18px;
+      margin-bottom: 18px;
+      border: 1px solid #00B5D3;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-resumo h2 {
+      font-size: 1.1rem;
+      color: #00B5D3;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .sla-indicador {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 33px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: #fff;
+      background: #00B5D3;
+      margin-right: 8px;
+    }
+    .sla-indicador.atrasado {
+      background: #cf2e2e;
+    }
+    .sla-indicador.dentro {
+      background: #00B5D3;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      color: #00B5D3;
+      font-weight: 500;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      accent-color: #00B5D3;
+      width: 20px;
+      height: 20px;
+    }
+    .input-group input[type="datetime-local"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    textarea {
+      width: 100%;
+      min-height: 60px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      padding: 10px;
+      margin-bottom: 12px;
+      resize: vertical;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg,#00B5D3 0%,#8FE6E5 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-family: inherit;
+      border: none;
+      border-radius: 33px;
+      padding: 12px 32px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,181,211,0.09);
+      display: block;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background: #00B5D3;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 18px 8px 18px 8px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container-destino">
-    <h1><i class="fas fa-map-marker-alt"></i> Check-in no Destino</h1>
-    <form id="formCheckinDestino">
-      <div class="form-group">
-        <label for="tokenDestino">Token de Check-in (6 dígitos)</label>
-        <input type="text" id="tokenDestino" maxlength="6" pattern="[A-Za-z0-9]{6}" required autocomplete="off" placeholder="Digite o token recebido">
+  <div class="container" aria-label="Área principal de check-in no destino">
+    <h1>Check-in no Destino</h1>
+    <form id="checkinForm" autocomplete="off">
+      <div class="input-group">
+        <label for="token">Token de Check-in:</label>
+        <input type="text" id="token" maxlength="8" placeholder="Informe o token recebido" aria-label="Token de check-in no destino">
       </div>
-      <button type="submit" class="btn-validar"><i class="fas fa-check-circle"></i> Validar Check-in</button>
+      <button type="button" class="btn-primary" id="btnValidar" aria-label="Validar token">Validar Token</button>
+      <div id="cardResumo" class="card-resumo" style="display:none;">
+        <h2>Resumo do Transporte</h2>
+        <div><strong>Tempo total de trânsito:</strong> <span id="tempoTransito">7h 22min</span></div>
+        <div>
+          <strong>SLA:</strong>
+          <span id="slaIndicador" class="sla-indicador dentro">Dentro do prazo</span>
+        </div>
+        <div><strong>Tempo de descarga:</strong> <span id="tempoDescarga">1h 10min</span></div>
+      </div>
+      <div id="descargaSection" style="display:none;">
+        <div class="section-title">Confirmação de Descarga</div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="descargaConcluida" aria-label="Descarga concluída">
+          <label for="descargaConcluida">Descarga Concluída</label>
+        </div>
+        <div class="input-group">
+          <label for="dataConclusao">Data/Hora de Conclusão:</label>
+          <input type="datetime-local" id="dataConclusao" aria-label="Data e hora de conclusão da descarga">
+        </div>
+        <div class="input-group">
+          <label for="obsDescarga">Observações:</label>
+          <textarea id="obsDescarga" placeholder="Observações sobre a descarga" aria-label="Observações"></textarea>
+        </div>
+        <button type="button" class="btn-primary" id="btnFinalizar" aria-label="Finalizar transporte">Finalizar Transporte</button>
+      </div>
     </form>
-    <div id="alertaDestino" style="display:none;"></div>
-    <div class="timestamp" id="timestampChegadaDestino" style="display:none;"></div>
-    <div class="checkbox-group" id="grupoDescarga" style="display:none;">
-      <input type="checkbox" id="confDescarga">
-      <label for="confDescarga"><i class="fas fa-box-open"></i> Confirmação de descarga concluída</label>
-    </div>
-    <div class="timestamp" id="timestampDescarga" style="display:none;"></div>
-    <div class="tempo-transporte" id="tempoTransporte" style="display:none;"></div>
-    <span id="slaBadge" style="display:none;"></span>
   </div>
   <script>
-    // Simulação de dados
-    const slaMinutos = 180; // SLA de 3h
-    const horaSaidaColeta = '11:00'; // Simulado
-    let chegadaDestinoMin = null;
-    function minutos(horaStr) {
-      const [h,m] = horaStr.split(':').map(Number);
-      return h*60+m;
-    }
-    function formatMinutos(min) {
-      const h = Math.floor(min/60);
-      const m = min%60;
-      return h.toString().padStart(2,'0') + ':' + m.toString().padStart(2,'0');
-    }
-    document.getElementById('formCheckinDestino').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const token = document.getElementById('tokenDestino').value.trim();
-      const alerta = document.getElementById('alertaDestino');
-      alerta.style.display = 'none';
-      if (!token.match(/^[A-Za-z0-9]{6}$/)) {
-        alerta.className = 'alerta erro';
-        alerta.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Token inválido. Informe os 6 dígitos alfanuméricos.';
-        alerta.style.display = 'flex';
+    // Validação de token
+    document.getElementById('btnValidar').addEventListener('click', function(){
+      var token = document.getElementById('token').value.trim();
+      if(token.length >= 6){
+        document.getElementById('cardResumo').style.display = 'flex';
+        document.getElementById('descargaSection').style.display = 'block';
+        // Simulação: SLA
+        var sla = document.getElementById('slaIndicador');
+        var tempoTransito = 7.22; // horas
+        var slaContrato = 8; // horas
+        if(tempoTransito > slaContrato){
+          sla.textContent = 'Atrasado';
+          sla.classList.remove('dentro');
+          sla.classList.add('atrasado');
+        } else {
+          sla.textContent = 'Dentro do prazo';
+          sla.classList.remove('atrasado');
+          sla.classList.add('dentro');
+        }
+      } else {
+        alert('Informe o token de check-in válido.');
+      }
+    });
+    // Finalizar transporte
+    document.getElementById('btnFinalizar').addEventListener('click', function(){
+      var descarga = document.getElementById('descargaConcluida').checked;
+      var data = document.getElementById('dataConclusao').value;
+      if(!descarga || !data){
+        alert('Confirme a descarga e informe a data/hora de conclusão.');
         return;
       }
-      // Simula timestamp de chegada
-      const agora = new Date();
-      const horaChegada = agora.getHours().toString().padStart(2,'0') + ':' + agora.getMinutes().toString().padStart(2,'0');
-      document.getElementById('timestampChegadaDestino').innerHTML = '<i class="fas fa-clock"></i> Chegada registrada: <strong>' + horaChegada + '</strong>';
-      document.getElementById('timestampChegadaDestino').style.display = 'block';
-      document.getElementById('grupoDescarga').style.display = 'flex';
-      chegadaDestinoMin = minutos(horaChegada);
-      alerta.className = 'alerta sucesso';
-      alerta.innerHTML = '<i class="fas fa-check"></i> Check-in realizado com sucesso!';
-      alerta.style.display = 'flex';
-    });
-    document.getElementById('confDescarga').addEventListener('change', function() {
-      if (this.checked && chegadaDestinoMin !== null) {
-        const alerta = document.getElementById('alertaDestino');
-        const agora = new Date();
-        const horaDescarga = agora.getHours().toString().padStart(2,'0') + ':' + agora.getMinutes().toString().padStart(2,'0');
-        document.getElementById('timestampDescarga').innerHTML = '<i class="fas fa-box"></i> Descarga concluída: <strong>' + horaDescarga + '</strong>';
-        document.getElementById('timestampDescarga').style.display = 'block';
-        // Calcula tempo total de transporte
-        const minSaida = minutos(horaSaidaColeta);
-        const minDescarga = minutos(horaDescarga);
-        const tempoTotal = minDescarga - minSaida;
-        document.getElementById('tempoTransporte').innerHTML = '<i class="fas fa-route"></i> Tempo total de transporte: <strong>' + formatMinutos(tempoTotal) + '</strong> (SLA: ' + formatMinutos(slaMinutos) + ')';
-        document.getElementById('tempoTransporte').style.display = 'block';
-        // SLA badge
-        let slaClass = '', slaIcon = '', slaText = '';
-        if (tempoTotal <= slaMinutos) {
-          slaClass = 'sla-badge sla-verde'; slaIcon = '<i class="fas fa-check-circle"></i>'; slaText = 'Dentro do SLA';
-        } else if (tempoTotal <= slaMinutos + 30) {
-          slaClass = 'sla-badge sla-amarelo'; slaIcon = '<i class="fas fa-exclamation-circle"></i>'; slaText = 'Atenção: próximo do limite';
-        } else {
-          slaClass = 'sla-badge sla-vermelho'; slaIcon = '<i class="fas fa-times-circle"></i>'; slaText = 'Fora do SLA!';
-        }
-        document.getElementById('slaBadge').className = slaClass;
-        document.getElementById('slaBadge').innerHTML = slaIcon + ' ' + slaText;
-        document.getElementById('slaBadge').style.display = 'inline-flex';
-        alerta.className = 'alerta sucesso';
-        alerta.innerHTML = '<i class="fas fa-check"></i> Descarga confirmada e tempo registrado.';
-        alerta.style.display = 'flex';
-      } else {
-        document.getElementById('timestampDescarga').style.display = 'none';
-        document.getElementById('tempoTransporte').style.display = 'none';
-        document.getElementById('slaBadge').style.display = 'none';
-      }
+      window.location.href = 'painel-acompanhamento.html';
     });
   </script>
 </body>
