@@ -2,201 +2,92 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Componente Card Reutilizável - ICL</title>
+  <title>Componente Card</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <style>
-    :root {
-      --card-bg: #fff;
-      --card-border: #e3e1e8;
-      --card-radius: 16px;
-      --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      --card-header-bg: #f2f2f2;
-      --card-footer-bg: #f7f7f7;
-      --primary: #00B5D3;
-      --success: #61CE70;
-      --warning: #fcb900;
-      --danger: #cf2e2e;
-      --default: #54595F;
-      --badge-radius: 12px;
-      --badge-font: 12px;
-    }
     .icl-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--card-radius);
-      box-shadow: var(--card-shadow);
-      margin: 16px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      padding: 28px 24px 24px 24px;
+      margin: 0;
       display: flex;
       flex-direction: column;
-      min-width: 260px;
-      max-width: 400px;
-      font-family: 'Demo', 'Inter', Arial, sans-serif;
-      transition: box-shadow .2s;
+      gap: 12px;
+      min-width: 220px;
+      max-width: 340px;
+      min-height: 140px;
+      font-family: 'Inter', 'Demo', Arial, sans-serif;
+      transition: box-shadow 0.2s, transform 0.2s;
+      border: 2px solid transparent;
+    }
+    .icl-card.card-primary {
+      border-color: #00B5D3;
+    }
+    .icl-card.card-secondary {
+      border-color: #002846;
+    }
+    .icl-card.card-small {
+      max-width: 220px;
+      min-height: 90px;
+      padding: 16px 12px;
+    }
+    .icl-card.card-large {
+      max-width: 480px;
+      min-height: 180px;
+      padding: 36px 32px;
     }
     .icl-card:hover {
-      box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+      transform: translateY(-2px) scale(1.02);
     }
-    .icl-card-header {
-      background: var(--card-header-bg);
-      padding: 16px 20px 12px 20px;
-      border-radius: var(--card-radius) var(--card-radius) 0 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--default);
-    }
-    .icl-card-header .icl-card-icon {
+    .icl-card-title {
       font-size: 22px;
-      margin-right: 6px;
-      color: inherit;
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      font-weight: 400;
+      color: #00B5D3;
+      margin-bottom: 2px;
     }
-    .icl-card-header .icl-card-badge {
-      background: var(--primary);
-      color: #fff;
-      border-radius: var(--badge-radius);
-      font-size: var(--badge-font);
-      padding: 2px 8px;
-      margin-left: auto;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-    .icl-card-body {
-      padding: 18px 20px;
-      font-size: 15px;
+    .icl-card.card-secondary .icl-card-title {
       color: #002846;
-      flex: 1 1 auto;
     }
-    .icl-card-footer {
-      background: var(--card-footer-bg);
-      padding: 12px 20px;
-      border-radius: 0 0 var(--card-radius) var(--card-radius);
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
+    .icl-card-value {
+      font-size: 32px;
+      font-weight: 500;
+      color: #002846;
     }
-    /* Variações */
-    .icl-card.primary { border-left: 5px solid var(--primary); }
-    .icl-card.success { border-left: 5px solid var(--success); }
-    .icl-card.warning { border-left: 5px solid var(--warning); }
-    .icl-card.danger { border-left: 5px solid var(--danger); }
-    .icl-card.default { border-left: 5px solid var(--default); }
-    .icl-card-header.primary { color: var(--primary); }
-    .icl-card-header.success { color: var(--success); }
-    .icl-card-header.warning { color: var(--warning); }
-    .icl-card-header.danger { color: var(--danger); }
-    .icl-card-header.default { color: var(--default); }
-    .icl-card-header .icl-card-badge.success { background: var(--success); }
-    .icl-card-header .icl-card-badge.warning { background: var(--warning); }
-    .icl-card-header .icl-card-badge.danger { background: var(--danger); }
-    .icl-card-header .icl-card-badge.default { background: var(--default); }
-    /* Botão de ação */
-    .icl-card-btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      border-radius: 33px;
-      padding: 8px 22px;
-      font-size: 15px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: background .2s;
+    .icl-card-description {
+      font-size: 16px;
+      color: #54595F;
+      margin-top: 4px;
     }
-    .icl-card-btn:hover { background: #002846; color: #fff; }
-    /* Ícones (FontAwesome) */
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
-    @media (max-width: 600px) {
-      .icl-card { max-width: 98vw; margin: 8px; }
+    @media (max-width: 480px) {
+      .icl-card { max-width: 100%; padding: 14px 6px; }
+      .icl-card-title { font-size: 18px; }
+      .icl-card-value { font-size: 22px; }
     }
   </style>
 </head>
 <body>
-  <!-- Card Default -->
-  <div class="icl-card default">
-    <div class="icl-card-header default">
-      <span class="icl-card-icon"><i class="fa fa-truck"></i></span>
-      Solicitação de Coleta
-      <span class="icl-card-badge default">Pendente</span>
-    </div>
-    <div class="icl-card-body">
-      Fornecedor: ABC Ltda<br>
-      Unidade: São Paulo<br>
-      Data/Hora: 12/07/2024 09:00<br>
-      Tipo de Frete: FOB
-    </div>
-    <div class="icl-card-footer">
-      <button class="icl-card-btn">Visualizar</button>
-      <button class="icl-card-btn" style="background:var(--success)">Confirmar</button>
-    </div>
+  <!-- Exemplo de uso do card primário -->
+  <div class="icl-card card-primary" aria-label="Card de destaque">
+    <div class="icl-card-title">Solicitações Pendentes</div>
+    <div class="icl-card-value">12</div>
+    <div class="icl-card-description">Aguardando confirmação do fornecedor</div>
   </div>
-
-  <!-- Card Primary -->
-  <div class="icl-card primary">
-    <div class="icl-card-header primary">
-      <span class="icl-card-icon"><i class="fa fa-calendar-check"></i></span>
-      Agendamento Confirmado
-      <span class="icl-card-badge primary">Confirmado</span>
-    </div>
-    <div class="icl-card-body">
-      Transportadora: TransLog<br>
-      Veículo: Truck 3/4<br>
-      Janela: 10:00 - 12:00
-    </div>
-    <div class="icl-card-footer">
-      <button class="icl-card-btn">Detalhes</button>
-    </div>
+  <!-- Exemplo de uso do card secundário -->
+  <div class="icl-card card-secondary card-small" aria-label="Card secundário pequeno">
+    <div class="icl-card-title">Transportadoras</div>
+    <div class="icl-card-value">8</div>
+    <div class="icl-card-description">Cadastradas no sistema</div>
   </div>
-
-  <!-- Card Success -->
-  <div class="icl-card success">
-    <div class="icl-card-header success">
-      <span class="icl-card-icon"><i class="fa fa-check-circle"></i></span>
-      Entrega Concluída
-      <span class="icl-card-badge success">Concluído</span>
-    </div>
-    <div class="icl-card-body">
-      Destino: ICL Campinas<br>
-      Descarga: 15/07/2024 14:00<br>
-      SLA: Cumprido
-    </div>
-    <div class="icl-card-footer">
-      <button class="icl-card-btn">Ver SLA</button>
-    </div>
-  </div>
-
-  <!-- Card Warning -->
-  <div class="icl-card warning">
-    <div class="icl-card-header warning">
-      <span class="icl-card-icon"><i class="fa fa-exclamation-triangle"></i></span>
-      Pendência de NF
-      <span class="icl-card-badge warning">Aguardando</span>
-    </div>
-    <div class="icl-card-body">
-      Fornecedor: XYZ Agro<br>
-      Nota Fiscal não anexada.<br>
-      Prazo: 16/07/2024
-    </div>
-    <div class="icl-card-footer">
-      <button class="icl-card-btn">Enviar NF</button>
-    </div>
-  </div>
-
-  <!-- Card Danger -->
-  <div class="icl-card danger">
-    <div class="icl-card-header danger">
-      <span class="icl-card-icon"><i class="fa fa-times-circle"></i></span>
-      Transporte Recusado
-      <span class="icl-card-badge danger">Recusado</span>
-    </div>
-    <div class="icl-card-body">
-      Transportadora: FastCargo<br>
-      Motivo: Veículo não disponível<br>
-      Nova seleção necessária.
-    </div>
-    <div class="icl-card-footer">
-      <button class="icl-card-btn">Selecionar Nova</button>
-    </div>
+  <!-- Exemplo de uso do card grande -->
+  <div class="icl-card card-primary card-large" aria-label="Card grande">
+    <div class="icl-card-title">Performance de Entregas</div>
+    <div class="icl-card-value">97%</div>
+    <div class="icl-card-description">Entregas realizadas no prazo no último mês</div>
   </div>
 </body>
 </html>
