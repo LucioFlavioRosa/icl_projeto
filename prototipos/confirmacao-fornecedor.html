@@ -2,149 +2,123 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>Confirmação de Volumes - Gestão de Fretes ICL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Confirmação de Volumes - Fornecedor | Gestão de Fretes</title>
-  <!-- Estilos herdados do template -->
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
   <style>
-    body {
-      font-family: 'Demo', 'Inter', Arial, sans-serif;
-      background: #f7fafc;
-      margin: 0;
-      color: #002846;
-    }
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-      padding: 40px 32px 32px 32px;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      color: #00B5D3;
-      margin-bottom: 24px;
-      text-align: left;
-    }
-    form {
-      display: grid;
-      gap: 22px;
-    }
-    label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00284640;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Inter', Arial, sans-serif;
-      box-sizing: border-box;
-      margin-top: 4px;
-    }
-    .actions {
-      display: flex;
-      gap: 16px;
-      justify-content: flex-end;
-      margin-top: 18px;
-    }
-    .btn {
-      background: #00B5D3;
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 12px 32px;
-      font-size: 1rem;
-      font-family: 'Demo', Arial, sans-serif;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn.adjust {
-      background: #fff;
-      color: #00B5D3;
-      border: 2px solid #00B5D3;
-    }
-    .btn:hover {
-      background: #002846;
-      color: #fff;
-    }
-    .btn.adjust:hover {
-      background: #00B5D3;
-      color: #fff;
-    }
+    body { background: #f8fafb; }
+    .main-container { max-width: 700px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 38px 28px 28px 28px; }
+    .section-title { color: #00B5D3; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
+    .dados-solicitacao { background: #f2f7fa; border-radius: 12px; padding: 18px 18px 10px 18px; margin-bottom: 24px; }
+    .dados-solicitacao dl { display: flex; flex-wrap: wrap; }
+    .dados-solicitacao dt { width: 45%; font-weight: 500; color: #002846; margin-bottom: 5px; }
+    .dados-solicitacao dd { width: 55%; margin: 0 0 5px 0; color: #333; }
+    .elementor-field-group { margin-bottom: 18px; }
+    .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
+    .form-row { display: flex; gap: 18px; }
+    .form-row > .elementor-field-group { flex: 1; }
+    .elementor-button { min-width: 140px; margin-top: 10px; }
+    .btn-row { display: flex; gap: 18px; margin-top: 18px; }
+    #novaJanelaGroup { display: none; }
     @media (max-width: 700px) {
-      .container {
-        padding: 24px 8px;
-      }
-      h1 {
-        font-size: 1.3rem;
-      }
-      .actions {
-        flex-direction: column;
-        gap: 10px;
-      }
+      .main-container { padding: 14px 4vw; }
+      .form-row { flex-direction: column; gap: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Confirmação de Volumes</h1>
-    <form id="confirmacaoFornecedor" autocomplete="off">
-      <div>
-        <label for="volume">Volume <span style="color:#cf2e2e">*</span></label>
-        <input type="number" id="volume" name="volume" min="1" required aria-required="true" placeholder="Informe a quantidade">
+  <header class="header_section" style="background:#002846;">
+    <div class="header_wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:16px 32px;">
+      <a href="#" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" style="height:38px;"></a>
+      <nav class="menu_nav_trees">
+        <a href="solicitacao-agendamento.html" style="color:#fff;margin-right:24px;">Agendamento</a>
+        <a href="confirmacao-fornecedor.html" style="color:#00B5D3;font-weight:600;margin-right:24px;">Confirmação</a>
+        <a href="selecao-transportadora.html" style="color:#fff;">Transportadora</a>
+      </nav>
+    </div>
+  </header>
+  <main class="main-container">
+    <h1 class="section-title">Confirmação de Volumes da Solicitação</h1>
+    <section class="dados-solicitacao" aria-label="Resumo da Solicitação">
+      <dl>
+        <dt>Fornecedor:</dt><dd>Fornecedor Alfa</dd>
+        <dt>Unidade:</dt><dd>SP</dd>
+        <dt>Data/Hora Coleta:</dt><dd>2024-07-15 09:00</dd>
+        <dt>Janela Operacional:</dt><dd>08:00 - 10:00</dd>
+        <dt>Tipo de Frete:</dt><dd>FOB</dd>
+        <dt>Local de Entrega:</dt><dd>ICL São Paulo</dd>
+      </dl>
+    </section>
+    <form id="confirmacaoForm" autocomplete="off">
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="volume">Volume *</label>
+          <input type="number" id="volume" name="volume" class="elementor-field-textual" min="1" required placeholder="Quantidade">
+        </div>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="tipo_carga">Tipo de Carga *</label>
+          <select id="tipo_carga" name="tipo_carga" class="elementor-field-textual" required>
+            <option value="">Selecione</option>
+            <option value="paletizado">Paletizado</option>
+            <option value="granel">Granel</option>
+            <option value="bigbag">Big Bag</option>
+          </select>
+        </div>
       </div>
-      <div>
-        <label for="unidade">Unidade de Medida <span style="color:#cf2e2e">*</span></label>
-        <select id="unidade" name="unidade" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="caixa">Caixa</option>
-          <option value="palete">Palete</option>
-          <option value="bigbag">Big Bag</option>
-          <option value="litro">Litro</option>
-        </select>
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="peso">Peso Total (kg) *</label>
+          <input type="number" id="peso" name="peso" class="elementor-field-textual" min="1" required placeholder="Peso em kg">
+        </div>
       </div>
-      <div>
-        <label for="tipoCarga">Tipo de Carga <span style="color:#cf2e2e">*</span></label>
-        <select id="tipoCarga" name="tipoCarga" required aria-required="true">
-          <option value="">Selecione</option>
-          <option value="paletizado">Paletizado</option>
-          <option value="granel">Granel</option>
-          <option value="bigbag">Big Bag</option>
-        </select>
+      <div class="elementor-field-group">
+        <label class="elementor-label">Confirma a janela operacional?</label>
+        <div style="display:flex;gap:16px;align-items:center;">
+          <label><input type="radio" name="confirma_janela" value="sim" required> Sim</label>
+          <label><input type="radio" name="confirma_janela" value="nao"> Não</label>
+        </div>
       </div>
-      <div>
-        <label for="pesoTotal">Peso Total (kg) <span style="color:#cf2e2e">*</span></label>
-        <input type="number" id="pesoTotal" name="pesoTotal" min="1" step="0.01" required aria-required="true" placeholder="Informe o peso total">
+      <div class="form-row" id="novaJanelaGroup">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="nova_data">Nova Data</label>
+          <input type="date" id="nova_data" name="nova_data" class="elementor-field-textual">
+        </div>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="nova_hora">Novo Horário</label>
+          <input type="time" id="nova_hora" name="nova_hora" class="elementor-field-textual">
+        </div>
       </div>
-      <div>
-        <label for="novaJanela">Proposta de Nova Janela Operacional</label>
-        <input type="datetime-local" id="novaJanela" name="novaJanela">
-      </div>
-      <div class="actions">
-        <button type="submit" class="btn">Confirmar</button>
-        <button type="button" class="btn adjust" id="btnProporAjuste">Propor Ajuste</button>
+      <div class="btn-row">
+        <button type="submit" class="elementor-button elementor-size-md">Confirmar</button>
+        <button type="button" id="btnPropor" class="elementor-button elementor-size-md" style="background:#fff;color:#00B5D3;border:2px solid #00B5D3;">Propor Ajuste</button>
       </div>
     </form>
-  </div>
+  </main>
   <script>
-    document.getElementById('confirmacaoFornecedor').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Confirmação enviada com sucesso!');
+    // Exibe campos de nova janela se "não" for selecionado
+    const radios = document.getElementsByName('confirma_janela');
+    radios.forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        document.getElementById('novaJanelaGroup').style.display = (this.value === 'nao') ? 'flex' : 'none';
+      });
     });
-    document.getElementById('btnProporAjuste').addEventListener('click', function() {
-      if(document.getElementById('novaJanela').value === '') {
-        alert('Para propor ajuste, informe uma nova janela operacional.');
-        document.getElementById('novaJanela').focus();
-        return;
+    document.getElementById('btnPropor').addEventListener('click', function() {
+      document.getElementById('novaJanelaGroup').style.display = 'flex';
+      radios.forEach(r => { if(r.value==='nao') r.checked=true; });
+    });
+    document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if(document.querySelector('input[name="confirma_janela"]:checked').value === 'sim') {
+        alert('Volume confirmado! (Fluxo simulado)');
+        window.location.href = 'selecao-transportadora.html';
+      } else {
+        alert('Proposta de nova janela enviada! (Fluxo simulado)');
+        window.location.href = 'solicitacao-agendamento.html';
       }
-      alert('Proposta de ajuste enviada para análise.');
     });
   </script>
 </body>
