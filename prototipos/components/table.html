@@ -2,251 +2,197 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Componente Tabela Responsiva - ICL</title>
+  <title>Componente Tabela Reutilizável</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <style>
-    :root {
-      --table-bg: #fff;
-      --table-header-bg: #00B5D3;
-      --table-header-color: #fff;
-      --table-row-alt: #f7f7f7;
-      --table-border: #e3e1e8;
-      --table-radius: 12px;
-      --table-font: 'Demo', 'Inter', Arial, sans-serif;
-      --table-accent: #61CE70;
-    }
-    .icl-table-wrapper {
+    .icl-table-container {
       width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 24px;
+      margin: 0 auto;
       overflow-x: auto;
-      margin: 24px 0;
-      border-radius: var(--table-radius);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      background: var(--table-bg);
     }
     table.icl-table {
+      width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      width: 100%;
-      font-family: var(--table-font);
-      font-size: 15px;
-      background: var(--table-bg);
-      border-radius: var(--table-radius);
-      overflow: hidden;
+      font-family: 'Inter', 'Demo', Arial, sans-serif;
+      font-size: 16px;
+      color: #002846;
+      background: #fff;
     }
-    thead tr {
-      background: var(--table-header-bg);
-      color: var(--table-header-color);
-    }
-    thead th {
-      padding: 14px 12px;
+    .icl-table th, .icl-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e6e6e6;
       text-align: left;
+    }
+    .icl-table th {
+      background: #f7fafc;
+      color: #00B5D3;
       font-weight: 500;
-      position: relative;
-      user-select: none;
       cursor: pointer;
+      user-select: none;
+      position: relative;
     }
-    thead th.sortable:after {
-      content: '\f0dc'; /* FontAwesome sort icon */
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
+    .icl-table th.sortable:after {
+      content: '\25B2\25BC';
+      font-size: 10px;
+      color: #b0b0b0;
       margin-left: 8px;
-      font-size: 13px;
-      color: #fff;
-      opacity: 0.7;
+      vertical-align: middle;
     }
-    thead th.sorted-asc:after {
-      content: '\f0de'; /* up arrow */
-      color: var(--table-accent);
-      opacity: 1;
+    .icl-table tr:hover {
+      background: #f1fafd;
+      transition: background 0.2s;
     }
-    thead th.sorted-desc:after {
-      content: '\f0dd'; /* down arrow */
-      color: var(--table-accent);
-      opacity: 1;
-    }
-    tbody tr {
-      border-bottom: 1px solid var(--table-border);
-      transition: background .18s;
-    }
-    tbody tr:nth-child(even) {
-      background: var(--table-row-alt);
-    }
-    tbody tr:hover {
-      background: #eaf9fc;
-    }
-    td {
-      padding: 12px 10px;
-      color: #002846;
-      font-size: 15px;
-    }
-    tfoot tr {
-      background: #f2f2f2;
-      color: #002846;
-      font-size: 14px;
-    }
-    tfoot td {
-      padding: 10px;
-    }
-    @media (max-width: 700px) {
-      .icl-table-wrapper { border-radius: 0; }
-      table.icl-table { font-size: 13px; }
-      thead th, td { padding: 10px 6px; }
-    }
-    /* Paginação */
-    .icl-table-pagination {
+    .icl-table-actions {
       display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 6px;
-      margin: 14px 0 0 0;
-      font-family: var(--table-font);
+      gap: 8px;
     }
-    .icl-table-pagination button {
-      background: var(--table-header-bg);
+    .icl-table-action-btn {
+      background: #00B5D3;
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       padding: 6px 14px;
       font-size: 14px;
       cursor: pointer;
-      transition: background .2s;
+      transition: background 0.2s;
     }
-    .icl-table-pagination button.active {
-      background: var(--table-accent);
+    .icl-table-action-btn:hover {
+      background: #008fa7;
+    }
+    .icl-pagination {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 18px;
+      gap: 6px;
+    }
+    .icl-pagination-btn {
+      background: #fff;
+      border: 1px solid #00B5D3;
+      color: #00B5D3;
+      border-radius: 5px;
+      padding: 4px 12px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .icl-pagination-btn.active, .icl-pagination-btn:hover {
+      background: #00B5D3;
       color: #fff;
-      font-weight: 600;
     }
-    .icl-table-pagination button:disabled {
-      background: #e3e1e8;
-      color: #aaa;
-      cursor: not-allowed;
+    @media (max-width: 600px) {
+      .icl-table th, .icl-table td {
+        padding: 8px 6px;
+        font-size: 13px;
+      }
+      .icl-table-container {
+        padding: 10px;
+      }
     }
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
   </style>
-  <script>
-    // Ordenação simples
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('th.sortable').forEach(function(th) {
-        th.addEventListener('click', function() {
-          let table = th.closest('table');
-          let tbody = table.querySelector('tbody');
-          let idx = Array.from(th.parentNode.children).indexOf(th);
-          let rows = Array.from(tbody.querySelectorAll('tr'));
-          let asc = !th.classList.contains('sorted-asc');
-          table.querySelectorAll('th').forEach(t => t.classList.remove('sorted-asc', 'sorted-desc'));
-          th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
-          rows.sort(function(a, b) {
-            let va = a.children[idx].textContent.trim().toLowerCase();
-            let vb = b.children[idx].textContent.trim().toLowerCase();
-            if (!isNaN(va) && !isNaN(vb)) {
-              va = parseFloat(va); vb = parseFloat(vb);
-            }
-            if (va < vb) return asc ? -1 : 1;
-            if (va > vb) return asc ? 1 : -1;
-            return 0;
-          });
-          rows.forEach(r => tbody.appendChild(r));
-        });
-      });
-      // Paginação simples
-      let pageSize = 5;
-      let table = document.querySelector('.icl-table');
-      if (!table) return;
-      let tbody = table.querySelector('tbody');
-      let rows = Array.from(tbody.querySelectorAll('tr'));
-      let pagination = document.querySelector('.icl-table-pagination');
-      let pageCount = Math.ceil(rows.length / pageSize);
-      function showPage(page) {
-        rows.forEach((row, i) => {
-          row.style.display = (i >= (page-1)*pageSize && i < page*pageSize) ? '' : 'none';
-        });
-        pagination.querySelectorAll('button').forEach((btn, idx) => {
-          btn.classList.toggle('active', idx+1 === page);
-        });
-      }
-      if (pagination) {
-        pagination.innerHTML = '';
-        for (let i=1; i<=pageCount; i++) {
-          let btn = document.createElement('button');
-          btn.textContent = i;
-          btn.onclick = () => showPage(i);
-          pagination.appendChild(btn);
-        }
-        showPage(1);
-      }
-    });
-  </script>
 </head>
 <body>
-  <div class="icl-table-wrapper">
-    <table class="icl-table" aria-label="Tabela de Solicitações">
+  <div class="icl-table-container">
+    <table class="icl-table" id="iclTable">
       <thead>
         <tr>
-          <th class="sortable">ID</th>
-          <th class="sortable">Fornecedor</th>
-          <th class="sortable">Unidade</th>
-          <th class="sortable">Data/Hora</th>
-          <th class="sortable">Status</th>
+          <th class="sortable" data-key="id">ID</th>
+          <th class="sortable" data-key="fornecedor">Fornecedor</th>
+          <th class="sortable" data-key="data">Data</th>
+          <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>001</td>
-          <td>ABC Ltda</td>
-          <td>São Paulo</td>
-          <td>12/07/2024 09:00</td>
-          <td><span style="color:var(--primary);font-weight:600;">Pendente</span></td>
-          <td><button title="Visualizar"><i class="fa fa-eye"></i></button></td>
-        </tr>
-        <tr>
-          <td>002</td>
-          <td>XYZ Agro</td>
-          <td>Campinas</td>
-          <td>13/07/2024 10:30</td>
-          <td><span style="color:var(--table-accent);font-weight:600;">Confirmado</span></td>
-          <td><button title="Editar"><i class="fa fa-edit"></i></button></td>
-        </tr>
-        <tr>
-          <td>003</td>
-          <td>TransLog</td>
-          <td>Ribeirão Preto</td>
-          <td>14/07/2024 11:00</td>
-          <td><span style="color:var(--danger);font-weight:600;">Recusado</span></td>
-          <td><button title="Reenviar"><i class="fa fa-redo"></i></button></td>
-        </tr>
-        <tr>
-          <td>004</td>
-          <td>FastCargo</td>
-          <td>Curitiba</td>
-          <td>15/07/2024 08:45</td>
-          <td><span style="color:var(--warning);font-weight:600;">Aguardando</span></td>
-          <td><button title="Enviar NF"><i class="fa fa-file-upload"></i></button></td>
-        </tr>
-        <tr>
-          <td>005</td>
-          <td>ABC Ltda</td>
-          <td>São Paulo</td>
-          <td>16/07/2024 09:30</td>
-          <td><span style="color:var(--primary);font-weight:600;">Pendente</span></td>
-          <td><button title="Visualizar"><i class="fa fa-eye"></i></button></td>
-        </tr>
-        <tr>
-          <td>006</td>
-          <td>XYZ Agro</td>
-          <td>Campinas</td>
-          <td>17/07/2024 10:00</td>
-          <td><span style="color:var(--table-accent);font-weight:600;">Confirmado</span></td>
-          <td><button title="Editar"><i class="fa fa-edit"></i></button></td>
-        </tr>
+        <!-- Linhas serão preenchidas dinamicamente -->
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="6">Total de solicitações: 6</td>
-        </tr>
-      </tfoot>
     </table>
+    <div class="icl-pagination" id="iclPagination"></div>
   </div>
-  <div class="icl-table-pagination"></div>
+
+  <script>
+    // Exemplo de dados
+    const tableData = [
+      { id: 1, fornecedor: 'Fornecedor A', data: '2024-06-10', status: 'Pendente' },
+      { id: 2, fornecedor: 'Fornecedor B', data: '2024-06-11', status: 'Confirmado' },
+      { id: 3, fornecedor: 'Fornecedor C', data: '2024-06-12', status: 'Em trânsito' },
+      { id: 4, fornecedor: 'Fornecedor D', data: '2024-06-13', status: 'Concluído' },
+      { id: 5, fornecedor: 'Fornecedor E', data: '2024-06-14', status: 'Pendente' },
+      { id: 6, fornecedor: 'Fornecedor F', data: '2024-06-15', status: 'Confirmado' },
+      { id: 7, fornecedor: 'Fornecedor G', data: '2024-06-16', status: 'Em trânsito' },
+      { id: 8, fornecedor: 'Fornecedor H', data: '2024-06-17', status: 'Concluído' },
+      { id: 9, fornecedor: 'Fornecedor I', data: '2024-06-18', status: 'Pendente' },
+      { id: 10, fornecedor: 'Fornecedor J', data: '2024-06-19', status: 'Confirmado' },
+      { id: 11, fornecedor: 'Fornecedor K', data: '2024-06-20', status: 'Em trânsito' }
+    ];
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let sortKey = null;
+    let sortAsc = true;
+
+    function renderTable() {
+      const tbody = document.querySelector('#iclTable tbody');
+      tbody.innerHTML = '';
+      let data = [...tableData];
+      if (sortKey) {
+        data.sort((a, b) => {
+          if (a[sortKey] < b[sortKey]) return sortAsc ? -1 : 1;
+          if (a[sortKey] > b[sortKey]) return sortAsc ? 1 : -1;
+          return 0;
+        });
+      }
+      const start = (currentPage - 1) * rowsPerPage;
+      const pageData = data.slice(start, start + rowsPerPage);
+      pageData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.id}</td>
+          <td>${row.fornecedor}</td>
+          <td>${row.data}</td>
+          <td>${row.status}</td>
+          <td class="icl-table-actions">
+            <button class="icl-table-action-btn" aria-label="Visualizar" onclick="alert('Visualizar #${row.id}')">Visualizar</button>
+            <button class="icl-table-action-btn" aria-label="Editar" onclick="alert('Editar #${row.id}')">Editar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      renderPagination(data.length);
+    }
+
+    function renderPagination(totalRows) {
+      const pagination = document.getElementById('iclPagination');
+      pagination.innerHTML = '';
+      const totalPages = Math.ceil(totalRows / rowsPerPage);
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'icl-pagination-btn' + (i === currentPage ? ' active' : '');
+        btn.textContent = i;
+        btn.onclick = () => { currentPage = i; renderTable(); };
+        pagination.appendChild(btn);
+      }
+    }
+
+    document.querySelectorAll('.icl-table th.sortable').forEach(th => {
+      th.addEventListener('click', function() {
+        const key = this.getAttribute('data-key');
+        if (sortKey === key) {
+          sortAsc = !sortAsc;
+        } else {
+          sortKey = key;
+          sortAsc = true;
+        }
+        renderTable();
+      });
+    });
+
+    renderTable();
+  </script>
 </body>
 </html>
