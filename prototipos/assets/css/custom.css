@@ -1,0 +1,290 @@
+/* =====================================================
+   Estilos Customizados para Prototipagem - Gestão de Fretes ICL
+   Baseados no template novo_teste.html
+   ===================================================== */
+
+/* =========================
+   Utilitários de Espaçamento
+   ========================= */
+.u-mt-0 { margin-top: 0 !important; }
+.u-mt-1 { margin-top: 8px !important; }
+.u-mt-2 { margin-top: 16px !important; }
+.u-mt-3 { margin-top: 24px !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-mb-1 { margin-bottom: 8px !important; }
+.u-mb-2 { margin-bottom: 16px !important; }
+.u-mb-3 { margin-bottom: 24px !important; }
+.u-p-0 { padding: 0 !important; }
+.u-p-1 { padding: 8px !important; }
+.u-p-2 { padding: 16px !important; }
+.u-p-3 { padding: 24px !important; }
+
+/* =========================
+   Cores de Status
+   ========================= */
+.status-success { background-color: #61CE70 !important; color: #fff !important; }
+.status-warning { background-color: #fcb900 !important; color: #002846 !important; }
+.status-danger  { background-color: #cf2e2e !important; color: #fff !important; }
+.status-info    { background-color: #00B5D3 !important; color: #fff !important; }
+.text-success   { color: #61CE70 !important; }
+.text-warning   { color: #fcb900 !important; }
+.text-danger    { color: #cf2e2e !important; }
+.text-info      { color: #00B5D3 !important; }
+
+/* =========================
+   Cards Customizados
+   ========================= */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 40, 70, 0.08);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 24px rgba(0, 181, 211, 0.18);
+}
+.card-header {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #00B5D3;
+}
+.card-status {
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+/* =========================
+   Tabelas Responsivas
+   ========================= */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+table.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+table.custom-table th, table.custom-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eaeaea;
+  text-align: left;
+}
+table.custom-table th {
+  background: #00B5D3;
+  color: #fff;
+  font-weight: 500;
+}
+table.custom-table tr:last-child td {
+  border-bottom: none;
+}
+table.custom-table tr.status-success td {
+  background: #eafaf3;
+}
+table.custom-table tr.status-warning td {
+  background: #fffbe5;
+}
+table.custom-table tr.status-danger td {
+  background: #ffeaea;
+}
+table.custom-table tr.status-info td {
+  background: #eaf7fa;
+}
+
+/* =========================
+   Modais Customizados
+   ========================= */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: rgba(0, 40, 70, 0.45);
+  transition: opacity 0.25s;
+}
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 8px 32px rgba(0, 40, 70, 0.18);
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  animation: modalFadeIn 0.35s ease;
+}
+@keyframes modalFadeIn {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #00B5D3;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-close:focus {
+  outline: 2px solid #00B5D3;
+}
+
+/* =========================
+   Botões Customizados
+   ========================= */
+.btn {
+  display: inline-block;
+  font-family: 'Demo', 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 33px;
+  border: none;
+  cursor: pointer;
+  background: #00B5D3;
+  color: #fff;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn:hover, .btn:focus {
+  background: #002846;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(0, 40, 70, 0.12);
+  outline: none;
+}
+.btn-success { background: #61CE70; }
+.btn-warning { background: #fcb900; color: #002846; }
+.btn-danger  { background: #cf2e2e; }
+.btn-info    { background: #00B5D3; }
+.btn:focus {
+  outline: 2px solid #00B5D3;
+}
+
+/* =========================
+   Inputs e Formulários
+   ========================= */
+.input, select, textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #002846;
+  border: 1px solid #00284640;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+.input:focus, select:focus, textarea:focus {
+  border-color: #00B5D3;
+  outline: none;
+}
+.label {
+  font-family: 'Demo', 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #002846;
+  margin-bottom: 6px;
+  display: block;
+}
+.form-group {
+  margin-bottom: 18px;
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   Animações de Transição
+   ========================= */
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.slide-up {
+  animation: slideUp 0.4s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================
+   Estados de Focus Visíveis
+   ========================= */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid #00B5D3;
+  outline-offset: 2px;
+}
+
+/* =========================
+   Z-index para Modais e Dropdowns
+   ========================= */
+.modal, .dropdown-menu {
+  z-index: 9999 !important;
+}
+
+/* =========================
+   Media Queries para Responsividade
+   ========================= */
+@media (max-width: 900px) {
+  .card { padding: 16px; }
+  .modal-content { padding: 24px 12px; }
+  .form-row { flex-direction: column; gap: 8px; }
+}
+@media (max-width: 600px) {
+  .card { padding: 8px; }
+  .modal-content { padding: 12px 4px; }
+  table.custom-table th, table.custom-table td { padding: 8px 6px; font-size: 14px; }
+}
+
+/* =========================
+   Otimização para Impressão
+   ========================= */
+@media print {
+  body { background: #fff !important; color: #002846 !important; }
+  .card, .modal-content { box-shadow: none !important; background: #fff !important; }
+  .btn, .modal-close { display: none !important; }
+  header, footer, nav { display: none !important; }
+}
+
+/* =========================
+   Refinamento Final
+   ========================= */
+/* Correção de z-index para modais e dropdowns já aplicada acima */
+/* Ajuste de padding/margin para alinhamento refinado */
+.card, .modal-content, .form-group, .form-row, .table-responsive {
+  box-sizing: border-box;
+}
+/* Animações refinadas para hover/focus já aplicadas acima */
+/* Contraste de texto garantido pelas cores de status e background */
+/* Focus visível para navegação por teclado já aplicado */
+/* Otimização para impressão já aplicada */
+
+/* =========================
+   Documentação de Seções
+   ========================= */
+/* Cada bloco acima está documentado para fácil manutenção e expansão futura. */
