@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Fornecedores | Gestão de Fretes</title>
+  <!-- Estilos e scripts do template original -->
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7f9fa; }
+    .container { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 32px; }
+    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 24px; }
+    .actions-bar { display: flex; gap: 12px; margin-bottom: 16px; }
+    .btn { background: #00B5D3; color: #fff; border-radius: 33px; border: none; padding: 10px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #002846; }
+    .table-responsive { overflow-x: auto; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #eaeaea; text-align: left; }
+    th { background: #f1f7fa; color: #002846; font-weight: 500; }
+    tr:hover { background: #f0f8fb; }
+    .filter-bar { display: flex; gap: 16px; margin-bottom: 18px; }
+    .filter-bar input, .filter-bar select { padding: 8px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-bg { display: none; position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; }
+    .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 16px; box-shadow: 0 6px 40px rgba(0,0,0,0.13); width: 700px; max-width: 95vw; z-index: 1001; display: none; }
+    .modal-header { padding: 18px 24px 0 24px; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { font-size: 1.3rem; color: #00B5D3; margin: 0; }
+    .close-modal { background: none; border: none; font-size: 1.7rem; color: #002846; cursor: pointer; }
+    .modal-tabs { display: flex; border-bottom: 1px solid #eaeaea; margin-top: 8px; }
+    .modal-tab { flex: 1; padding: 12px 0; text-align: center; cursor: pointer; color: #002846; font-weight: 500; background: #f7f9fa; border-right: 1px solid #eaeaea; }
+    .modal-tab:last-child { border-right: none; }
+    .modal-tab.active { background: #fff; color: #00B5D3; border-bottom: 2px solid #00B5D3; }
+    .modal-content { padding: 24px; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 500; color: #002846; margin-bottom: 6px; }
+    input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+    @media (max-width: 800px) { .container { padding: 12px; } .modal { width: 98vw; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Fornecedores</h1>
+    <div class="actions-bar">
+      <button class="btn" id="btnNovo">Novo Fornecedor</button>
+      <button class="btn" id="btnImportar">Importar Excel</button>
+    </div>
+    <div class="filter-bar">
+      <input type="text" id="buscaFornecedor" placeholder="Buscar fornecedor..." aria-label="Buscar fornecedor">
+      <select id="filtroStatus">
+        <option value="">Status</option>
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+      </select>
+      <select id="filtroUnidade">
+        <option value="">Unidade</option>
+        <option value="SP">SP</option>
+        <option value="MG">MG</option>
+        <option value="RS">RS</option>
+      </select>
+    </div>
+    <div class="table-responsive">
+      <table aria-label="Tabela de fornecedores">
+        <thead>
+          <tr>
+            <th>Fornecedor</th>
+            <th>CNPJ</th>
+            <th>Unidade</th>
+            <th>Status</th>
+            <th>Janelas Operacionais</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="listaFornecedores">
+          <!-- Linhas dinâmicas -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modal de Cadastro/Edição -->
+  <div class="modal-bg" id="modalBg"></div>
+  <div class="modal" id="modalFornecedor" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <h2 id="modalTitle">Novo Fornecedor</h2>
+      <button class="close-modal" id="closeModal" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" data-tab="dados">Dados Gerais</div>
+      <div class="modal-tab" data-tab="plantas">Plantas/Endereços</div>
+      <div class="modal-tab" data-tab="janelas">Janelas Operacionais</div>
+      <div class="modal-tab" data-tab="frete">Configurações de Frete</div>
+    </div>
+    <form id="formFornecedor">
+      <div class="modal-content" id="tab-dados">
+        <div class="form-group">
+          <label for="nomeFornecedor">Nome do Fornecedor *</label>
+          <input type="text" id="nomeFornecedor" name="nomeFornecedor" required>
+        </div>
+        <div class="form-group">
+          <label for="cnpjFornecedor">CNPJ *</label>
+          <input type="text" id="cnpjFornecedor" name="cnpjFornecedor" required pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}">
+        </div>
+        <div class="form-group">
+          <label for="statusFornecedor">Status</label>
+          <select id="statusFornecedor" name="statusFornecedor">
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-content" id="tab-plantas" style="display:none;">
+        <div class="form-group">
+          <label for="plantas">Plantas/Endereços</label>
+          <textarea id="plantas" name="plantas" rows="3" placeholder="Ex: Unidade SP - Av. Brasil, 1000"></textarea>
+        </div>
+      </div>
+      <div class="modal-content" id="tab-janelas" style="display:none;">
+        <div class="form-group">
+          <label for="janelas">Janelas Operacionais</label>
+          <input type="text" id="janelas" name="janelas" placeholder="Ex: 08:00-12:00, 14:00-18:00">
+        </div>
+      </div>
+      <div class="modal-content" id="tab-frete" style="display:none;">
+        <div class="form-group">
+          <label for="tipoFrete">Tipo de Frete Padrão</label>
+          <select id="tipoFrete" name="tipoFrete">
+            <option value="FOB">FOB</option>
+            <option value="CIF">CIF</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn">Salvar</button>
+        <button type="button" class="btn" id="cancelModal">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Tabs modal
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        ['dados','plantas','janelas','frete'].forEach(t => {
+          document.getElementById('tab-'+t).style.display = (tab.dataset.tab === t) ? 'block' : 'none';
+        });
+      });
+    });
+    // Modal open/close
+    document.getElementById('btnNovo').onclick = function() {
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalFornecedor').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Novo Fornecedor';
+      document.getElementById('formFornecedor').reset();
+      document.querySelector('.modal-tab[data-tab="dados"]').click();
+    };
+    document.getElementById('closeModal').onclick = document.getElementById('cancelModal').onclick = function() {
+      document.getElementById('modalBg').style.display = 'none';
+      document.getElementById('modalFornecedor').style.display = 'none';
+    };
+    document.getElementById('modalBg').onclick = function() {
+      document.getElementById('closeModal').click();
+    };
+    // Simulação de tabela dinâmica
+    const fornecedores = [
+      {nome:'Fornecedor A', cnpj:'12.345.678/0001-90', unidade:'SP', status:'Ativo', janelas:'08:00-12:00'},
+      {nome:'Fornecedor B', cnpj:'98.765.432/0001-12', unidade:'MG', status:'Inativo', janelas:'14:00-18:00'}
+    ];
+    function renderTabela() {
+      const busca = document.getElementById('buscaFornecedor').value.toLowerCase();
+      const status = document.getElementById('filtroStatus').value;
+      const unidade = document.getElementById('filtroUnidade').value;
+      let html = '';
+      fornecedores.filter(f =>
+        (!busca || f.nome.toLowerCase().includes(busca)) &&
+        (!status || f.status.toLowerCase() === status) &&
+        (!unidade || f.unidade === unidade)
+      ).forEach((f, idx) => {
+        html += `<tr>
+          <td>${f.nome}</td>
+          <td>${f.cnpj}</td>
+          <td>${f.unidade}</td>
+          <td>${f.status}</td>
+          <td>${f.janelas}</td>
+          <td>
+            <button class="btn" onclick="editarFornecedor(${idx})">Editar</button>
+            <button class="btn" onclick="excluirFornecedor(${idx})">Excluir</button>
+          </td>
+        </tr>`;
+      });
+      document.getElementById('listaFornecedores').innerHTML = html;
+    }
+    document.getElementById('buscaFornecedor').oninput = renderTabela;
+    document.getElementById('filtroStatus').onchange = renderTabela;
+    document.getElementById('filtroUnidade').onchange = renderTabela;
+    renderTabela();
+    window.editarFornecedor = function(idx) {
+      const f = fornecedores[idx];
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalFornecedor').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Editar Fornecedor';
+      document.getElementById('nomeFornecedor').value = f.nome;
+      document.getElementById('cnpjFornecedor').value = f.cnpj;
+      document.getElementById('statusFornecedor').value = f.status.toLowerCase();
+      document.getElementById('plantas').value = '';
+      document.getElementById('janelas').value = f.janelas;
+      document.getElementById('tipoFrete').value = 'FOB';
+      document.querySelector('.modal-tab[data-tab="dados"]').click();
+    };
+    window.excluirFornecedor = function(idx) {
+      if(confirm('Confirma exclusão?')) {
+        fornecedores.splice(idx,1);
+        renderTabela();
+      }
+    };
+    document.getElementById('formFornecedor').onsubmit = function(e) {
+      e.preventDefault();
+      // Validação básica
+      if(!document.getElementById('nomeFornecedor').value.trim() || !document.getElementById('cnpjFornecedor').value.trim()) {
+        alert('Preencha os campos obrigatórios.');
+        return;
+      }
+      document.getElementById('closeModal').click();
+      // Simulação de salvar
+      renderTabela();
+    };
+    document.getElementById('btnImportar').onclick = function() {
+      alert('Funcionalidade de importação em massa via Excel em desenvolvimento.');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Componente Tabela Responsiva - ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --table-bg: #fff;
+      --table-header-bg: #00B5D3;
+      --table-header-color: #fff;
+      --table-row-alt: #f7f7f7;
+      --table-border: #e3e1e8;
+      --table-radius: 12px;
+      --table-font: 'Demo', 'Inter', Arial, sans-serif;
+      --table-accent: #61CE70;
+    }
+    .icl-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: var(--table-radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      background: var(--table-bg);
+    }
+    table.icl-table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      font-family: var(--table-font);
+      font-size: 15px;
+      background: var(--table-bg);
+      border-radius: var(--table-radius);
+      overflow: hidden;
+    }
+    thead tr {
+      background: var(--table-header-bg);
+      color: var(--table-header-color);
+    }
+    thead th {
+      padding: 14px 12px;
+      text-align: left;
+      font-weight: 500;
+      position: relative;
+      user-select: none;
+      cursor: pointer;
+    }
+    thead th.sortable:after {
+      content: '\f0dc'; /* FontAwesome sort icon */
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      font-size: 13px;
+      color: #fff;
+      opacity: 0.7;
+    }
+    thead th.sorted-asc:after {
+      content: '\f0de'; /* up arrow */
+      color: var(--table-accent);
+      opacity: 1;
+    }
+    thead th.sorted-desc:after {
+      content: '\f0dd'; /* down arrow */
+      color: var(--table-accent);
+      opacity: 1;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--table-border);
+      transition: background .18s;
+    }
+    tbody tr:nth-child(even) {
+      background: var(--table-row-alt);
+    }
+    tbody tr:hover {
+      background: #eaf9fc;
+    }
+    td {
+      padding: 12px 10px;
+      color: #002846;
+      font-size: 15px;
+    }
+    tfoot tr {
+      background: #f2f2f2;
+      color: #002846;
+      font-size: 14px;
+    }
+    tfoot td {
+      padding: 10px;
+    }
+    @media (max-width: 700px) {
+      .icl-table-wrapper { border-radius: 0; }
+      table.icl-table { font-size: 13px; }
+      thead th, td { padding: 10px 6px; }
+    }
+    /* Paginação */
+    .icl-table-pagination {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      margin: 14px 0 0 0;
+      font-family: var(--table-font);
+    }
+    .icl-table-pagination button {
+      background: var(--table-header-bg);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .icl-table-pagination button.active {
+      background: var(--table-accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    .icl-table-pagination button:disabled {
+      background: #e3e1e8;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+  </style>
+  <script>
+    // Ordenação simples
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('th.sortable').forEach(function(th) {
+        th.addEventListener('click', function() {
+          let table = th.closest('table');
+          let tbody = table.querySelector('tbody');
+          let idx = Array.from(th.parentNode.children).indexOf(th);
+          let rows = Array.from(tbody.querySelectorAll('tr'));
+          let asc = !th.classList.contains('sorted-asc');
+          table.querySelectorAll('th').forEach(t => t.classList.remove('sorted-asc', 'sorted-desc'));
+          th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
+          rows.sort(function(a, b) {
+            let va = a.children[idx].textContent.trim().toLowerCase();
+            let vb = b.children[idx].textContent.trim().toLowerCase();
+            if (!isNaN(va) && !isNaN(vb)) {
+              va = parseFloat(va); vb = parseFloat(vb);
+            }
+            if (va < vb) return asc ? -1 : 1;
+            if (va > vb) return asc ? 1 : -1;
+            return 0;
+          });
+          rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+      // Paginação simples
+      let pageSize = 5;
+      let table = document.querySelector('.icl-table');
+      if (!table) return;
+      let tbody = table.querySelector('tbody');
+      let rows = Array.from(tbody.querySelectorAll('tr'));
+      let pagination = document.querySelector('.icl-table-pagination');
+      let pageCount = Math.ceil(rows.length / pageSize);
+      function showPage(page) {
+        rows.forEach((row, i) => {
+          row.style.display = (i >= (page-1)*pageSize && i < page*pageSize) ? '' : 'none';
+        });
+        pagination.querySelectorAll('button').forEach((btn, idx) => {
+          btn.classList.toggle('active', idx+1 === page);
+        });
+      }
+      if (pagination) {
+        pagination.innerHTML = '';
+        for (let i=1; i<=pageCount; i++) {
+          let btn = document.createElement('button');
+          btn.textContent = i;
+          btn.onclick = () => showPage(i);
+          pagination.appendChild(btn);
+        }
+        showPage(1);
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="icl-table-wrapper">
+    <table class="icl-table" aria-label="Tabela de Solicitações">
+      <thead>
+        <tr>
+          <th class="sortable">ID</th>
+          <th class="sortable">Fornecedor</th>
+          <th class="sortable">Unidade</th>
+          <th class="sortable">Data/Hora</th>
+          <th class="sortable">Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>001</td>
+          <td>ABC Ltda</td>
+          <td>São Paulo</td>
+          <td>12/07/2024 09:00</td>
+          <td><span style="color:var(--primary);font-weight:600;">Pendente</span></td>
+          <td><button title="Visualizar"><i class="fa fa-eye"></i></button></td>
+        </tr>
+        <tr>
+          <td>002</td>
+          <td>XYZ Agro</td>
+          <td>Campinas</td>
+          <td>13/07/2024 10:30</td>
+          <td><span style="color:var(--table-accent);font-weight:600;">Confirmado</span></td>
+          <td><button title="Editar"><i class="fa fa-edit"></i></button></td>
+        </tr>
+        <tr>
+          <td>003</td>
+          <td>TransLog</td>
+          <td>Ribeirão Preto</td>
+          <td>14/07/2024 11:00</td>
+          <td><span style="color:var(--danger);font-weight:600;">Recusado</span></td>
+          <td><button title="Reenviar"><i class="fa fa-redo"></i></button></td>
+        </tr>
+        <tr>
+          <td>004</td>
+          <td>FastCargo</td>
+          <td>Curitiba</td>
+          <td>15/07/2024 08:45</td>
+          <td><span style="color:var(--warning);font-weight:600;">Aguardando</span></td>
+          <td><button title="Enviar NF"><i class="fa fa-file-upload"></i></button></td>
+        </tr>
+        <tr>
+          <td>005</td>
+          <td>ABC Ltda</td>
+          <td>São Paulo</td>
+          <td>16/07/2024 09:30</td>
+          <td><span style="color:var(--primary);font-weight:600;">Pendente</span></td>
+          <td><button title="Visualizar"><i class="fa fa-eye"></i></button></td>
+        </tr>
+        <tr>
+          <td>006</td>
+          <td>XYZ Agro</td>
+          <td>Campinas</td>
+          <td>17/07/2024 10:00</td>
+          <td><span style="color:var(--table-accent);font-weight:600;">Confirmado</span></td>
+          <td><button title="Editar"><i class="fa fa-edit"></i></button></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="6">Total de solicitações: 6</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="icl-table-pagination"></div>
+</body>
+</html>

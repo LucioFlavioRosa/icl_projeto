@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Transportadoras | Gestão de Fretes</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7f9fa; }
+    .container { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 32px; }
+    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 24px; }
+    .actions-bar { display: flex; gap: 12px; margin-bottom: 16px; }
+    .btn { background: #00B5D3; color: #fff; border-radius: 33px; border: none; padding: 10px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #002846; }
+    .table-responsive { overflow-x: auto; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #eaeaea; text-align: left; }
+    th { background: #f1f7fa; color: #002846; font-weight: 500; }
+    tr:hover { background: #f0f8fb; }
+    .filter-bar { display: flex; gap: 16px; margin-bottom: 18px; }
+    .filter-bar input, .filter-bar select { padding: 8px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-bg { display: none; position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; }
+    .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 16px; box-shadow: 0 6px 40px rgba(0,0,0,0.13); width: 700px; max-width: 95vw; z-index: 1001; display: none; }
+    .modal-header { padding: 18px 24px 0 24px; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { font-size: 1.3rem; color: #00B5D3; margin: 0; }
+    .close-modal { background: none; border: none; font-size: 1.7rem; color: #002846; cursor: pointer; }
+    .modal-tabs { display: flex; border-bottom: 1px solid #eaeaea; margin-top: 8px; }
+    .modal-tab { flex: 1; padding: 12px 0; text-align: center; cursor: pointer; color: #002846; font-weight: 500; background: #f7f9fa; border-right: 1px solid #eaeaea; }
+    .modal-tab:last-child { border-right: none; }
+    .modal-tab.active { background: #fff; color: #00B5D3; border-bottom: 2px solid #00B5D3; }
+    .modal-content { padding: 24px; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 500; color: #002846; margin-bottom: 6px; }
+    input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+    @media (max-width: 800px) { .container { padding: 12px; } .modal { width: 98vw; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Transportadoras</h1>
+    <div class="actions-bar">
+      <button class="btn" id="btnNovo">Nova Transportadora</button>
+      <button class="btn" id="btnImportar">Importar Excel</button>
+    </div>
+    <div class="filter-bar">
+      <input type="text" id="buscaTransportadora" placeholder="Buscar transportadora..." aria-label="Buscar transportadora">
+      <select id="filtroStatus">
+        <option value="">Status</option>
+        <option value="ativo">Ativa</option>
+        <option value="inativa">Inativa</option>
+      </select>
+    </div>
+    <div class="table-responsive">
+      <table aria-label="Tabela de transportadoras">
+        <thead>
+          <tr>
+            <th>Transportadora</th>
+            <th>CNPJ</th>
+            <th>Contato</th>
+            <th>Status</th>
+            <th>Tipos de Veículo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="listaTransportadoras">
+          <!-- Linhas dinâmicas -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modal de Cadastro/Edição -->
+  <div class="modal-bg" id="modalBg"></div>
+  <div class="modal" id="modalTransportadora" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <h2 id="modalTitle">Nova Transportadora</h2>
+      <button class="close-modal" id="closeModal" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" data-tab="dados">Dados Cadastrais</div>
+      <div class="modal-tab" data-tab="contrato">Dados Contratuais</div>
+      <div class="modal-tab" data-tab="sla">SLAs</div>
+      <div class="modal-tab" data-tab="precos">Tabela de Preços</div>
+    </div>
+    <form id="formTransportadora">
+      <div class="modal-content" id="tab-dados">
+        <div class="form-group">
+          <label for="nomeTransportadora">Nome da Transportadora *</label>
+          <input type="text" id="nomeTransportadora" name="nomeTransportadora" required>
+        </div>
+        <div class="form-group">
+          <label for="cnpjTransportadora">CNPJ *</label>
+          <input type="text" id="cnpjTransportadora" name="cnpjTransportadora" required pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}">
+        </div>
+        <div class="form-group">
+          <label for="contatoTransportadora">Contato</label>
+          <input type="text" id="contatoTransportadora" name="contatoTransportadora">
+        </div>
+        <div class="form-group">
+          <label for="statusTransportadora">Status</label>
+          <select id="statusTransportadora" name="statusTransportadora">
+            <option value="ativo">Ativa</option>
+            <option value="inativa">Inativa</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-content" id="tab-contrato" style="display:none;">
+        <div class="form-group">
+          <label for="inscricaoEstadual">Inscrição Estadual</label>
+          <input type="text" id="inscricaoEstadual" name="inscricaoEstadual">
+        </div>
+        <div class="form-group">
+          <label for="dadosContratuais">Dados Contratuais</label>
+          <textarea id="dadosContratuais" name="dadosContratuais" rows="2"></textarea>
+        </div>
+      </div>
+      <div class="modal-content" id="tab-sla" style="display:none;">
+        <div class="form-group">
+          <label for="sla">SLA (dias)</label>
+          <input type="number" id="sla" name="sla" min="0">
+        </div>
+      </div>
+      <div class="modal-content" id="tab-precos" style="display:none;">
+        <div class="form-group">
+          <label for="tabelaPrecos">Tabela de Preços (opcional)</label>
+          <textarea id="tabelaPrecos" name="tabelaPrecos" rows="2" placeholder="Ex: Veículo X - R$ 2,50/km"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="tiposVeiculo">Tipos de Veículo Disponíveis</label>
+          <input type="text" id="tiposVeiculo" name="tiposVeiculo" placeholder="Ex: Truck, Carreta, VUC">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn">Salvar</button>
+        <button type="button" class="btn" id="cancelModal">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Tabs modal
+    document.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        ['dados','contrato','sla','precos'].forEach(t => {
+          document.getElementById('tab-'+t).style.display = (tab.dataset.tab === t) ? 'block' : 'none';
+        });
+      });
+    });
+    // Modal open/close
+    document.getElementById('btnNovo').onclick = function() {
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalTransportadora').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Nova Transportadora';
+      document.getElementById('formTransportadora').reset();
+      document.querySelector('.modal-tab[data-tab="dados"]').click();
+    };
+    document.getElementById('closeModal').onclick = document.getElementById('cancelModal').onclick = function() {
+      document.getElementById('modalBg').style.display = 'none';
+      document.getElementById('modalTransportadora').style.display = 'none';
+    };
+    document.getElementById('modalBg').onclick = function() {
+      document.getElementById('closeModal').click();
+    };
+    // Simulação de tabela dinâmica
+    const transportadoras = [
+      {nome:'Transporte Alfa', cnpj:'12.345.678/0001-90', contato:'(11) 99999-1234', status:'Ativa', tipos:'Truck, VUC'},
+      {nome:'Transporte Beta', cnpj:'98.765.432/0001-12', contato:'(31) 88888-4321', status:'Inativa', tipos:'Carreta'}
+    ];
+    function renderTabela() {
+      const busca = document.getElementById('buscaTransportadora').value.toLowerCase();
+      const status = document.getElementById('filtroStatus').value;
+      let html = '';
+      transportadoras.filter(t =>
+        (!busca || t.nome.toLowerCase().includes(busca)) &&
+        (!status || t.status.toLowerCase() === status)
+      ).forEach((t, idx) => {
+        html += `<tr>
+          <td>${t.nome}</td>
+          <td>${t.cnpj}</td>
+          <td>${t.contato}</td>
+          <td>${t.status}</td>
+          <td>${t.tipos}</td>
+          <td>
+            <button class="btn" onclick="editarTransportadora(${idx})">Editar</button>
+            <button class="btn" onclick="excluirTransportadora(${idx})">Excluir</button>
+          </td>
+        </tr>`;
+      });
+      document.getElementById('listaTransportadoras').innerHTML = html;
+    }
+    document.getElementById('buscaTransportadora').oninput = renderTabela;
+    document.getElementById('filtroStatus').onchange = renderTabela;
+    renderTabela();
+    window.editarTransportadora = function(idx) {
+      const t = transportadoras[idx];
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalTransportadora').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Editar Transportadora';
+      document.getElementById('nomeTransportadora').value = t.nome;
+      document.getElementById('cnpjTransportadora').value = t.cnpj;
+      document.getElementById('contatoTransportadora').value = t.contato;
+      document.getElementById('statusTransportadora').value = t.status.toLowerCase();
+      document.getElementById('tiposVeiculo').value = t.tipos;
+      document.querySelector('.modal-tab[data-tab="dados"]').click();
+    };
+    window.excluirTransportadora = function(idx) {
+      if(confirm('Confirma exclusão?')) {
+        transportadoras.splice(idx,1);
+        renderTabela();
+      }
+    };
+    document.getElementById('formTransportadora').onsubmit = function(e) {
+      e.preventDefault();
+      // Validação básica
+      if(!document.getElementById('nomeTransportadora').value.trim() || !document.getElementById('cnpjTransportadora').value.trim()) {
+        alert('Preencha os campos obrigatórios.');
+        return;
+      }
+      document.getElementById('closeModal').click();
+      // Simulação de salvar
+      renderTabela();
+    };
+    document.getElementById('btnImportar').onclick = function() {
+      alert('Funcionalidade de importação em massa via Excel em desenvolvimento.');
+    };
+  </script>
+</body>
+</html>

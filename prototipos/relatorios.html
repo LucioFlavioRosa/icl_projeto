@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatórios e Análises | Gestão de Fretes ICL</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <style>
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7fafd; }
+    .section-relatorios { max-width: 1200px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); padding: 40px 32px; }
+    .relatorios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .relatorios-title { font-size: 2.2rem; color: #00B5D3; font-weight: 400; }
+    .relatorios-filtros { display: flex; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+    .relatorios-filtros select, .relatorios-filtros input { font-size: 1rem; border: 1px solid #00B5D340; border-radius: 8px; padding: 8px 14px; }
+    .relatorios-filtros label { font-weight: 500; color: #002846; margin-right: 8px; }
+    .relatorios-actions { display: flex; gap: 16px; margin-bottom: 24px; }
+    .btn-export { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 12px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn-export:hover { background: #002846; }
+    .relatorios-graficos { background: #f7fafd; border-radius: 12px; padding: 24px; min-height: 340px; }
+    .chart-container { width: 100%; max-width: 900px; margin: 0 auto; }
+    @media (max-width: 900px) { .section-relatorios { padding: 16px; } .chart-container { max-width: 100%; } }
+  </style>
+</head>
+<body>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
+      </div>
+      <nav class="menu_container">
+        <ul class="menu_primary_trees">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="agendamentos.html">Agendamentos</a></li>
+          <li><a href="usuarios.html">Usuários</a></li>
+          <li><a href="relatorios.html" class="active">Relatórios</a></li>
+        </ul>
+      </nav>
+      <div class="user_menu">
+        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
+        <div class="user_dropdown">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário" style="width:32px; border-radius:50%;">
+          <div class="dropdown-content">
+            <a href="#perfil">Perfil</a>
+            <a href="#configuracoes">Configurações</a>
+            <a href="#logout">Sair</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="section-relatorios">
+      <div class="relatorios-header">
+        <span class="relatorios-title">Relatórios & Análises de Performance</span>
+        <div class="relatorios-actions">
+          <button class="btn-export" id="exportExcel" aria-label="Exportar Excel">Exportar Excel</button>
+          <button class="btn-export" id="exportPDF" aria-label="Exportar PDF">Exportar PDF</button>
+        </div>
+      </div>
+      <form class="relatorios-filtros" id="filtrosRelatorio">
+        <div>
+          <label for="tipoRelatorio">Tipo de Relatório:</label>
+          <select id="tipoRelatorio" name="tipoRelatorio">
+            <option value="volume">Volume de Fretes</option>
+            <option value="atrasos">Taxa de Atrasos</option>
+            <option value="estadia">Tempo de Estadia</option>
+            <option value="fornecedor">Performance por Fornecedor</option>
+            <option value="transportadora">Performance por Transportadora</option>
+          </select>
+        </div>
+        <div>
+          <label for="periodo">Período:</label>
+          <input type="month" id="periodo" name="periodo" value="2024-06">
+        </div>
+        <div>
+          <label for="parametro">Parâmetro:</label>
+          <select id="parametro" name="parametro">
+            <option value="todos">Todos</option>
+            <option value="fornecedor">Fornecedor</option>
+            <option value="transportadora">Transportadora</option>
+            <option value="tipoFrete">Tipo de Frete</option>
+          </select>
+        </div>
+      </form>
+      <div class="relatorios-graficos">
+        <div class="chart-container">
+          <canvas id="graficoRelatorio" aria-label="Gráfico do Relatório" role="img"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Dados mock para os relatórios
+    const dadosRelatorios = {
+      volume: {
+        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
+        datasets: [{ label: "Fretes", data: [120, 150, 180, 140, 200, 170], backgroundColor: '#00B5D3' }]
+      },
+      atrasos: {
+        labels: ["Fornecedor A", "Fornecedor B", "Fornecedor C", "Fornecedor D"],
+        datasets: [{ label: "% Atrasos", data: [12, 7, 18, 5], backgroundColor: '#ff6900' }]
+      },
+      estadia: {
+        labels: ["Coleta", "Descarga"],
+        datasets: [{ label: "Tempo Médio (h)", data: [2.3, 1.7], backgroundColor: ['#00B5D3', '#cf2e2e'] }]
+      },
+      fornecedor: {
+        labels: ["Fornecedor A", "Fornecedor B", "Fornecedor C"],
+        datasets: [{ label: "Performance (%)", data: [89, 76, 92], backgroundColor: '#00d084' }]
+      },
+      transportadora: {
+        labels: ["Transp. X", "Transp. Y", "Transp. Z"],
+        datasets: [{ label: "Aceites (%)", data: [95, 88, 91], backgroundColor: '#0693e3' }]
+      }
+    };
+    let chart;
+    function renderChart(tipo) {
+      const ctx = document.getElementById('graficoRelatorio').getContext('2d');
+      if (chart) chart.destroy();
+      let config;
+      switch(tipo) {
+        case 'volume':
+          config = {
+            type: 'bar',
+            data: dadosRelatorios.volume,
+            options: { responsive: true, plugins: { legend: { display: false } } }
+          };
+          break;
+        case 'atrasos':
+          config = {
+            type: 'bar',
+            data: dadosRelatorios.atrasos,
+            options: { responsive: true, plugins: { legend: { display: false } } }
+          };
+          break;
+        case 'estadia':
+          config = {
+            type: 'pie',
+            data: {
+              labels: dadosRelatorios.estadia.labels,
+              datasets: [{ label: 'Tempo Médio', data: dadosRelatorios.estadia.datasets[0].data, backgroundColor: dadosRelatorios.estadia.datasets[0].backgroundColor }]
+            },
+            options: { responsive: true }
+          };
+          break;
+        case 'fornecedor':
+          config = {
+            type: 'bar',
+            data: dadosRelatorios.fornecedor,
+            options: { responsive: true, plugins: { legend: { display: false } } }
+          };
+          break;
+        case 'transportadora':
+          config = {
+            type: 'bar',
+            data: dadosRelatorios.transportadora,
+            options: { responsive: true, plugins: { legend: { display: false } } }
+          };
+          break;
+      }
+      chart = new Chart(ctx, config);
+    }
+    document.getElementById('tipoRelatorio').addEventListener('change', function(e) {
+      renderChart(e.target.value);
+    });
+    // Inicialização
+    renderChart(document.getElementById('tipoRelatorio').value);
+    // Exportação (placeholders)
+    document.getElementById('exportExcel').onclick = function() { alert('Exportação para Excel em desenvolvimento.'); };
+    document.getElementById('exportPDF').onclick = function() { alert('Exportação para PDF em desenvolvimento.'); };
+  </script>
+</body>
+</html>

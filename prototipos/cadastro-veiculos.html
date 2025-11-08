@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Tipos de Veículo | Gestão de Fretes</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body { font-family: 'Demo', 'Inter', sans-serif; background: #f7f9fa; }
+    .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 32px; }
+    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 24px; }
+    .actions-bar { display: flex; gap: 12px; margin-bottom: 16px; }
+    .btn { background: #00B5D3; color: #fff; border-radius: 33px; border: none; padding: 10px 28px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .btn:hover { background: #002846; }
+    .table-responsive { overflow-x: auto; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #eaeaea; text-align: left; }
+    th { background: #f1f7fa; color: #002846; font-weight: 500; }
+    tr:hover { background: #f0f8fb; }
+    .filter-bar { display: flex; gap: 16px; margin-bottom: 18px; }
+    .filter-bar input { padding: 8px 12px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-bg { display: none; position: fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; }
+    .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 16px; box-shadow: 0 6px 40px rgba(0,0,0,0.13); width: 480px; max-width: 95vw; z-index: 1001; display: none; }
+    .modal-header { padding: 18px 24px 0 24px; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h2 { font-size: 1.3rem; color: #00B5D3; margin: 0; }
+    .close-modal { background: none; border: none; font-size: 1.7rem; color: #002846; cursor: pointer; }
+    .modal-content { padding: 24px; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 500; color: #002846; margin-bottom: 6px; }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid #00B5D340; border-radius: 8px; font-size: 1rem; }
+    .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+    @media (max-width: 800px) { .container { padding: 12px; } .modal { width: 98vw; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cadastro de Tipos de Veículo</h1>
+    <div class="actions-bar">
+      <button class="btn" id="btnNovo">Novo Tipo de Veículo</button>
+      <button class="btn" id="btnImportar">Importar Excel</button>
+    </div>
+    <div class="filter-bar">
+      <input type="text" id="buscaVeiculo" placeholder="Buscar tipo de veículo..." aria-label="Buscar tipo de veículo">
+    </div>
+    <div class="table-responsive">
+      <table aria-label="Tabela de tipos de veículo">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Capacidade Peso (kg)</th>
+            <th>Capacidade Volume (m³)</th>
+            <th>Custo por km (R$)</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="listaVeiculos">
+          <!-- Linhas dinâmicas -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Modal de Cadastro/Edição -->
+  <div class="modal-bg" id="modalBg"></div>
+  <div class="modal" id="modalVeiculo" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <h2 id="modalTitle">Novo Tipo de Veículo</h2>
+      <button class="close-modal" id="closeModal" aria-label="Fechar">&times;</button>
+    </div>
+    <form id="formVeiculo">
+      <div class="modal-content">
+        <div class="form-group">
+          <label for="tipoVeiculo">Tipo *</label>
+          <input type="text" id="tipoVeiculo" name="tipoVeiculo" required>
+        </div>
+        <div class="form-group">
+          <label for="capacidadePeso">Capacidade Peso (kg) *</label>
+          <input type="number" id="capacidadePeso" name="capacidadePeso" required min="0">
+        </div>
+        <div class="form-group">
+          <label for="capacidadeVolume">Capacidade Volume (m³) *</label>
+          <input type="number" id="capacidadeVolume" name="capacidadeVolume" required min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label for="custoKm">Custo por km (R$)</label>
+          <input type="number" id="custoKm" name="custoKm" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn">Salvar</button>
+        <button type="button" class="btn" id="cancelModal">Cancelar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Modal open/close
+    document.getElementById('btnNovo').onclick = function() {
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalVeiculo').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Novo Tipo de Veículo';
+      document.getElementById('formVeiculo').reset();
+    };
+    document.getElementById('closeModal').onclick = document.getElementById('cancelModal').onclick = function() {
+      document.getElementById('modalBg').style.display = 'none';
+      document.getElementById('modalVeiculo').style.display = 'none';
+    };
+    document.getElementById('modalBg').onclick = function() {
+      document.getElementById('closeModal').click();
+    };
+    // Simulação de tabela dinâmica
+    const veiculos = [
+      {tipo:'Truck', peso:12000, volume:45, custo:2.5},
+      {tipo:'Carreta', peso:27000, volume:70, custo:3.2}
+    ];
+    function renderTabela() {
+      const busca = document.getElementById('buscaVeiculo').value.toLowerCase();
+      let html = '';
+      veiculos.filter(v =>
+        (!busca || v.tipo.toLowerCase().includes(busca))
+      ).forEach((v, idx) => {
+        html += `<tr>
+          <td>${v.tipo}</td>
+          <td>${v.peso}</td>
+          <td>${v.volume}</td>
+          <td>${v.custo ? v.custo.toFixed(2) : '-'}</td>
+          <td>
+            <button class="btn" onclick="editarVeiculo(${idx})">Editar</button>
+            <button class="btn" onclick="excluirVeiculo(${idx})">Excluir</button>
+          </td>
+        </tr>`;
+      });
+      document.getElementById('listaVeiculos').innerHTML = html;
+    }
+    document.getElementById('buscaVeiculo').oninput = renderTabela;
+    renderTabela();
+    window.editarVeiculo = function(idx) {
+      const v = veiculos[idx];
+      document.getElementById('modalBg').style.display = 'block';
+      document.getElementById('modalVeiculo').style.display = 'block';
+      document.getElementById('modalTitle').textContent = 'Editar Tipo de Veículo';
+      document.getElementById('tipoVeiculo').value = v.tipo;
+      document.getElementById('capacidadePeso').value = v.peso;
+      document.getElementById('capacidadeVolume').value = v.volume;
+      document.getElementById('custoKm').value = v.custo;
+    };
+    window.excluirVeiculo = function(idx) {
+      if(confirm('Confirma exclusão?')) {
+        veiculos.splice(idx,1);
+        renderTabela();
+      }
+    };
+    document.getElementById('formVeiculo').onsubmit = function(e) {
+      e.preventDefault();
+      // Validação básica
+      if(!document.getElementById('tipoVeiculo').value.trim() || !document.getElementById('capacidadePeso').value || !document.getElementById('capacidadeVolume').value) {
+        alert('Preencha os campos obrigatórios.');
+        return;
+      }
+      document.getElementById('closeModal').click();
+      // Simulação de salvar
+      renderTabela();
+    };
+    document.getElementById('btnImportar').onclick = function() {
+      alert('Funcionalidade de importação em massa via Excel em desenvolvimento.');
+    };
+  </script>
+</body>
+</html>

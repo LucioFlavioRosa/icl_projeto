@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Header Componente | Gestão de Fretes ICL</title>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css">
+  <style>
+    .header_section { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header_wrapper { display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 80px; }
+    .logo_wrapper { display: flex; align-items: center; }
+    .header_logo img { height: 36px; }
+    .menu_container { margin-left: 40px; }
+    .menu_primary_trees { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+    .menu_primary_trees li a { font-family: Demo, sans-serif; font-size: 16px; color: #002846; font-weight: 400; text-decoration: none; padding: 0 18px; line-height: 80px; transition: color .3s; position: relative; }
+    .menu_primary_trees li a.active, .menu_primary_trees li a:hover { color: #00B5D3; }
+    .menu_primary_trees li .dropdown { position: absolute; top: 80px; left: 0; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-radius: 8px; display: none; min-width: 180px; z-index: 999; }
+    .menu_primary_trees li:hover .dropdown { display: block; }
+    .menu_primary_trees li .dropdown a { display: block; padding: 12px 18px; color: #002846; border-bottom: 1px solid #f2f2f2; }
+    .menu_primary_trees li .dropdown a:last-child { border-bottom: none; }
+    .user_menu { display: flex; align-items: center; gap: 22px; }
+    .notificacao { position: relative; font-size: 22px; color: #00B5D3; cursor: pointer; }
+    .notificacao .badge { position: absolute; top: -6px; right: -10px; background: #cf2e2e; color: #fff; font-size: 12px; border-radius: 50%; padding: 2px 7px; font-weight: 500; }
+    .user_dropdown { position: relative; display: inline-block; }
+    .user_dropdown img { width: 32px; border-radius: 50%; cursor: pointer; }
+    .user_dropdown .dropdown-content { display: none; position: absolute; right: 0; top: 40px; background: #fff; min-width: 160px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); border-radius: 10px; z-index: 999; }
+    .user_dropdown:hover .dropdown-content, .user_dropdown:focus-within .dropdown-content { display: block; }
+    .user_dropdown .dropdown-content a { color: #002846; padding: 12px 18px; text-decoration: none; display: block; border-bottom: 1px solid #f2f2f2; }
+    .user_dropdown .dropdown-content a:last-child { border-bottom: none; }
+    @media (max-width: 900px) { .header_wrapper { padding: 0 12px; } .menu_primary_trees li a { padding: 0 8px; } }
+  </style>
+</head>
+<body>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="dashboard.html" class="header_logo"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" width="87" height="36"></a>
+      </div>
+      <nav class="menu_container">
+        <ul class="menu_primary_trees">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li>
+            <a href="#">Módulos</a>
+            <div class="dropdown">
+              <a href="agendamentos.html">Agendamentos</a>
+              <a href="usuarios.html">Usuários</a>
+              <a href="relatorios.html">Relatórios</a>
+              <a href="cadastros.html">Cadastros</a>
+            </div>
+          </li>
+          <li><a href="configuracoes.html">Configurações</a></li>
+        </ul>
+      </nav>
+      <div class="user_menu">
+        <span class="notificacao" aria-label="Notificações"><i class="fa fa-bell"></i><span class="badge">3</span></span>
+        <div class="user_dropdown" tabindex="0">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Usuário">
+          <div class="dropdown-content">
+            <a href="#perfil">Perfil</a>
+            <a href="#configuracoes">Configurações</a>
+            <a href="#logout">Sair</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <script>
+    // Nenhum JS adicional necessário para dropdowns simples, pois o CSS cobre hover/focus
+  </script>
+</body>
+</html>

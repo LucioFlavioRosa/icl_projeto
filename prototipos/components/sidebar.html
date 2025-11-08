@@ -1,0 +1,122 @@
+<!-- Sidebar de Navegação - Sistema de Gestão de Fretes -->
+<aside id="sidebar-nav" class="sidebar-nav" aria-label="Navegação lateral">
+  <button id="sidebar-toggle" aria-label="Expandir/Colapsar menu" class="sidebar-toggle">
+    <i class="fa fa-bars"></i>
+  </button>
+  <nav class="sidebar-menu">
+    <ul>
+      <li class="sidebar-section">
+        <span class="sidebar-title"><i class="fa fa-calendar-check"></i> Agendamentos</span>
+        <ul>
+          <li class="sidebar-item active"><a href="#solicitacoes"><i class="fa fa-file-alt"></i> Solicitações</a></li>
+          <li class="sidebar-item"><a href="#historico"><i class="fa fa-history"></i> Histórico</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-section">
+        <span class="sidebar-title"><i class="fa fa-database"></i> Cadastros</span>
+        <ul>
+          <li class="sidebar-item"><a href="#fornecedores"><i class="fa fa-industry"></i> Fornecedores</a></li>
+          <li class="sidebar-item"><a href="#transportadoras"><i class="fa fa-truck"></i> Transportadoras</a></li>
+          <li class="sidebar-item"><a href="#veiculos"><i class="fa fa-car"></i> Tipos de Veículo</a></li>
+          <li class="sidebar-item"><a href="#locais"><i class="fa fa-map-marker-alt"></i> Locais de Descarga</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-section">
+        <span class="sidebar-title"><i class="fa fa-chart-bar"></i> Relatórios</span>
+        <ul>
+          <li class="sidebar-item"><a href="#painel"><i class="fa fa-tachometer-alt"></i> Painel</a></li>
+          <li class="sidebar-item"><a href="#pendencias"><i class="fa fa-exclamation-circle"></i> Pendências</a></li>
+          <li class="sidebar-item"><a href="#analises"><i class="fa fa-file-excel"></i> Análises</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-section">
+        <span class="sidebar-title"><i class="fa fa-cog"></i> Configurações</span>
+        <ul>
+          <li class="sidebar-item"><a href="#usuarios"><i class="fa fa-users-cog"></i> Usuários</a></li>
+          <li class="sidebar-item"><a href="#acessos"><i class="fa fa-key"></i> Perfis de Acesso</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <style>
+    .sidebar-nav {
+      width: 260px;
+      background: #fff;
+      border-right: 1px solid #eee;
+      min-height: 100vh;
+      position: fixed;
+      left: 0; top: 0;
+      z-index: 1000;
+      transition: width .3s;
+      font-family: 'Demo', sans-serif;
+      box-shadow: 0 0 8px rgba(0,0,0,0.07);
+    }
+    .sidebar-nav.collapsed { width: 60px; }
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      color: #002846;
+      font-size: 22px;
+      padding: 16px 20px;
+      cursor: pointer;
+      outline: none;
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+    .sidebar-menu ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar-section { margin-top: 18px; }
+    .sidebar-title {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      color: #002846;
+      font-size: 16px;
+      padding: 10px 22px 6px 22px;
+      transition: color .2s;
+    }
+    .sidebar-title i { margin-right: 10px; }
+    .sidebar-item { margin: 0; }
+    .sidebar-item a {
+      display: flex;
+      align-items: center;
+      color: #7A7A7A;
+      text-decoration: none;
+      font-size: 15px;
+      padding: 8px 22px;
+      border-radius: 8px;
+      transition: background .2s, color .2s;
+    }
+    .sidebar-item a i { margin-right: 8px; }
+    .sidebar-item.active a, .sidebar-item a:hover {
+      background: #00B5D3;
+      color: #fff;
+    }
+    .sidebar-nav.collapsed .sidebar-title, .sidebar-nav.collapsed .sidebar-item a {
+      padding-left: 12px; padding-right: 12px;
+      font-size: 0;
+    }
+    .sidebar-nav.collapsed .sidebar-title i, .sidebar-nav.collapsed .sidebar-item a i {
+      font-size: 20px;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .sidebar-nav { position: absolute; min-height: 100%; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
+  <script>
+    const sidebar = document.getElementById('sidebar-nav');
+    const toggle = document.getElementById('sidebar-toggle');
+    toggle.addEventListener('click', function() {
+      sidebar.classList.toggle('collapsed');
+    });
+    // Ativação de item (exemplo)
+    document.querySelectorAll('.sidebar-item a').forEach(function(link){
+      link.addEventListener('click',function(){
+        document.querySelectorAll('.sidebar-item').forEach(function(item){ item.classList.remove('active'); });
+        this.parentElement.classList.add('active');
+      });
+    });
+  </script>
+</aside>

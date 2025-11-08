@@ -1,0 +1,105 @@
+<!-- Modal Reutilizável - Sistema de Gestão de Fretes -->
+<div id="modal-reutilizavel" class="modal-overlay" aria-modal="true" aria-hidden="true" style="display:none;">
+  <div class="modal-content" role="dialog" aria-labelledby="modal-header" aria-describedby="modal-body">
+    <div class="modal-header" id="modal-header">
+      <h3 style="margin:0; font-size:22px; color:#00B5D3; font-family:'Demo',sans-serif;">Título do Modal</h3>
+      <button class="modal-close" aria-label="Fechar" id="modal-close-btn"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modal-body" style="padding:18px 0; color:#002846; font-size:16px; font-family:'Inter',sans-serif;">
+      Conteúdo do modal aqui...
+    </div>
+    <div class="modal-footer" id="modal-footer" style="text-align:right; padding-top:12px;">
+      <button class="modal-action" style="background:#00B5D3; color:#fff; border:none; border-radius:33px; padding:10px 28px; font-family:'Demo',sans-serif; font-size:16px; cursor:pointer;">Confirmar</button>
+    </div>
+  </div>
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,40,70,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      min-width: 320px;
+      max-width: 470px;
+      width: 90vw;
+      padding: 30px 32px 18px 32px;
+      animation: modalOpen .35s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes modalOpen {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #00B5D3;
+      font-size: 22px;
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .modal-close:hover { color: #002846; }
+    .modal-footer button.modal-action {
+      background: #00B5D3;
+      color: #fff;
+      border: none;
+      border-radius: 33px;
+      padding: 10px 28px;
+      font-family: 'Demo',sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .modal-footer button.modal-action:hover { background: #002846; }
+    @media (max-width: 600px) {
+      .modal-content { padding: 18px 8px 12px 8px; min-width: 90vw; }
+      .modal-header h3 { font-size: 18px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
+  <script>
+    function openModal(contentHtml, title, footerHtml) {
+      const overlay = document.getElementById('modal-reutilizavel');
+      overlay.classList.add('active');
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden','false');
+      if(title) document.getElementById('modal-header').querySelector('h3').innerText = title;
+      if(contentHtml) document.getElementById('modal-body').innerHTML = contentHtml;
+      if(footerHtml) document.getElementById('modal-footer').innerHTML = footerHtml;
+    }
+    function closeModal() {
+      const overlay = document.getElementById('modal-reutilizavel');
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden','true');
+      setTimeout(()=>{ overlay.style.display = 'none'; }, 300);
+    }
+    document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+    // Fecha modal ao clicar fora do conteúdo
+    document.getElementById('modal-reutilizavel').addEventListener('click', function(e){
+      if(e.target === this) closeModal();
+    });
+    // Exemplo de uso:
+    // openModal('<p>Conteúdo personalizado</p>', 'Título Exemplo', '<button class="modal-action">OK</button>');
+  </script>
+</div>
