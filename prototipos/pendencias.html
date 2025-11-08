@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestão de Pendências | Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Estilos do template original -->
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <style>
+    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; margin: 0; }
+    .pendencias-main { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 24px #00284622; padding: 40px 32px; }
+    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
+    .notific-badge { background: #cf2e2e; color: #fff; font-weight: 600; border-radius: 50%; padding: 7px 14px; font-size: 1.1rem; margin-left: 12px; vertical-align: middle; }
+    .pend-list { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+    .pend-group { background: #f2f7fb; border-radius: 12px; padding: 22px 18px; box-shadow: 0 2px 12px #00B5D320; }
+    .pend-group h2 { color: #002846; font-size: 1.1rem; margin-bottom: 10px; font-weight: 500; }
+    .pend-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 8px; margin-bottom: 10px; padding: 10px 14px; box-shadow: 0 1px 6px #00B5D310; font-size: 1rem; }
+    .pend-item:last-child { margin-bottom: 0; }
+    .pend-item .info { flex: 1; }
+    .pend-item .btn-action { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 7px 18px; font-size: .95rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background .2s; margin-left: 10px; }
+    .pend-item .btn-action:hover { background: #002846; }
+    .pend-item .btn-details { background: #fff; color: #00B5D3; border: 1px solid #00B5D3; border-radius: 33px; padding: 7px 18px; font-size: .95rem; cursor: pointer; transition: background .2s, color .2s; margin-left: 10px; }
+    .pend-item .btn-details:hover { background: #00B5D3; color: #fff; }
+    @media (max-width: 900px) { .pend-list { grid-template-columns: 1fr; } .pendencias-main { padding: 20px 8px; } }
+    /* Modal */
+    .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,40,70,0.45); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background: #fff; border-radius: 14px; max-width: 430px; width: 90vw; padding: 32px 24px; box-shadow: 0 2px 24px #00284644; position: relative; }
+    .modal-content h3 { color: #00B5D3; font-size: 1.3rem; margin-bottom: 10px; font-family: 'Demo', sans-serif; }
+    .modal-content p { color: #002846; font-size: 1rem; margin-bottom: 14px; }
+    .modal-content .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #002846; cursor: pointer; }
+  </style>
+  <script>
+    // Simulação de dados de pendências
+    const pendencias = {
+      fornecedor: [
+        { id: 'AG202501', desc: 'Fornecedor A não confirmou volume', detalhes: 'Aguardando confirmação do volume para coleta agendada em 01/06/2025.' },
+        { id: 'AG202505', desc: 'Fornecedor E não confirmou janela', detalhes: 'Aguardando confirmação de janela operacional para coleta em 05/06/2025.' }
+      ],
+      transportadora: [
+        { id: 'AG202503', desc: 'Transportadora Gama não aceitou', detalhes: 'Transportadora ainda não aceitou o transporte para agendamento 03/06/2025.' }
+      ],
+      checkin: [
+        { id: 'AG202502', desc: 'Atraso no check-in', detalhes: 'Veículo chegou fora da janela operacional em 02/06/2025.' }
+      ],
+      documentos: [
+        { id: 'AG202504', desc: 'XML NF não anexado', detalhes: 'Nota fiscal pendente para emissão de CT-e no agendamento 04/06/2025.' }
+      ]
+    };
+    function renderPendencias() {
+      document.getElementById('badge-notif').textContent = Object.values(pendencias).reduce((acc, arr) => acc + arr.length, 0);
+      // Fornecedor
+      document.getElementById('pend-fornecedor').innerHTML = pendencias.fornecedor.map((p, idx) => `
+        <div class='pend-item'>
+          <div class='info'><strong>${p.id}</strong> - ${p.desc}</div>
+          <div>
+            <button class='btn-action' onclick='resolverPendencia("fornecedor",${idx})'>Resolver</button>
+            <button class='btn-details' onclick='abrirModal("${p.id}","${p.desc}","${p.detalhes}")'>Detalhes</button>
+          </div>
+        </div>
+      `).join('');
+      // Transportadora
+      document.getElementById('pend-transportadora').innerHTML = pendencias.transportadora.map((p, idx) => `
+        <div class='pend-item'>
+          <div class='info'><strong>${p.id}</strong> - ${p.desc}</div>
+          <div>
+            <button class='btn-action' onclick='resolverPendencia("transportadora",${idx})'>Resolver</button>
+            <button class='btn-details' onclick='abrirModal("${p.id}","${p.desc}","${p.detalhes}")'>Detalhes</button>
+          </div>
+        </div>
+      `).join('');
+      // Check-in
+      document.getElementById('pend-checkin').innerHTML = pendencias.checkin.map((p, idx) => `
+        <div class='pend-item'>
+          <div class='info'><strong>${p.id}</strong> - ${p.desc}</div>
+          <div>
+            <button class='btn-action' onclick='resolverPendencia("checkin",${idx})'>Resolver</button>
+            <button class='btn-details' onclick='abrirModal("${p.id}","${p.desc}","${p.detalhes}")'>Detalhes</button>
+          </div>
+        </div>
+      `).join('');
+      // Documentos
+      document.getElementById('pend-documentos').innerHTML = pendencias.documentos.map((p, idx) => `
+        <div class='pend-item'>
+          <div class='info'><strong>${p.id}</strong> - ${p.desc}</div>
+          <div>
+            <button class='btn-action' onclick='resolverPendencia("documentos",${idx})'>Resolver</button>
+            <button class='btn-details' onclick='abrirModal("${p.id}","${p.desc}","${p.detalhes}")'>Detalhes</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    function resolverPendencia(tipo, idx) {
+      if (confirm('Marcar pendência como resolvida?')) {
+        pendencias[tipo].splice(idx, 1);
+        renderPendencias();
+        fecharModal();
+      }
+    }
+    function abrirModal(id, desc, detalhes) {
+      document.getElementById('modal-bg').style.display = 'flex';
+      document.getElementById('modal-id').textContent = id;
+      document.getElementById('modal-desc').textContent = desc;
+      document.getElementById('modal-detalhes').textContent = detalhes;
+    }
+    function fecharModal() {
+      document.getElementById('modal-bg').style.display = 'none';
+    }
+    window.onload = renderPendencias;
+  </script>
+</head>
+<body>
+  <header class="header_section" style="background:#002846;">
+    <div class="logo_wrapper" style="padding:18px 0 18px 32px;">
+      <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="36"></a>
+      <span class="notific-badge" id="badge-notif" aria-label="Notificações de pendências">0</span>
+    </div>
+  </header>
+  <main class="pendencias-main">
+    <h1>Gestão de Pendências</h1>
+    <div class="pend-list">
+      <div class="pend-group">
+        <h2>Aguardando Confirmação Fornecedor</h2>
+        <div id="pend-fornecedor"></div>
+      </div>
+      <div class="pend-group">
+        <h2>Aguardando Aceite Transportadora</h2>
+        <div id="pend-transportadora"></div>
+      </div>
+      <div class="pend-group">
+        <h2>Atrasos em Check-in</h2>
+        <div id="pend-checkin"></div>
+      </div>
+      <div class="pend-group">
+        <h2>Documentos Pendentes</h2>
+        <div id="pend-documentos"></div>
+      </div>
+    </div>
+  </main>
+  <div class="modal-bg" id="modal-bg" onclick="fecharModal()" aria-modal="true" role="dialog">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
+      <h3>Detalhes da Pendência</h3>
+      <p><strong>ID:</strong> <span id="modal-id"></span></p>
+      <p><strong>Descrição:</strong> <span id="modal-desc"></span></p>
+      <p><strong>Detalhes:</strong> <span id="modal-detalhes"></span></p>
+    </div>
+  </div>
+  <footer class="main-footer" style="background:#002846; color:#fff; text-align:center; padding:18px 0;">
+    <span>ICL 2025, todos os direitos reservados © 2025</span>
+  </footer>
+</body>
+</html>
