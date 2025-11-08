@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Relatórios | Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <style>
+    body { background: #f7fafd; }
+    .main-header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 0 32px; display: flex; align-items: center; height: 72px; justify-content: space-between; }
+    .main-header img { height: 38px; }
+    .main-header nav a { color: #002846; text-decoration: none; font-family: 'Demo', sans-serif; font-size: 17px; margin-left: 32px; font-weight: 400; transition: color 0.2s; }
+    .main-header nav a.active, .main-header nav a:hover { color: #00B5D3; }
+    .relatorios-container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 40px 32px; }
+    .relatorios-title { font-family: 'Demo', sans-serif; color: #002846; font-size: 2rem; margin-bottom: 32px; font-weight: 400; }
+    .relatorios-filtros { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .relatorios-filtros input, .relatorios-filtros select { padding: 8px 12px; border-radius: 8px; border: 1px solid #00284640; font-size: 15px; background: #f9f9f9; }
+    .relatorios-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .relatorios-table th, .relatorios-table td { padding: 12px 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    .relatorios-table th { background: #f7fafd; color: #00B5D3; font-family: 'Demo', sans-serif; font-weight: 500; }
+    .relatorios-table tr:hover { background: #e7f6fa; }
+    .btn-primary { background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 8px 24px; font-size: 16px; font-family: 'Demo', sans-serif; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: #008ba7; }
+    .grafico-demo { width: 100%; max-width: 420px; margin: 24px auto; display: block; }
+    @media (max-width: 600px) { .relatorios-container { padding: 16px 4vw; } .relatorios-title { font-size: 1.3rem; } .relatorios-filtros { flex-direction: column; gap: 8px; } }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Logo ICL">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="agendamento.html">Agendamento</a>
+      <a href="confirmacao-fornecedor.html">Confirmação</a>
+      <a href="definicao-transporte.html">Transporte</a>
+      <a href="cadastros.html">Cadastros</a>
+      <a href="painel.html">Painel</a>
+      <a href="relatorios.html" class="active">Relatórios</a>
+      <a href="usuarios.html">Usuários</a>
+      <a href="login.html">Sair</a>
+    </nav>
+  </header>
+  <main class="relatorios-container">
+    <h1 class="relatorios-title">Relatórios e KPIs</h1>
+    <div class="relatorios-filtros">
+      <input type="date" placeholder="Data Inicial">
+      <input type="date" placeholder="Data Final">
+      <select>
+        <option>Fornecedor</option>
+        <option>Fornecedor Alfa</option>
+        <option>Fornecedor Beta</option>
+      </select>
+      <select>
+        <option>Transportadora</option>
+        <option>Transportadora Alfa</option>
+        <option>Transportadora Beta</option>
+      </select>
+      <button class="btn-primary">Exportar Excel</button>
+      <button class="btn-primary">Exportar PDF</button>
+    </div>
+    <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Alfa','Beta','Gama'],datasets:[{label:'Fretes',data:[12,19,7],backgroundColor:['#00B5D3','#002846','#e7f6fa']}]} }" alt="Gráfico de Fretes por Fornecedor" class="grafico-demo" aria-label="Gráfico de Fretes por Fornecedor">
+    <table class="relatorios-table">
+      <thead>
+        <tr>
+          <th>Fornecedor</th>
+          <th>Qtde Fretes</th>
+          <th>% Atrasos</th>
+          <th>Tempo Médio Estadia (h)</th>
+          <th>Performance Transportadora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Fornecedor Alfa</td><td>12</td><td>8%</td><td>1.2</td><td>95%</td></tr>
+        <tr><td>Fornecedor Beta</td><td>19</td><td>15%</td><td>2.0</td><td>87%</td></tr>
+        <tr><td>Fornecedor Gama</td><td>7</td><td>0%</td><td>0.7</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>
