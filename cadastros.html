@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastros | Gestão de Fretes ICL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <style>
+    body { background: #f7fafd; }
+    .main-header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 0 32px; display: flex; align-items: center; height: 72px; justify-content: space-between; }
+    .main-header img { height: 38px; }
+    .main-header nav a { color: #002846; text-decoration: none; font-family: 'Demo', sans-serif; font-size: 17px; margin-left: 32px; font-weight: 400; transition: color 0.2s; }
+    .main-header nav a.active, .main-header nav a:hover { color: #00B5D3; }
+    .cadastros-container { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 32px rgba(0,0,0,0.07); padding: 40px 32px; }
+    .cadastros-title { font-family: 'Demo', sans-serif; color: #002846; font-size: 2rem; margin-bottom: 32px; font-weight: 400; }
+    .cadastros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+    .cadastro-card { background: #f7fafd; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 32px 18px; text-align: center; cursor: pointer; transition: box-shadow 0.2s, background 0.2s; border: 2px solid transparent; }
+    .cadastro-card:hover { background: #e7f6fa; box-shadow: 0 4px 24px rgba(0,181,211,0.08); border-color: #00B5D3; }
+    .cadastro-card h3 { font-family: 'Demo', sans-serif; color: #00B5D3; font-size: 1.1rem; margin-bottom: 12px; font-weight: 400; }
+    .cadastro-card p { color: #002846; font-size: 1rem; margin-bottom: 0; }
+    @media (max-width: 600px) { .cadastros-container { padding: 16px 4vw; } .cadastros-title { font-size: 1.3rem; } }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="Logo ICL">
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="agendamento.html">Agendamento</a>
+      <a href="confirmacao-fornecedor.html">Confirmação</a>
+      <a href="definicao-transporte.html">Transporte</a>
+      <a href="cadastros.html" class="active">Cadastros</a>
+      <a href="painel.html">Painel</a>
+      <a href="relatorios.html">Relatórios</a>
+      <a href="usuarios.html">Usuários</a>
+      <a href="login.html">Sair</a>
+    </nav>
+  </header>
+  <main class="cadastros-container">
+    <h1 class="cadastros-title">Módulo de Cadastros</h1>
+    <div class="cadastros-grid">
+      <div class="cadastro-card" onclick="window.location.href='cadastro-fornecedor.html'">
+        <h3>Fornecedores</h3>
+        <p>Gerencie fornecedores, plantas e janelas operacionais.</p>
+      </div>
+      <div class="cadastro-card" onclick="window.location.href='cadastro-transportadora.html'">
+        <h3>Transportadoras</h3>
+        <p>Cadastre transportadoras e dados contratuais.</p>
+      </div>
+      <div class="cadastro-card" onclick="window.location.href='cadastro-veiculo.html'">
+        <h3>Tipos de Veículo</h3>
+        <p>Gerencie tipos de veículos e capacidades.</p>
+      </div>
+      <div class="cadastro-card" onclick="window.location.href='cadastro-local.html'">
+        <h3>Locais de Descarga</h3>
+        <p>Cadastre endereços, docas e restrições.</p>
+      </div>
+      <div class="cadastro-card" onclick="window.location.href='cadastro-unidade.html'">
+        <h3>Unidades de Medida</h3>
+        <p>Gerencie unidades como caixa, palete, litro, etc.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
