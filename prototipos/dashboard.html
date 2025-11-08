@@ -2,190 +2,324 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Painel de Acompanhamento | Gestão de Fretes ICL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Estilos do template original -->
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
-  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Dashboard - Gestão de Fretes ICL</title>
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/reset.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" media="all" />
   <style>
-    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; margin: 0; }
-    .dashboard-main { max-width: 1250px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 24px #00284622; padding: 40px 32px; }
-    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
-    .cards-status { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
-    .card-status { background: linear-gradient(135deg, #8FE6E5 0%, #00B5D3 100%); border-radius: 12px; padding: 28px 18px; color: #fff; text-align: center; box-shadow: 0 2px 12px #00B5D340; }
-    .card-status .count { font-size: 2.5rem; font-weight: 600; margin-bottom: 8px; }
-    .card-status .label { font-size: 1.1rem; font-weight: 400; }
-    .dashboard-row { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; margin-bottom: 32px; }
-    .chart-box { background: #f2f7fb; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px #00B5D320; }
-    .table-box { background: #f2f7fb; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px #00B5D320; }
-    .filters-bar { display: flex; gap: 18px; margin-bottom: 16px; flex-wrap: wrap; }
-    .filters-bar select, .filters-bar input { padding: 8px 14px; border-radius: 8px; border: 1px solid #00B5D340; font-size: 1rem; font-family: 'Inter', sans-serif; }
-    .search-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .search-bar input { padding: 8px 14px; border-radius: 8px; border: 1px solid #00B5D340; font-size: 1rem; width: 260px; }
-    .search-bar button { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 8px 22px; font-size: 1rem; font-family: 'Demo', sans-serif; cursor: pointer; }
-    .ag-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
-    .ag-table th, .ag-table td { padding: 10px 8px; border-bottom: 1px solid #eaeaea; text-align: left; font-size: 1rem; }
-    .ag-table th { background: #eaf7fa; color: #002846; font-weight: 500; }
-    .ag-table tr:last-child td { border-bottom: none; }
-    .ag-table td.status { font-weight: 500; }
-    .ag-table td.status.solicitado { color: #00B5D3; }
-    .ag-table td.status.confirmado { color: #61CE70; }
-    .ag-table td.status.transito { color: #fcb900; }
-    .ag-table td.status.concluido { color: #002846; }
-    @media (max-width: 1100px) { .dashboard-row { grid-template-columns: 1fr; } }
-    @media (max-width: 900px) { .cards-status { grid-template-columns: 1fr 1fr; } .dashboard-main { padding: 20px 8px; } }
-    @media (max-width: 600px) { .cards-status { grid-template-columns: 1fr; } }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    body {
+      background: linear-gradient(135deg, #f7fafd 0%, #e6f3fa 100%);
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      color: #002846;
+    }
+    .dashboard-container {
+      max-width: 1300px;
+      margin: 48px auto 0 auto;
+      padding: 32px 24px 40px 24px;
+      background: #fff;
+      border-radius: 32px;
+      box-shadow: 0 8px 48px 0 rgba(0,40,70,0.08);
+      position: relative;
+      z-index: 2;
+    }
+    .dashboard-title {
+      font-size: 3rem;
+      color: #00B5D3;
+      font-weight: 500;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 12px rgba(0,181,211,0.07);
+    }
+    .dashboard-subtitle {
+      color: #54595F;
+      font-size: 1.25rem;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 36px 28px;
+      margin-bottom: 12px;
+      animation: fadeInUp 0.8s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @media (max-width: 1200px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .dashboard-container {
+        padding: 14px 4px 24px 4px;
+        border-radius: 0;
+      }
+    }
+    .dashboard-card {
+      background: linear-gradient(135deg, #fafdff 0%, #eaf8fc 100%);
+      border-radius: 22px;
+      box-shadow: 0 4px 32px 0 rgba(0,181,211,0.09);
+      padding: 36px 26px 28px 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
+      cursor: pointer;
+      border: 2px solid #e5e9f2;
+      min-height: 190px;
+      position: relative;
+      text-decoration: none;
+      animation: fadeInUp 0.8s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0 8px 40px 0 rgba(0,181,211,0.18);
+      transform: translateY(-4px) scale(1.025);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 3;
+      background: linear-gradient(135deg, #e9fcff 0%, #d6f6ff 100%);
+    }
+    .dashboard-card .card-icon {
+      font-size: 2.7rem;
+      color: #00B5D3;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 2px 8px rgba(0,181,211,0.09));
+      transition: color 0.2s;
+    }
+    .dashboard-card:hover .card-icon {
+      color: #002846;
+    }
+    .dashboard-card .card-title {
+      font-size: 1.28rem;
+      color: #002846;
+      font-weight: 600;
+      margin-bottom: 7px;
+      letter-spacing: -0.5px;
+    }
+    .dashboard-card .card-desc {
+      color: #7A7A7A;
+      font-size: 1.03rem;
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    header.header_section {
+      background: #fff;
+      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 80px;
+    }
+    .logo_wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .header_logo img {
+      height: 38px;
+      width: auto;
+      transition: filter 0.2s;
+    }
+    .menu_nav_trees {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-left: 32px;
+    }
+    .menu_nav_trees a {
+      color: #002846;
+      font-size: 1rem;
+      font-family: 'Demo', Arial, sans-serif;
+      text-decoration: none;
+      padding: 9px 20px;
+      border-radius: 12px;
+      transition: background 0.18s, color 0.18s;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      position: relative;
+    }
+    .menu_nav_trees a.active, .menu_nav_trees a:hover {
+      background: #00B5D3;
+      color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0,181,211,0.08);
+    }
+    footer {
+      background: #002846;
+      color: #fff;
+      font-size: 1rem;
+      padding: 40px 0 18px 0;
+      margin-top: 64px;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 1rem;
+    }
+    .footer-content .footer-logo {
+      margin-bottom: 10px;
+    }
+    .footer-content .footer-copy {
+      font-size: 0.95rem;
+      color: #fff;
+      opacity: 0.85;
+    }
+    @media (max-width: 700px) {
+      .header_wrapper {
+        padding: 0 8px;
+        height: 60px;
+      }
+      .menu_nav_trees {
+        gap: 8px;
+        margin-left: 8px;
+      }
+      .menu_nav_trees a {
+        padding: 6px 10px;
+        font-size: 0.95rem;
+      }
+      .footer-content {
+        padding: 0 8px;
+      }
+    }
+    /* Modern hover effect for accessibility */
+    .dashboard-card:focus-visible {
+      outline: 2px solid #00B5D3;
+      outline-offset: 2px;
+    }
   </style>
-  <script>
-    // Simulação de dados
-    const statusCounts = { solicitado: 12, confirmado: 8, transito: 5, concluido: 21 };
-    const agendamentos = [
-      { id: 'AG202501', data: '2025-06-01', fornecedor: 'Fornecedor A', transportadora: 'Transp. Alfa', status: 'solicitado' },
-      { id: 'AG202502', data: '2025-06-02', fornecedor: 'Fornecedor B', transportadora: 'Transp. Beta', status: 'confirmado' },
-      { id: 'AG202503', data: '2025-06-03', fornecedor: 'Fornecedor C', transportadora: 'Transp. Gama', status: 'transito' },
-      { id: 'AG202504', data: '2025-06-04', fornecedor: 'Fornecedor D', transportadora: 'Transp. Alfa', status: 'concluido' },
-      { id: 'AG202505', data: '2025-06-05', fornecedor: 'Fornecedor E', transportadora: 'Transp. Beta', status: 'solicitado' }
-    ];
-    function renderStatusCards() {
-      document.getElementById('card-solicitado').querySelector('.count').textContent = statusCounts.solicitado;
-      document.getElementById('card-confirmado').querySelector('.count').textContent = statusCounts.confirmado;
-      document.getElementById('card-transito').querySelector('.count').textContent = statusCounts.transito;
-      document.getElementById('card-concluido').querySelector('.count').textContent = statusCounts.concluido;
-    }
-    function renderAgTable() {
-      const tbody = document.getElementById('ag-tbody');
-      tbody.innerHTML = agendamentos.map(a => `
-        <tr>
-          <td>${a.id}</td>
-          <td>${a.data}</td>
-          <td>${a.fornecedor}</td>
-          <td>${a.transportadora}</td>
-          <td class="status ${a.status}">${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</td>
-        </tr>
-      `).join('');
-    }
-    function filtrarTabela() {
-      const filtroStatus = document.getElementById('filtro-status').value;
-      const filtroFornecedor = document.getElementById('filtro-fornecedor').value.toLowerCase();
-      const filtroTransportadora = document.getElementById('filtro-transportadora').value.toLowerCase();
-      const filtroData = document.getElementById('filtro-data').value;
-      const filtroBusca = document.getElementById('search-input').value.toLowerCase();
-      const tbody = document.getElementById('ag-tbody');
-      tbody.innerHTML = agendamentos.filter(a => {
-        return (!filtroStatus || a.status === filtroStatus)
-          && (!filtroFornecedor || a.fornecedor.toLowerCase().includes(filtroFornecedor))
-          && (!filtroTransportadora || a.transportadora.toLowerCase().includes(filtroTransportadora))
-          && (!filtroData || a.data === filtroData)
-          && (!filtroBusca || a.id.toLowerCase().includes(filtroBusca) || a.fornecedor.toLowerCase().includes(filtroBusca) || a.transportadora.toLowerCase().includes(filtroBusca));
-      }).map(a => `
-        <tr>
-          <td>${a.id}</td>
-          <td>${a.data}</td>
-          <td>${a.fornecedor}</td>
-          <td>${a.transportadora}</td>
-          <td class="status ${a.status}">${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</td>
-        </tr>
-      `).join('');
-    }
-    window.onload = function() {
-      renderStatusCards();
-      renderAgTable();
-      // Chart.js - gráfico de linha
-      const ctx = document.getElementById('freteChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: Array.from({length: 30}, (_, i) => `Dia ${i+1}`),
-          datasets: [{
-            label: 'Volume de Fretes',
-            data: Array.from({length: 30}, () => Math.floor(Math.random()*10)+5),
-            borderColor: '#00B5D3',
-            backgroundColor: 'rgba(0,181,211,0.13)',
-            tension: 0.3,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: { display: true, text: 'Volume de Fretes nos Últimos 30 Dias', color: '#002846', font: { size: 18 } }
-          },
-          scales: {
-            x: { ticks: { color: '#002846' } },
-            y: { ticks: { color: '#002846' } }
-          }
-        }
-      });
-    };
-  </script>
 </head>
 <body>
-  <header class="header_section" style="background:#002846;">
-    <div class="logo_wrapper" style="padding:18px 0 18px 32px;">
-      <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="36"></a>
+  <!-- Header -->
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="#" class="header_logo">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" />
+        </a>
+      </div>
+      <nav class="menu_nav_trees" aria-label="Menu principal">
+        <a href="#" class="active" aria-current="page">Dashboard</a>
+        <a href="solicitacoes.html">Solicitações</a>
+        <a href="cadastros.html">Cadastros</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="pendencias.html">Pendências</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="login.html">Sair</a>
+      </nav>
     </div>
   </header>
-  <main class="dashboard-main">
-    <h1>Painel de Acompanhamento</h1>
-    <div class="cards-status">
-      <div class="card-status" id="card-solicitado"><div class="count">0</div><div class="label">Solicitado</div></div>
-      <div class="card-status" id="card-confirmado"><div class="count">0</div><div class="label">Confirmado</div></div>
-      <div class="card-status" id="card-transito"><div class="count">0</div><div class="label">Em Trânsito</div></div>
-      <div class="card-status" id="card-concluido"><div class="count">0</div><div class="label">Concluído</div></div>
-    </div>
-    <div class="dashboard-row">
-      <div class="chart-box">
-        <canvas id="freteChart" height="220" aria-label="Gráfico de volume de fretes"></canvas>
-      </div>
-      <div class="table-box">
-        <div class="search-bar">
-          <input type="text" id="search-input" placeholder="Busca rápida por ID, fornecedor, transportadora" oninput="filtrarTabela()" aria-label="Busca rápida">
-          <button onclick="filtrarTabela()">Buscar</button>
-        </div>
-        <div class="filters-bar">
-          <input type="date" id="filtro-data" onchange="filtrarTabela()" aria-label="Filtrar por data">
-          <select id="filtro-fornecedor" onchange="filtrarTabela()" aria-label="Filtrar por fornecedor">
-            <option value="">Fornecedor</option>
-            <option value="Fornecedor A">Fornecedor A</option>
-            <option value="Fornecedor B">Fornecedor B</option>
-            <option value="Fornecedor C">Fornecedor C</option>
-            <option value="Fornecedor D">Fornecedor D</option>
-            <option value="Fornecedor E">Fornecedor E</option>
-          </select>
-          <select id="filtro-transportadora" onchange="filtrarTabela()" aria-label="Filtrar por transportadora">
-            <option value="">Transportadora</option>
-            <option value="Transp. Alfa">Transp. Alfa</option>
-            <option value="Transp. Beta">Transp. Beta</option>
-            <option value="Transp. Gama">Transp. Gama</option>
-          </select>
-          <select id="filtro-status" onchange="filtrarTabela()" aria-label="Filtrar por status">
-            <option value="">Status</option>
-            <option value="solicitado">Solicitado</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="transito">Em Trânsito</option>
-            <option value="concluido">Concluído</option>
-          </select>
-        </div>
-        <table class="ag-table" aria-label="Agendamentos recentes">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Data</th>
-              <th>Fornecedor</th>
-              <th>Transportadora</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="ag-tbody"></tbody>
-        </table>
-      </div>
-    </div>
+
+  <main class="dashboard-container" aria-label="Conteúdo principal">
+    <h1 class="dashboard-title">Gestão de Fretes ICL</h1>
+    <div class="dashboard-subtitle">Bem-vindo! Selecione um módulo para começar a gerenciar suas operações logísticas.</div>
+    <section class="dashboard-grid">
+      <a href="solicitacoes.html" class="dashboard-card" aria-label="Solicitações de Agendamento">
+        <span class="card-icon"><i class="fas fa-calendar-plus"></i></span>
+        <span class="card-title">Solicitações de Agendamento</span>
+        <span class="card-desc">Centralize e acompanhe todos os pedidos de coleta FOB/CIF.</span>
+      </a>
+      <a href="confirmacao-fornecedor.html" class="dashboard-card" aria-label="Confirmação do Fornecedor">
+        <span class="card-icon"><i class="fas fa-clipboard-check"></i></span>
+        <span class="card-title">Confirmação do Fornecedor</span>
+        <span class="card-desc">Valide volumes, janelas e detalhes da coleta.</span>
+      </a>
+      <a href="definicao-transporte.html" class="dashboard-card" aria-label="Definição de Transporte">
+        <span class="card-icon"><i class="fas fa-truck-moving"></i></span>
+        <span class="card-title">Definição de Transporte</span>
+        <span class="card-desc">Selecione transportadora e tipo de veículo automaticamente.</span>
+      </a>
+      <a href="aceite-transportadora.html" class="dashboard-card" aria-label="Aceite da Transportadora">
+        <span class="card-icon"><i class="fas fa-check-double"></i></span>
+        <span class="card-title">Aceite da Transportadora</span>
+        <span class="card-desc">Formalize o aceite e registre dados do veículo e motorista.</span>
+      </a>
+      <a href="checkin-coleta.html" class="dashboard-card" aria-label="Check-in Coleta">
+        <span class="card-icon"><i class="fas fa-sign-in-alt"></i></span>
+        <span class="card-title">Check-in de Coleta</span>
+        <span class="card-desc">Registre a chegada do veículo no fornecedor via token.</span>
+      </a>
+      <a href="documentos.html" class="dashboard-card" aria-label="Notas Fiscais e CT-e">
+        <span class="card-icon"><i class="fas fa-file-upload"></i></span>
+        <span class="card-title">Notas Fiscais &amp; CT-e</span>
+        <span class="card-desc">Faça upload do XML da NF e CT-e para emissão e rastreio.</span>
+      </a>
+      <a href="checkin-destino.html" class="dashboard-card" aria-label="Check-in Destino e Descarga">
+        <span class="card-icon"><i class="fas fa-map-marker-alt"></i></span>
+        <span class="card-title">Check-in Destino &amp; Descarga</span>
+        <span class="card-desc">Registre chegada no destino e confirmação de descarga.</span>
+      </a>
+      <a href="cadastros.html" class="dashboard-card" aria-label="Cadastros e Parametrizações">
+        <span class="card-icon"><i class="fas fa-database"></i></span>
+        <span class="card-title">Cadastros &amp; Parametrizações</span>
+        <span class="card-desc">Gerencie fornecedores, transportadoras, veículos e locais.</span>
+      </a>
+      <a href="pendencias.html" class="dashboard-card" aria-label="Painel de Pendências">
+        <span class="card-icon"><i class="fas fa-exclamation-triangle"></i></span>
+        <span class="card-title">Painel de Pendências</span>
+        <span class="card-desc">Visualize e resolva pendências críticas em tempo real.</span>
+      </a>
+      <a href="relatorios.html" class="dashboard-card" aria-label="Relatórios e Análises">
+        <span class="card-icon"><i class="fas fa-chart-line"></i></span>
+        <span class="card-title">Relatórios &amp; Análises</span>
+        <span class="card-desc">Acompanhe KPIs, exporte dados e visualize gráficos.</span>
+      </a>
+      <a href="usuarios.html" class="dashboard-card" aria-label="Gestão de Usuários">
+        <span class="card-icon"><i class="fas fa-users-cog"></i></span>
+        <span class="card-title">Gestão de Usuários</span>
+        <span class="card-desc">Controle acessos, perfis e permissões do sistema.</span>
+      </a>
+      <a href="configuracoes.html" class="dashboard-card" aria-label="Configurações do Sistema">
+        <span class="card-icon"><i class="fas fa-cogs"></i></span>
+        <span class="card-title">Configurações</span>
+        <span class="card-desc">Ajuste preferências e consulte informações técnicas.</span>
+      </a>
+    </section>
   </main>
-  <footer class="main-footer" style="background:#002846; color:#fff; text-align:center; padding:18px 0;">
-    <span>ICL 2025, todos os direitos reservados © 2025</span>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
+      </div>
+      <div>
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
+        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+      </div>
+      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
+    </div>
   </footer>
 </body>
 </html>
