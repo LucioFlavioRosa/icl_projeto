@@ -10,97 +10,316 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/sustainability-page.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.32.5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #f7fafd; font-family: 'Inter', 'Demo', Arial, sans-serif; }
-    .container-main { max-width: 520px; margin: 48px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.09); padding: 36px 32px 32px 32px; }
-    .titulo { font-size: 2rem; color: #00B5D3; font-weight: 400; margin-bottom: 12px; }
-    .subtitulo { color: #002846; font-size: 1.1rem; margin-bottom: 28px; }
-    .detalhes-transporte { background: #f0f7fa; border-radius: 10px; padding: 18px 16px; margin-bottom: 28px; }
-    .detalhes-transporte dt { color: #00B5D3; font-weight: 500; font-size: 1rem; }
-    .detalhes-transporte dd { margin: 0 0 10px 0; color: #002846; font-size: 1rem; }
-    .dados-agendamento, .dados-confirmacao { background: #f0f7fa; border-radius: 10px; padding: 18px 16px; margin-bottom: 28px; }
-    .dados-agendamento dt, .dados-confirmacao dt { color: #00B5D3; font-weight: 500; font-size: 1rem; }
-    .dados-agendamento dd, .dados-confirmacao dd { margin: 0 0 10px 0; color: #002846; font-size: 1rem; }
-    form { display: flex; flex-direction: column; gap: 18px; }
-    .form-group { display: flex; flex-direction: column; }
-    label { font-weight: 500; color: #002846; margin-bottom: 6px; }
-    input[type="text"], input[type="tel"] { padding: 10px 12px; border: 1px solid #00B5D3; border-radius: 8px; font-size: 1rem; background: #f9f9fc; }
-    .radio-group { display: flex; gap: 24px; align-items: center; margin-bottom: 4px; }
-    .radio-group label { margin-bottom: 0; font-weight: 400; }
-    .btn-primary { background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 14px 0; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
-    .btn-primary:hover { background: #009bb8; }
-    .msg-erro { color: #cf2e2e; font-size: 0.98rem; margin-top: 2px; }
-    .msg-sucesso { color: #00B5D3; font-size: 1.05rem; margin-top: 10px; text-align: center; }
-    @media (max-width: 600px) {
-      .container-main { padding: 18px 6vw; }
-      .titulo { font-size: 1.4rem; }
+    @font-face {
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
+    body {
+      background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      position: relative;
+    }
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .dashboard-title {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 45px;
+      color: #00B5D3;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-subtitle {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      color: #002846;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dashboard-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dashboard-card:hover::after {
+      width: 100%;
+    }
+    .elementor-field-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 18px;
+    }
+    .elementor-label {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #002846;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .elementor-field-textual {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #00B5D3;
+      border-radius: 8px;
+      background: #f9f9fc;
+      color: #002846;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .elementor-field-textual:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
+    }
+    input[type="radio"] {
+      accent-color: #00B5D3;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+    .radio-group {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .radio-group label {
+      margin-bottom: 0;
+      font-weight: 400;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      color: #002846;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .elementor-button {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+      min-width: 160px;
+      margin-top: 8px;
+      display: inline-block;
+    }
+    .elementor-button:hover {
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+      background: #009bb8;
+    }
+    .msg-erro {
+      color: #cf2e2e;
+      font-size: 0.98rem;
+      margin-top: 2px;
+    }
+    .msg-sucesso {
+      color: #00B5D3;
+      font-size: 1.05rem;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .dados-agendamento, .dados-confirmacao {
+      background: #f0f7fa;
+      border-radius: 10px;
+      padding: 18px 16px;
+      margin-bottom: 28px;
+    }
+    .dados-agendamento dt, .dados-confirmacao dt {
+      color: #00B5D3;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .dados-agendamento dd, .dados-confirmacao dd {
+      margin: 0 0 10px 0;
+      color: #002846;
+      font-size: 1rem;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 1024px) {
+      .dashboard-title {
+        font-size: 36px;
+      }
+      .dashboard-subtitle {
+        font-size: 18px;
+      }
+      .main-container {
+        padding: 18px 5vw;
+      }
+    }
+    @media (max-width: 700px) {
+      .dashboard-title {
+        font-size: 28px;
+      }
+      .dashboard-subtitle {
+        font-size: 16px;
+      }
+      .main-container {
+        padding: 12px 3vw;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="container-main" aria-label="Aceite da Transportadora">
-    <h1 class="titulo">Aceite de Transporte</h1>
-    <p class="subtitulo">Confirme ou recuse o transporte e preencha os dados do veículo e motorista.</p>
-    <!-- Bloco 1: Dados do Agendamento -->
-    <section class="dados-agendamento" aria-label="Dados do Agendamento">
-      <h2 style="font-size:1.15rem;color:#00B5D3;font-weight:500;margin-bottom:10px;">Dados do Agendamento</h2>
-      <dl>
-        <dt>Fornecedor:</dt><dd id="agendamentoFornecedor">-</dd>
-        <dt>Unidade:</dt><dd id="agendamentoUnidade">-</dd>
-        <dt>Data/Hora Coleta:</dt><dd id="agendamentoDataHora">-</dd>
-        <dt>Janela Operacional:</dt><dd id="agendamentoJanela">-</dd>
-        <dt>Tipo de Frete:</dt><dd id="agendamentoFrete">-</dd>
-        <dt>Local de Entrega:</dt><dd id="agendamentoLocalEntrega">-</dd>
-      </dl>
-    </section>
-    <!-- Bloco 2: Dados da Confirmação -->
-    <section class="dados-confirmacao" aria-label="Dados da Confirmação">
-      <h2 style="font-size:1.15rem;color:#00B5D3;font-weight:500;margin-bottom:10px;">Dados da Confirmação</h2>
-      <dl>
-        <dt>Volume:</dt><dd id="confirmacaoVolume">-</dd>
-        <dt>Tipo de Carga:</dt><dd id="confirmacaoTipoCarga">-</dd>
-        <dt>Peso Total (kg):</dt><dd id="confirmacaoPeso">-</dd>
-        <dt>Confirmação da Janela Operacional:</dt><dd id="confirmacaoJanela">-</dd>
-      </dl>
-    </section>
-    <!-- Bloco 3: Aceite de Transporte -->
-    <section class="detalhes-transporte" aria-label="Aceite de Transporte">
-      <form id="formAceite" autocomplete="off" novalidate>
-        <div class="form-group">
-          <label for="aceite">Aceite do Transporte <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <div class="radio-group">
-            <input type="radio" id="aceiteSim" name="aceite" value="sim" required>
-            <label for="aceiteSim">Sim</label>
-            <input type="radio" id="aceiteNao" name="aceite" value="nao">
-            <label for="aceiteNao">Não</label>
-          </div>
-          <span class="msg-erro" id="erroAceite"></span>
-        </div>
-        <div class="form-group">
-          <label for="placa">Placa do Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="text" id="placa" name="placa" maxlength="8" placeholder="Ex: ABC1D23" aria-required="true" autocomplete="off">
-          <span class="msg-erro" id="erroPlaca"></span>
-        </div>
-        <div class="form-group">
-          <label for="cpf">CPF do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 123.456.789-00" aria-required="true" autocomplete="off">
-          <span class="msg-erro" id="erroCpf"></span>
-        </div>
-        <div class="form-group">
-          <label for="nome">Nome do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="text" id="nome" name="nome" maxlength="60" placeholder="Nome completo" aria-required="true" autocomplete="off">
-          <span class="msg-erro" id="erroNome"></span>
-        </div>
-        <div class="form-group">
-          <label for="celular">Celular do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="tel" id="celular" name="celular" maxlength="15" placeholder="Ex: (11) 91234-5678" aria-required="true" autocomplete="off">
-          <span class="msg-erro" id="erroCelular"></span>
-        </div>
-        <button type="submit" class="btn-primary" aria-label="Confirmar Aceite">Confirmar</button>
-        <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
-      </form>
-    </section>
-  </main>
+  <div class="dashboard-container">
+    <main class="main-container" aria-label="Aceite da Transportadora">
+      <h1 class="dashboard-title">Aceite de Transporte</h1>
+      <div class="dashboard-subtitle">Confirme ou recuse o transporte e preencha os dados do veículo e motorista.</div>
+      <div class="dashboard-card">
+        <!-- Bloco 1: Dados do Agendamento -->
+        <section class="dados-agendamento" aria-label="Dados do Agendamento">
+          <h2 style="font-size:1.15rem;color:#00B5D3;font-weight:500;margin-bottom:10px;">Dados do Agendamento</h2>
+          <dl>
+            <dt>Fornecedor:</dt><dd id="agendamentoFornecedor">-</dd>
+            <dt>Unidade:</dt><dd id="agendamentoUnidade">-</dd>
+            <dt>Data/Hora Coleta:</dt><dd id="agendamentoDataHora">-</dd>
+            <dt>Janela Operacional:</dt><dd id="agendamentoJanela">-</dd>
+            <dt>Tipo de Frete:</dt><dd id="agendamentoFrete">-</dd>
+            <dt>Local de Entrega:</dt><dd id="agendamentoLocalEntrega">-</dd>
+          </dl>
+        </section>
+        <!-- Bloco 2: Dados da Confirmação -->
+        <section class="dados-confirmacao" aria-label="Dados da Confirmação">
+          <h2 style="font-size:1.15rem;color:#00B5D3;font-weight:500;margin-bottom:10px;">Dados da Confirmação</h2>
+          <dl>
+            <dt>Volume:</dt><dd id="confirmacaoVolume">-</dd>
+            <dt>Tipo de Carga:</dt><dd id="confirmacaoTipoCarga">-</dd>
+            <dt>Peso Total (kg):</dt><dd id="confirmacaoPeso">-</dd>
+            <dt>Confirmação da Janela Operacional:</dt><dd id="confirmacaoJanela">-</dd>
+          </dl>
+        </section>
+        <!-- Bloco 3: Aceite de Transporte -->
+        <section aria-label="Aceite de Transporte">
+          <form id="formAceite" autocomplete="off" novalidate>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="aceite">Aceite do Transporte <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+              <div class="radio-group">
+                <label class="elementor-label" for="aceiteSim"><input type="radio" id="aceiteSim" name="aceite" value="sim" required> Sim</label>
+                <label class="elementor-label" for="aceiteNao"><input type="radio" id="aceiteNao" name="aceite" value="nao"> Não</label>
+              </div>
+              <span class="msg-erro" id="erroAceite"></span>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="placa">Placa do Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+              <input type="text" id="placa" name="placa" maxlength="8" placeholder="Ex: ABC1D23" aria-required="true" autocomplete="off" class="elementor-field-textual">
+              <span class="msg-erro" id="erroPlaca"></span>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="cpf">CPF do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+              <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 123.456.789-00" aria-required="true" autocomplete="off" class="elementor-field-textual">
+              <span class="msg-erro" id="erroCpf"></span>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="nome">Nome do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+              <input type="text" id="nome" name="nome" maxlength="60" placeholder="Nome completo" aria-required="true" autocomplete="off" class="elementor-field-textual">
+              <span class="msg-erro" id="erroNome"></span>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="celular">Celular do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+              <input type="tel" id="celular" name="celular" maxlength="15" placeholder="Ex: (11) 91234-5678" aria-required="true" autocomplete="off" class="elementor-field-textual">
+              <span class="msg-erro" id="erroCelular"></span>
+            </div>
+            <button type="submit" class="elementor-button" aria-label="Confirmar Aceite">Confirmar</button>
+            <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
   <script>
     // Função para preencher dados do agendamento
     function preencherDadosAgendamento() {
