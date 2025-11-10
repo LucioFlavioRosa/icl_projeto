@@ -5,394 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Aceite da Transportadora | Gestão de Fretes</title>
   <!-- Estilos herdados do template -->
-  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/sustainability-page.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.32.5">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'robotobold_condensed';
-      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
-           url('/fonts/robotobold_condensed.woff') format('woff');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'robotocondensed';
-      src: url('/fonts/robotocondensed.woff2') format('woff2'),
-           url('/fonts/robotocondensed.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    * {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      box-sizing: border-box;
-    }
-    ::selection {
-      background-color: #00B5D3;
-      color: #FFFFFF;
-    }
-    body {
-      background: #f7fafd;
-      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      transition: background 0.3s ease;
-      font-weight: 400;
-    }
-    .header_section {
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: background 0.3s, box-shadow 0.3s;
-      height: 90px;
-    }
-    .header_section.scrolled {
-      box-shadow: 0 4px 16px 0 rgba(0,40,70,0.08);
-    }
-    .header_wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 50px;
-      height: 90px;
-    }
-    @media (max-width: 1024px) {
-      .header_wrapper {
-        padding: 0 32px;
-      }
-    }
-    .logo_wrapper img {
-      height: 38px;
-      width: auto;
-      object-fit: contain;
-      max-width: 100%;
-      display: block;
-    }
-    .menu_nav_trees {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-left: 32px;
-      position: relative;
-      font-family: 'Demo', 'Roboto Condensed', Arial, sans-serif;
-    }
-    .menu_nav_trees a {
-      color: #002846;
-      font-family: 'Demo', 'Roboto Condensed', Arial, sans-serif;
-      font-size: 1rem;
-      font-weight: 400;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 24px;
-      transition: all 0.3s ease;
-      position: relative;
-      letter-spacing: 0.5px;
-      outline: none;
-      display: inline-block;
-    }
-    .menu_nav_trees a:focus-visible {
-      outline: 3px solid rgba(0, 181, 211, 0.5);
-      outline-offset: 2px;
-    }
-    .menu_nav_trees a.active, .menu_nav_trees a:hover {
-      background: rgba(0, 181, 211, 0.1);
-      color: #00B5D3;
-      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.08);
-    }
-    .menu_nav_trees a.active::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #00B5D3;
-      z-index: 10;
-    }
-    .menu_nav_trees a.logout {
-      color: #E74C3C;
-    }
-    .menu_nav_trees a.logout:hover {
-      border: 1px solid rgba(231, 76, 60, 0.3);
-      background: rgba(231, 76, 60, 0.07);
-      color: #E74C3C;
-    }
-    .dashboard-container {
-      max-width: 1200px;
-      margin: 48px auto 0 auto;
-      padding: 32px;
-      position: relative;
-      font-family: 'Demo', 'Roboto Condensed', Arial, sans-serif;
-    }
-    .dashboard-title {
-      font-family: 'robotobold_condensed', 'Roboto Condensed', Arial, sans-serif;
-      font-size: 2.25rem;
-      color: #002846;
-      font-weight: 700;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-      line-height: 1.1em;
-      transition: font-size 0.3s;
-    }
-    .dashboard-subtitle {
-      font-family: 'robotocondensed', 'Roboto Condensed', Arial, sans-serif;
-      color: #7A7A7A;
-      font-size: 1.125rem;
-      font-weight: 400;
-      margin-bottom: 40px;
-      line-height: 1.4em;
-      transition: font-size 0.3s;
-    }
-    .dashboard-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
-      padding: 28px 24px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-      cursor: pointer;
-      border: 1px solid #E5E9F2;
-      min-height: 200px;
-      position: relative;
-      text-decoration: none;
-      overflow: hidden;
-      animation: fadeInUp 0.6s ease-out forwards;
-      will-change: transform;
-      backface-visibility: hidden;
-      font-family: 'Demo', 'Roboto Condensed', Arial, sans-serif;
-      margin-bottom: 32px;
-    }
-    .dashboard-card:focus-visible {
-      outline: 3px solid rgba(0, 181, 211, 0.5);
-      outline-offset: 2px;
-      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
-    }
-    .dashboard-card:hover, .dashboard-card:focus {
-      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2), 0 0 0 2px rgba(0,181,211,0.1) inset;
-      transform: translateY(-2px) scale(1.02);
-      border-color: #00B5D3;
-      outline: none;
-      z-index: 2;
-    }
-    .dashboard-card:active {
-      transform: scale(0.98);
-      transition: transform 0.1s ease;
-    }
-    .dashboard-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
-      transition: width 0.4s ease;
-      z-index: 3;
-    }
-    .dashboard-card:hover::after {
-      width: 100%;
-    }
-    .dados-solicitacao {
-      background: #f2f7fa;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 24px;
-      width: 100%;
-    }
-    .dados-solicitacao dl {
-      display: grid;
-      grid-template-columns: 40% 60%;
-      gap: 8px 12px;
-    }
-    .dados-solicitacao dt,
-    .dados-solicitacao dd {
-      font-size: 15px;
-      margin-bottom: 0;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
-    }
-    .dados-solicitacao dt {
-      font-weight: 500;
-      color: #002846;
-    }
-    .dados-solicitacao dd {
-      color: #333;
-    }
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Demo', 'Roboto Condensed', Arial, sans-serif;
-    }
-    .footer-content a {
-      color: #fff;
-      text-decoration: underline;
-      font-size: 0.95rem;
-      transition: opacity 0.3s ease, color 0.3s ease;
-      letter-spacing: 0.3px;
-    }
-    .footer-content a:hover {
-      color: #00B5D3;
-      text-decoration: none;
-      opacity: 0.9;
-    }
-    .footer-content .footer-logo img {
-      height: 38px;
-      width: auto;
-      object-fit: contain;
-      max-width: 100%;
-      display: block;
-    }
-    .footer-content .footer-copy {
-      font-size: 0.95rem;
-      color: #fff;
-      opacity: 0.9;
-      letter-spacing: 0.3px;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 1024px) {
-      .dashboard-title {
-        font-size: 1.5rem;
-      }
-      .dashboard-subtitle {
-        font-size: 1rem;
-      }
-      .dashboard-container {
-        padding: 0 16px;
-      }
-    }
-    @media (max-width: 700px) {
-      .dashboard-title {
-        font-size: 1.2rem;
-      }
-      .dashboard-subtitle {
-        font-size: 0.95rem;
-      }
-      .dashboard-container {
-        padding: 0 8px;
-      }
-      .dados-solicitacao {
-        padding: 14px 4vw;
-      }
+    body { background: #f7fafd; font-family: 'Inter', 'Demo', Arial, sans-serif; }
+    .container-main { max-width: 520px; margin: 48px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.09); padding: 36px 32px 32px 32px; }
+    .titulo { font-size: 2rem; color: #00B5D3; font-weight: 400; margin-bottom: 12px; }
+    .subtitulo { color: #002846; font-size: 1.1rem; margin-bottom: 28px; }
+    .detalhes-transporte { background: #f0f7fa; border-radius: 10px; padding: 18px 16px; margin-bottom: 28px; }
+    .detalhes-transporte dt { color: #00B5D3; font-weight: 500; font-size: 1rem; }
+    .detalhes-transporte dd { margin: 0 0 10px 0; color: #002846; font-size: 1rem; }
+    form { display: flex; flex-direction: column; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; }
+    label { font-weight: 500; color: #002846; margin-bottom: 6px; }
+    input[type="text"], input[type="tel"] { padding: 10px 12px; border: 1px solid #00B5D3; border-radius: 8px; font-size: 1rem; background: #f9f9fc; }
+    .radio-group { display: flex; gap: 24px; align-items: center; margin-bottom: 4px; }
+    .radio-group label { margin-bottom: 0; font-weight: 400; }
+    .btn-primary { background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 14px 0; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .btn-primary:hover { background: #009bb8; }
+    .msg-erro { color: #cf2e2e; font-size: 0.98rem; margin-top: 2px; }
+    .msg-sucesso { color: #00B5D3; font-size: 1.05rem; margin-top: 10px; text-align: center; }
+    @media (max-width: 600px) {
+      .container-main { padding: 18px 6vw; }
+      .titulo { font-size: 1.4rem; }
     }
   </style>
 </head>
 <body>
-  <header class="header_section">
-    <div class="header_wrapper">
-      <div class="logo_wrapper">
-        <a href="#" class="header_logo">
-          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" style="height: 38px; width: auto;" />
-        </a>
+  <main class="container-main" aria-label="Aceite da Transportadora">
+    <h1 class="titulo">Aceite de Transporte</h1>
+    <p class="subtitulo">Confirme ou recuse o transporte e preencha os dados do veículo e motorista.</p>
+    <dl class="detalhes-transporte">
+      <dt>Solicitação:</dt>
+      <dd>#123456 - FOB | Origem: Fornecedor XPTO | Destino: Unidade ICL SP</dd>
+      <dt>Data de Coleta:</dt>
+      <dd>12/07/2024, 10:00 - 12:00</dd>
+      <dt>Tipo de Carga:</dt>
+      <dd>Paletizado | Volume: 18 paletes | Peso: 7.200 kg</dd>
+      <dt>Transportadora:</dt>
+      <dd>TransLogística Brasil</dd>
+      <dt>Volume:</dt>
+      <dd id="ddVolume">-</dd>
+      <dt>Tipo de Carga:</dt>
+      <dd id="ddTipoCarga">-</dd>
+      <dt>Peso Total:</dt>
+      <dd id="ddPeso">-</dd>
+      <dt>Confirmou Janela:</dt>
+      <dd id="ddConfirmaJanela">-</dd>
+      <dt>Nova Data/Hora (se aplicável):</dt>
+      <dd id="ddNovaDataHora">-</dd>
+    </dl>
+    <form id="formAceite" autocomplete="off" novalidate>
+      <div class="form-group">
+        <label for="aceite">Aceite do Transporte <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+        <div class="radio-group">
+          <input type="radio" id="aceiteSim" name="aceite" value="sim" required>
+          <label for="aceiteSim">Sim</label>
+          <input type="radio" id="aceiteNao" name="aceite" value="nao">
+          <label for="aceiteNao">Não</label>
+        </div>
+        <span class="msg-erro" id="erroAceite"></span>
       </div>
-      <nav class="menu_nav_trees" aria-label="Menu principal">
-        <a href="solicitacao-agendamento.html">Agendamento</a>
-        <a href="confirmacao-fornecedor.html">Confirmação</a>
-        <a href="aceite-transportadora.html" class="active" aria-current="page">Transportadora</a>
-        <a href="checkin-coleta.html">Check-in Coleta</a>
-        <a href="dashboard.html">Dashboard</a>
-      </nav>
-    </div>
-  </header>
-  <div class="dashboard-container">
-    <main class="main-container" aria-label="Conteúdo principal">
-      <h1 class="dashboard-title">Aceite de Transporte</h1>
-      <div class="dashboard-subtitle">Confirme ou recuse o transporte e preencha os dados do veículo e motorista.</div>
-      <div class="dashboard-card">
-        <section class="dados-solicitacao" aria-label="Resumo da Solicitação">
-          <dl id="dadosSolicitacaoDL">
-            <dt>Fornecedor:</dt><dd id="ddFornecedor">-</dd>
-            <dt>Unidade:</dt><dd id="ddUnidade">-</dd>
-            <dt>Data/Hora Coleta:</dt><dd id="ddDataHora">-</dd>
-            <dt>Janela Operacional:</dt><dd id="ddJanela">-</dd>
-            <dt>Tipo de Frete:</dt><dd id="ddFrete">-</dd>
-            <dt>Local de Entrega:</dt><dd id="ddLocalEntrega">-</dd>
-          </dl>
-          <div id="avisoSemDados" style="display:none;color:#d32f2f;font-size:15px;margin-top:10px;font-weight:500;">Dados da solicitação não encontrados. Por favor, realize o agendamento antes de acessar esta página.</div>
-        </section>
+      <div class="form-group">
+        <label for="placa">Placa do Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+        <input type="text" id="placa" name="placa" maxlength="8" placeholder="Ex: ABC1D23" aria-required="true" autocomplete="off">
+        <span class="msg-erro" id="erroPlaca"></span>
       </div>
-      <div class="dashboard-card">
-        <form id="formAceite" autocomplete="off" novalidate>
-          <div class="form-group">
-            <label for="aceite">Aceite do Transporte <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-            <div class="radio-group">
-              <input type="radio" id="aceiteSim" name="aceite" value="sim" required>
-              <label for="aceiteSim">Sim</label>
-              <input type="radio" id="aceiteNao" name="aceite" value="nao">
-              <label for="aceiteNao">Não</label>
-            </div>
-            <span class="msg-erro" id="erroAceite"></span>
-          </div>
-          <div class="form-group">
-            <label for="placa">Placa do Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-            <input type="text" id="placa" name="placa" maxlength="8" placeholder="Ex: ABC1D23" aria-required="true" autocomplete="off">
-            <span class="msg-erro" id="erroPlaca"></span>
-          </div>
-          <div class="form-group">
-            <label for="cpf">CPF do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-            <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 123.456.789-00" aria-required="true" autocomplete="off">
-            <span class="msg-erro" id="erroCpf"></span>
-          </div>
-          <div class="form-group">
-            <label for="nome">Nome do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-            <input type="text" id="nome" name="nome" maxlength="60" placeholder="Nome completo" aria-required="true" autocomplete="off">
-            <span class="msg-erro" id="erroNome"></span>
-          </div>
-          <div class="form-group">
-            <label for="celular">Celular do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-            <input type="tel" id="celular" name="celular" maxlength="15" placeholder="Ex: (11) 91234-5678" aria-required="true" autocomplete="off">
-            <span class="msg-erro" id="erroCelular"></span>
-          </div>
-          <button type="submit" class="btn-primary" aria-label="Confirmar Aceite">Confirmar</button>
-          <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
-        </form>
+      <div class="form-group">
+        <label for="cpf">CPF do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+        <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Ex: 123.456.789-00" aria-required="true" autocomplete="off">
+        <span class="msg-erro" id="erroCpf"></span>
       </div>
-    </main>
-  </div>
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto; object-fit: contain; max-width: 100%;" />
+      <div class="form-group">
+        <label for="nome">Nome do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+        <input type="text" id="nome" name="nome" maxlength="60" placeholder="Nome completo" aria-required="true" autocomplete="off">
+        <span class="msg-erro" id="erroNome"></span>
       </div>
-      <div>
-        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
-        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
-        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+      <div class="form-group">
+        <label for="celular">Celular do Motorista <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+        <input type="tel" id="celular" name="celular" maxlength="15" placeholder="Ex: (11) 91234-5678" aria-required="true" autocomplete="off">
+        <span class="msg-erro" id="erroCelular"></span>
       </div>
-      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
-    </div>
-  </footer>
+      <button type="submit" class="btn-primary" aria-label="Confirmar Aceite">Confirmar</button>
+      <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
+    </form>
+  </main>
   <script>
-    // Sombra dinâmica no header ao rolar
-    window.addEventListener('scroll', function() {
-      var header = document.querySelector('.header_section');
-      if(window.scrollY > 0) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
     // Máscara de placa (Mercosul ou padrão antigo)
     function maskPlaca(v) {
       v = v.toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -487,42 +188,26 @@
         ok = false;
       }
       if (ok) {
-        // Persistência dos dados do aceite no localStorage
-        var dadosAceite = {
-          placa: placa,
-          cpf: cpf,
-          nome: nome,
-          celular: celular
-        };
-        localStorage.setItem('dadosAceiteTransportadora', JSON.stringify(dadosAceite));
         document.getElementById('msgSucesso').textContent = 'Aceite registrado com sucesso!';
         document.getElementById('msgSucesso').style.display = 'block';
         setTimeout(function(){ window.location.href = 'checkin-coleta.html'; }, 1200);
       }
     });
-    // Preencher dados da solicitação vindos do localStorage
-    (function preencherDadosSolicitacao() {
+    // Preencher dados de confirmação do fornecedor
+    (function preencherDadosConfirmacao() {
       var dados = null;
       try {
-        dados = JSON.parse(localStorage.getItem('dadosAgendamento'));
+        dados = JSON.parse(localStorage.getItem('dadosConfirmacao'));
       } catch(e) { dados = null; }
-      if (dados && dados.fornecedor && dados.unidade && dados.data_hora && dados.janela && dados.frete && dados.local_entrega) {
-        document.getElementById('ddFornecedor').textContent = dados.fornecedor;
-        document.getElementById('ddUnidade').textContent = dados.unidade;
-        document.getElementById('ddDataHora').textContent = dados.data_hora;
-        document.getElementById('ddJanela').textContent = dados.janela;
-        document.getElementById('ddFrete').textContent = dados.frete;
-        document.getElementById('ddLocalEntrega').textContent = dados.local_entrega;
-        document.getElementById('avisoSemDados').style.display = 'none';
-      } else {
-        document.getElementById('avisoSemDados').style.display = 'block';
-        document.getElementById('ddFornecedor').textContent = '-';
-        document.getElementById('ddUnidade').textContent = '-';
-        document.getElementById('ddDataHora').textContent = '-';
-        document.getElementById('ddJanela').textContent = '-';
-        document.getElementById('ddFrete').textContent = '-';
-        document.getElementById('ddLocalEntrega').textContent = '-';
+      document.getElementById('ddVolume').textContent = dados && dados.volume ? dados.volume : '-';
+      document.getElementById('ddTipoCarga').textContent = dados && dados.tipo_carga ? dados.tipo_carga.charAt(0).toUpperCase() + dados.tipo_carga.slice(1) : '-';
+      document.getElementById('ddPeso').textContent = dados && dados.peso ? dados.peso + ' kg' : '-';
+      document.getElementById('ddConfirmaJanela').textContent = dados && dados.confirma_janela ? (dados.confirma_janela === 'sim' ? 'Sim' : 'Não') : '-';
+      var novaDataHora = '-';
+      if (dados && dados.confirma_janela === 'nao' && (dados.nova_data || dados.nova_hora)) {
+        novaDataHora = (dados.nova_data ? dados.nova_data : '') + (dados.nova_data && dados.nova_hora ? ' ' : '') + (dados.nova_hora ? dados.nova_hora : '');
       }
+      document.getElementById('ddNovaDataHora').textContent = novaDataHora;
     })();
   </script>
 </body>
