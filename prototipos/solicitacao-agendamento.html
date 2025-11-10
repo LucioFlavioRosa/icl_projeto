@@ -4,187 +4,558 @@
   <meta charset="UTF-8">
   <title>Gestão de Solicitações de Agendamento - Gestão de Fretes ICL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Replicando links e estilos do template -->
   <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
+  <!-- Roboto Condensed e Roboto Bold Condensed - Self-hosted ou Google Fonts fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #f8fafb; }
-    .main-container { max-width: 950px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 40px 32px 32px 32px; }
-    .elementor-field-group { margin-bottom: 22px; }
-    .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
-    .form-row { display: flex; gap: 18px; }
-    .form-row > .elementor-field-group { flex: 1; }
-    .elementor-button { min-width: 160px; margin-top: 18px; }
-    .table-responsive { overflow-x: auto; margin-top: 40px; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #e3e8ee; font-size: 15px; }
-    th { background: #f2f7fa; color: #00B5D3; font-weight: 500; }
-    tr:last-child td { border-bottom: none; }
-    .status-badge { display: inline-block; border-radius: 12px; padding: 2px 12px; font-size: 13px; color: #fff; }
-    .status-pendente { background: #ff9800; }
-    .status-confirmado { background: #00B5D3; }
-    .status-transito { background: #2196f3; }
-    .status-concluido { background: #43a047; }
-    .filter-group { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+    /* Font-face custom (exemplo para robotobold_condensed e robotocondensed) - ajuste caminho se necessário */
+    @font-face {
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
+    body {
+      background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      position: relative;
+    }
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .dashboard-title {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 45px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-subtitle {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      color: #7A7A7A;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .dashboard-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dashboard-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dashboard-card:hover::after {
+      width: 100%;
+    }
+    .form-row {
+      display: flex;
+      gap: 18px;
+    }
+    .form-row > .elementor-field-group {
+      flex: 1;
+    }
+    .elementor-label {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #002846;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .elementor-field-textual {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #e5e9f2;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+      color: #002846;
+      box-sizing: border-box;
+    }
+    .elementor-field-textual:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
+    }
+    input[type="radio"] {
+      accent-color: #00B5D3;
+      cursor: pointer;
+    }
+    .elementor-button {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-width: 160px;
+      margin-top: 18px;
+      display: inline-block;
+    }
+    .elementor-button:hover {
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+    }
+    .elementor-button.elementor-size-xs {
+      padding: 8px 16px;
+      font-size: 14px;
+      min-width: auto;
+    }
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    th {
+      background: #f2f7fa;
+      color: #00B5D3;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 14px 12px;
+    }
+    td {
+      font-size: 15px;
+      color: #002846;
+      padding: 14px 12px;
+      border-bottom: 1px solid #e3e8ee;
+      transition: background 0.2s;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover {
+      background: #f9fbfc;
+      transition: background 0.2s;
+    }
+    .status-badge {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+    .status-pendente { background: #ff9800; color: #fff; }
+    .status-confirmado { background: #00B5D3; color: #fff; }
+    .status-transito { background: #2196f3; color: #fff; }
+    .status-concluido { background: #43a047; color: #fff; }
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    #filtroStatus {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #e5e9f2;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+      color: #002846;
+      box-sizing: border-box;
+      max-width: 180px;
+    }
+    #filtroStatus:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
+    }
+    header.header_section {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .header_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 80px;
+    }
+    .logo_wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .menu_nav_trees {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-left: 32px;
+    }
+    .menu_nav_trees a {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #002846;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .menu_nav_trees a.active, .menu_nav_trees a:hover {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.3);
+    }
+    footer {
+      background: #002846;
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 40px 0 24px 0;
+      margin-top: 48px;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+    .footer-content a:hover {
+      color: #00B5D3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-content .footer-logo {
+      margin-bottom: 10px;
+    }
+    .footer-content .footer-copy {
+      font-size: 14px;
+      color: #fff;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 1024px) {
+      .dashboard-title {
+        font-size: 36px;
+      }
+      .dashboard-subtitle {
+        font-size: 18px;
+      }
+      .main-container {
+        padding: 18px 5vw;
+      }
+      th {
+        font-size: 13px;
+      }
+      td {
+        font-size: 14px;
+      }
+    }
     @media (max-width: 700px) {
-      .main-container { padding: 18px 5vw; }
-      .form-row { flex-direction: column; gap: 0; }
+      .dashboard-title {
+        font-size: 28px;
+      }
+      .dashboard-subtitle {
+        font-size: 16px;
+      }
+      .main-container {
+        padding: 12px 3vw;
+      }
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      th {
+        font-size: 12px;
+      }
+      td {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="header_section" style="background:#002846;">
-    <div class="header_wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:16px 32px;">
-      <a href="#" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" style="height:38px;"></a>
-      <nav class="menu_nav_trees">
-        <a href="solicitacao-agendamento.html" style="color:#00B5D3;font-weight:600;margin-right:24px;">Agendamento</a>
-        <a href="confirmacao-fornecedor.html" style="color:#fff;margin-right:24px;">Confirmação</a>
-        <a href="selecao-transportadora.html" style="color:#fff;">Transportadora</a>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="#" class="header_logo">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" style="height: 38px; width: auto;" />
+        </a>
+      </div>
+      <nav class="menu_nav_trees" aria-label="Menu principal">
+        <a href="solicitacao-agendamento.html" class="active" aria-current="page">Agendamento</a>
+        <a href="confirmacao-fornecedor.html">Confirmação</a>
+        <a href="selecao-transportadora.html">Transportadora</a>
       </nav>
     </div>
   </header>
-  <main class="main-container">
-    <h1 style="color:#00B5D3;font-size:2.1rem;font-weight:400;margin-bottom:32px;">Solicitação de Agendamento de Coleta</h1>
-    <form id="agendamentoForm" autocomplete="off">
-      <div class="form-row">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="fornecedor">Fornecedor *</label>
-          <select id="fornecedor" name="fornecedor" class="elementor-field-textual" required>
-            <option value="">Selecione</option>
-            <option value="forn1">Fornecedor Alfa</option>
-            <option value="forn2">Fornecedor Beta</option>
-            <option value="forn3">Fornecedor Gama</option>
-          </select>
-        </div>
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="unidade">Unidade *</label>
-          <select id="unidade" name="unidade" class="elementor-field-textual" required>
-            <option value="">Selecione</option>
-            <option value="un1">Unidade SP</option>
-            <option value="un2">Unidade MG</option>
-            <option value="un3">Unidade PR</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="data_coleta">Data de Coleta *</label>
-          <input type="date" id="data_coleta" name="data_coleta" class="elementor-field-textual" required>
-        </div>
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="hora_coleta">Horário de Coleta *</label>
-          <input type="time" id="hora_coleta" name="hora_coleta" class="elementor-field-textual" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="janela">Janela Operacional *</label>
-          <select id="janela" name="janela" class="elementor-field-textual" required>
-            <option value="">Selecione</option>
-            <option value="1">08:00 - 10:00</option>
-            <option value="2">10:00 - 12:00</option>
-            <option value="3">13:00 - 15:00</option>
-            <option value="4">15:00 - 17:00</option>
-          </select>
-        </div>
-        <div class="elementor-field-group">
-          <label class="elementor-label">Tipo de Frete *</label>
-          <div style="display:flex;gap:16px;align-items:center;">
-            <label><input type="radio" name="frete" value="FOB" required> FOB</label>
-            <label><input type="radio" name="frete" value="CIF"> CIF</label>
+  <div class="dashboard-container">
+    <main class="main-container" aria-label="Conteúdo principal">
+      <h1 class="dashboard-title">Solicitação de Agendamento de Coleta</h1>
+      <div class="dashboard-subtitle">Gerencie e acompanhe todas as solicitações de coleta FOB/CIF em tempo real.</div>
+      <div class="dashboard-card">
+        <form id="agendamentoForm" autocomplete="off">
+          <div class="form-row">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="fornecedor">Fornecedor *</label>
+              <select id="fornecedor" name="fornecedor" class="elementor-field-textual" required>
+                <option value="">Selecione</option>
+                <option value="forn1">Fornecedor Alfa</option>
+                <option value="forn2">Fornecedor Beta</option>
+                <option value="forn3">Fornecedor Gama</option>
+              </select>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="unidade">Unidade *</label>
+              <select id="unidade" name="unidade" class="elementor-field-textual" required>
+                <option value="">Selecione</option>
+                <option value="un1">Unidade SP</option>
+                <option value="un2">Unidade MG</option>
+                <option value="un3">Unidade PR</option>
+              </select>
+            </div>
           </div>
+          <div class="form-row">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="data_coleta">Data de Coleta *</label>
+              <input type="date" id="data_coleta" name="data_coleta" class="elementor-field-textual" required>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="hora_coleta">Horário de Coleta *</label>
+              <input type="time" id="hora_coleta" name="hora_coleta" class="elementor-field-textual" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="janela">Janela Operacional *</label>
+              <select id="janela" name="janela" class="elementor-field-textual" required>
+                <option value="">Selecione</option>
+                <option value="1">08:00 - 10:00</option>
+                <option value="2">10:00 - 12:00</option>
+                <option value="3">13:00 - 15:00</option>
+                <option value="4">15:00 - 17:00</option>
+              </select>
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label">Tipo de Frete *</label>
+              <div style="display:flex;gap:16px;align-items:center;">
+                <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="frete" value="FOB" required> FOB</label>
+                <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="frete" value="CIF"> CIF</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="elementor-field-group" style="flex:2;">
+              <label class="elementor-label" for="local_entrega">Local de Entrega *</label>
+              <select id="local_entrega" name="local_entrega" class="elementor-field-textual" required>
+                <option value="">Selecione</option>
+                <option value="icl_sp">ICL São Paulo</option>
+                <option value="icl_mg">ICL Uberlândia</option>
+                <option value="icl_pr">ICL Paranaguá</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="elementor-button elementor-size-md">Solicitar Agendamento</button>
+        </form>
+      </div>
+      <div class="dashboard-card">
+        <div class="table-responsive">
+          <div class="filter-group">
+            <label for="filtroStatus">Filtrar por status:</label>
+            <select id="filtroStatus" class="elementor-field-textual">
+              <option value="">Todos</option>
+              <option value="pendente">Pendente</option>
+              <option value="confirmado">Confirmado</option>
+              <option value="transito">Em Trânsito</option>
+              <option value="concluido">Concluído</option>
+            </select>
+          </div>
+          <table id="historicoTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fornecedor</th>
+                <th>Unidade</th>
+                <th>Data/Hora</th>
+                <th>Janela</th>
+                <th>Frete</th>
+                <th>Local Entrega</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-status="pendente">
+                <td>1001</td>
+                <td>Fornecedor Alfa</td>
+                <td>SP</td>
+                <td>2024-07-15 09:00</td>
+                <td>08:00 - 10:00</td>
+                <td>FOB</td>
+                <td>ICL São Paulo</td>
+                <td><span class="status-badge status-pendente">Pendente</span></td>
+                <td><a href="confirmacao-fornecedor.html" class="elementor-button elementor-size-xs">Detalhes</a></td>
+              </tr>
+              <tr data-status="confirmado">
+                <td>1000</td>
+                <td>Fornecedor Beta</td>
+                <td>MG</td>
+                <td>2024-07-14 13:00</td>
+                <td>13:00 - 15:00</td>
+                <td>CIF</td>
+                <td>ICL Uberlândia</td>
+                <td><span class="status-badge status-confirmado">Confirmado</span></td>
+                <td><a href="selecao-transportadora.html" class="elementor-button elementor-size-xs">Transportadora</a></td>
+              </tr>
+              <tr data-status="transito">
+                <td>998</td>
+                <td>Fornecedor Gama</td>
+                <td>PR</td>
+                <td>2024-07-13 15:30</td>
+                <td>15:00 - 17:00</td>
+                <td>FOB</td>
+                <td>ICL Paranaguá</td>
+                <td><span class="status-badge status-transito">Em Trânsito</span></td>
+                <td>-</td>
+              </tr>
+              <tr data-status="concluido">
+                <td>990</td>
+                <td>Fornecedor Alfa</td>
+                <td>SP</td>
+                <td>2024-07-10 08:00</td>
+                <td>08:00 - 10:00</td>
+                <td>CIF</td>
+                <td>ICL São Paulo</td>
+                <td><span class="status-badge status-concluido">Concluído</span></td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="form-row">
-        <div class="elementor-field-group" style="flex:2;">
-          <label class="elementor-label" for="local_entrega">Local de Entrega *</label>
-          <select id="local_entrega" name="local_entrega" class="elementor-field-textual" required>
-            <option value="">Selecione</option>
-            <option value="icl_sp">ICL São Paulo</option>
-            <option value="icl_mg">ICL Uberlândia</option>
-            <option value="icl_pr">ICL Paranaguá</option>
-          </select>
-        </div>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
       </div>
-      <button type="submit" class="elementor-button elementor-size-md">Solicitar Agendamento</button>
-    </form>
-    <div class="table-responsive">
-      <div class="filter-group">
-        <label for="filtroStatus">Filtrar por status:</label>
-        <select id="filtroStatus" class="elementor-field-textual" style="max-width:180px;">
-          <option value="">Todos</option>
-          <option value="pendente">Pendente</option>
-          <option value="confirmado">Confirmado</option>
-          <option value="transito">Em Trânsito</option>
-          <option value="concluido">Concluído</option>
-        </select>
+      <div>
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
+        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
       </div>
-      <table id="historicoTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Fornecedor</th>
-            <th>Unidade</th>
-            <th>Data/Hora</th>
-            <th>Janela</th>
-            <th>Frete</th>
-            <th>Local Entrega</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-status="pendente">
-            <td>1001</td>
-            <td>Fornecedor Alfa</td>
-            <td>SP</td>
-            <td>2024-07-15 09:00</td>
-            <td>08:00 - 10:00</td>
-            <td>FOB</td>
-            <td>ICL São Paulo</td>
-            <td><span class="status-badge status-pendente">Pendente</span></td>
-            <td><a href="confirmacao-fornecedor.html" class="elementor-button elementor-size-xs" style="padding:3px 14px;font-size:13px;">Detalhes</a></td>
-          </tr>
-          <tr data-status="confirmado">
-            <td>1000</td>
-            <td>Fornecedor Beta</td>
-            <td>MG</td>
-            <td>2024-07-14 13:00</td>
-            <td>13:00 - 15:00</td>
-            <td>CIF</td>
-            <td>ICL Uberlândia</td>
-            <td><span class="status-badge status-confirmado">Confirmado</span></td>
-            <td><a href="selecao-transportadora.html" class="elementor-button elementor-size-xs" style="padding:3px 14px;font-size:13px;background:#00B5D3;">Transportadora</a></td>
-          </tr>
-          <tr data-status="transito">
-            <td>998</td>
-            <td>Fornecedor Gama</td>
-            <td>PR</td>
-            <td>2024-07-13 15:30</td>
-            <td>15:00 - 17:00</td>
-            <td>FOB</td>
-            <td>ICL Paranaguá</td>
-            <td><span class="status-badge status-transito">Em Trânsito</span></td>
-            <td>-</td>
-          </tr>
-          <tr data-status="concluido">
-            <td>990</td>
-            <td>Fornecedor Alfa</td>
-            <td>SP</td>
-            <td>2024-07-10 08:00</td>
-            <td>08:00 - 10:00</td>
-            <td>CIF</td>
-            <td>ICL São Paulo</td>
-            <td><span class="status-badge status-concluido">Concluído</span></td>
-            <td>-</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
     </div>
-  </main>
+  </footer>
   <script>
     // Filtro de status na tabela
     document.getElementById('filtroStatus').addEventListener('change', function() {
