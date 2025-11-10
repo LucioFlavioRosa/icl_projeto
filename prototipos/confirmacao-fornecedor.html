@@ -13,7 +13,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Font-face custom (replicado de solicitacao-agendamento.html) */
     @font-face {
       font-family: 'robotobold_condensed';
       src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
@@ -142,7 +141,7 @@
       overflow: hidden;
       animation: fadeInUp 0.6s ease-out forwards;
       transition: box-shadow 0.2s, transform 0.2s;
-      cursor: pointer;
+      cursor: default;
     }
     .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
     .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
@@ -153,10 +152,10 @@
     }
     .dashboard-card:hover, .dashboard-card:focus {
       box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
-      transform: translateY(-4px) scale(1.01);
       border-color: #00B5D3;
       outline: none;
       z-index: 2;
+      /* transform: translateY(-4px) scale(1.01); -- removido conforme instrução */
     }
     .dashboard-card::after {
       content: '';
@@ -464,24 +463,7 @@
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      // Coleta dos dados do formulário
-      var volume = document.getElementById('volume').value;
-      var tipo_carga = document.getElementById('tipo_carga').value;
-      var peso = document.getElementById('peso').value;
-      var confirma_janela_radio = document.querySelector('input[name="confirma_janela"]:checked');
-      var confirma_janela = confirma_janela_radio ? confirma_janela_radio.value : '';
-      var nova_data = document.getElementById('nova_data').value;
-      var nova_hora = document.getElementById('nova_hora').value;
-      var dadosConfirmacao = {
-        volume: volume,
-        tipo_carga: tipo_carga,
-        peso: peso,
-        confirma_janela: confirma_janela,
-        nova_data: nova_data,
-        nova_hora: nova_hora
-      };
-      localStorage.setItem('dadosConfirmacao', JSON.stringify(dadosConfirmacao));
-      if(confirma_janela === 'sim') {
+      if(document.querySelector('input[name="confirma_janela"]:checked').value === 'sim') {
         alert('Volume confirmado! (Fluxo simulado)');
         window.location.href = 'dashboard.html';
       } else {
