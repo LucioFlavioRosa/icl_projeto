@@ -464,7 +464,24 @@
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      if(document.querySelector('input[name="confirma_janela"]:checked').value === 'sim') {
+      // Coleta dos dados do formulário
+      var volume = document.getElementById('volume').value;
+      var tipo_carga = document.getElementById('tipo_carga').value;
+      var peso = document.getElementById('peso').value;
+      var confirma_janela_radio = document.querySelector('input[name="confirma_janela"]:checked');
+      var confirma_janela = confirma_janela_radio ? confirma_janela_radio.value : '';
+      var nova_data = document.getElementById('nova_data').value;
+      var nova_hora = document.getElementById('nova_hora').value;
+      var dadosConfirmacao = {
+        volume: volume,
+        tipo_carga: tipo_carga,
+        peso: peso,
+        confirma_janela: confirma_janela,
+        nova_data: nova_data,
+        nova_hora: nova_hora
+      };
+      localStorage.setItem('dadosConfirmacao', JSON.stringify(dadosConfirmacao));
+      if(confirma_janela === 'sim') {
         alert('Volume confirmado! (Fluxo simulado)');
         window.location.href = 'dashboard.html';
       } else {
