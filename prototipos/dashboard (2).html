@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Gestão de Fretes ICL</title>
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/reset.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1761639274" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536" media="all" />
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536" media="all" />
+  <style>
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
+    body {
+      background: #f7fafd;
+      font-family: 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    body.dark-mode {
+      --bg-main: #10151a;
+      --bg-card: #18212b;
+      --color-title: #e6f7fa;
+      --color-desc: #b3c2cc;
+      --color-accent: #00B5D3;
+      background: var(--bg-main);
+      color: var(--color-title);
+    }
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      position: relative;
+    }
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .dashboard-title {
+      font-family: 'Demo', Sans-serif;
+      font-size: 45px;
+      color: #002846;
+      font-weight: 500;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-subtitle {
+      font-family: 'Demo', Sans-serif;
+      color: #7A7A7A;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-title {
+        font-size: 36px;
+      }
+      .dashboard-subtitle {
+        font-size: 18px;
+      }
+    }
+    @media (max-width: 700px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .dashboard-title {
+        font-size: 28px;
+      }
+      .dashboard-subtitle {
+        font-size: 16px;
+      }
+      .dashboard-card .card-title {
+        font-size: 16px;
+      }
+    }
+    .dashboard-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      border: 1px solid #e5e9f2;
+      min-height: 200px;
+      position: relative;
+      text-decoration: none;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+    .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+    .dashboard-card:nth-child(5) { animation-delay: 0.5s; }
+    .dashboard-card:nth-child(6) { animation-delay: 0.6s; }
+    .dashboard-card:nth-child(7) { animation-delay: 0.7s; }
+    .dashboard-card:nth-child(8) { animation-delay: 0.8s; }
+    .dashboard-card:nth-child(9) { animation-delay: 0.9s; }
+    .dashboard-card:nth-child(10) { animation-delay: 1.0s; }
+    .dashboard-card:nth-child(11) { animation-delay: 1.1s; }
+    .dashboard-card:nth-child(12) { animation-delay: 1.2s; }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dashboard-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dashboard-card:hover::after {
+      width: 100%;
+    }
+    .dashboard-card .card-icon {
+      font-size: 2.8rem;
+      color: #00B5D3;
+      margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .dashboard-card .card-icon i {
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .dashboard-card:hover .card-icon i {
+      transform: scale(1.1);
+      color: #008FA3;
+    }
+    .dashboard-card .card-title {
+      font-family: 'Demo', Sans-serif;
+      font-size: 18px;
+      color: #002846;
+      font-weight: 500;
+      margin-bottom: 8px;
+      line-height: 1.2em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-card .card-desc {
+      font-family: 'Demo', Sans-serif;
+      color: #7A7A7A;
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 0;
+      line-height: 1.3em;
+    }
+    .dashboard-card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #00B5D3;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      z-index: 4;
+      letter-spacing: 1px;
+    }
+    /* Header e Footer customização mínima para integração visual */
+    header.header_section {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .menu_nav_trees {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-left: 32px;
+    }
+    .menu_nav_trees a {
+      color: #002846;
+      font-family: 'Demo', Sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .menu_nav_trees a.active, .menu_nav_trees a:hover {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.3);
+    }
+    footer {
+      background: #002846;
+      color: #fff;
+      font-family: 'Demo', Sans-serif;
+      font-size: 16px;
+      padding: 40px 0 24px 0;
+      margin-top: 48px;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+    .footer-content a:hover {
+      color: #00B5D3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-content .footer-logo {
+      margin-bottom: 10px;
+    }
+    .footer-content .footer-copy {
+      font-size: 14px;
+      color: #fff;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header_section">
+    <div class="header_wrapper" style="display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 80px;">
+      <div class="logo_wrapper" style="display: flex; align-items: center;">
+        <a href="#" class="header_logo">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" style="height: 38px; width: auto;" />
+        </a>
+      </div>
+      <nav class="menu_nav_trees" aria-label="Menu principal">
+        <a href="#" class="active" aria-current="page">Dashboard</a>
+        <a href="solicitacoes.html">Solicitações</a>
+        <a href="cadastros.html">Cadastros</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="pendencias.html">Pendências</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="login.html">Sair</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dashboard-container" aria-label="Conteúdo principal">
+    <h1 class="dashboard-title">Gestão de Fretes ICL</h1>
+    <div class="dashboard-subtitle">Bem-vindo! Selecione um módulo para começar a gerenciar suas operações logísticas.</div>
+    <section class="dashboard-grid">
+      <a href="solicitacoes.html" class="dashboard-card" aria-label="Solicitações de Agendamento">
+        <span class="card-icon"><i class="fas fa-calendar-plus"></i></span>
+        <span class="card-title">Solicitações de Agendamento</span>
+        <span class="card-desc">Centralize e acompanhe todos os pedidos de coleta FOB/CIF.</span>
+      </a>
+      <a href="confirmacao-fornecedor.html" class="dashboard-card" aria-label="Confirmação do Fornecedor">
+        <span class="card-icon"><i class="fas fa-clipboard-check"></i></span>
+        <span class="card-title">Confirmação do Fornecedor</span>
+        <span class="card-desc">Valide volumes, janelas e detalhes da coleta.</span>
+      </a>
+      <a href="definicao-transporte.html" class="dashboard-card" aria-label="Definição de Transporte">
+        <span class="card-icon"><i class="fas fa-truck-moving"></i></span>
+        <span class="card-title">Definição de Transporte</span>
+        <span class="card-desc">Selecione transportadora e tipo de veículo automaticamente.</span>
+      </a>
+      <a href="aceite-transportadora.html" class="dashboard-card" aria-label="Aceite da Transportadora">
+        <span class="card-icon"><i class="fas fa-check-double"></i></span>
+        <span class="card-title">Aceite da Transportadora</span>
+        <span class="card-desc">Formalize o aceite e registre dados do veículo e motorista.</span>
+      </a>
+      <a href="checkin-coleta.html" class="dashboard-card" aria-label="Check-in Coleta">
+        <span class="card-icon"><i class="fas fa-sign-in-alt"></i></span>
+        <span class="card-title">Check-in de Coleta</span>
+        <span class="card-desc">Registre a chegada do veículo no fornecedor via token.</span>
+      </a>
+      <a href="documentos.html" class="dashboard-card" aria-label="Notas Fiscais e CT-e">
+        <span class="card-icon"><i class="fas fa-file-upload"></i></span>
+        <span class="card-title">Notas Fiscais &amp; CT-e</span>
+        <span class="card-desc">Faça upload do XML da NF e CT-e para emissão e rastreio.</span>
+      </a>
+      <a href="checkin-destino.html" class="dashboard-card" aria-label="Check-in Destino e Descarga">
+        <span class="card-icon"><i class="fas fa-map-marker-alt"></i></span>
+        <span class="card-title">Check-in Destino &amp; Descarga</span>
+        <span class="card-desc">Registre chegada no destino e confirmação de descarga.</span>
+      </a>
+      <a href="cadastros.html" class="dashboard-card" aria-label="Cadastros e Parametrizações">
+        <span class="card-icon"><i class="fas fa-database"></i></span>
+        <span class="card-title">Cadastros &amp; Parametrizações</span>
+        <span class="card-desc">Gerencie fornecedores, transportadoras, veículos e locais.</span>
+      </a>
+      <a href="pendencias.html" class="dashboard-card" aria-label="Painel de Pendências">
+        <span class="card-icon"><i class="fas fa-exclamation-triangle"></i></span>
+        <span class="card-title">Painel de Pendências</span>
+        <span class="card-desc">Visualize e resolva pendências críticas em tempo real.</span>
+      </a>
+      <a href="relatorios.html" class="dashboard-card" aria-label="Relatórios e Análises">
+        <span class="card-icon"><i class="fas fa-chart-line"></i></span>
+        <span class="card-title">Relatórios &amp; Análises</span>
+        <span class="card-desc">Acompanhe KPIs, exporte dados e visualize gráficos.</span>
+      </a>
+      <a href="usuarios.html" class="dashboard-card" aria-label="Gestão de Usuários">
+        <span class="card-icon"><i class="fas fa-users-cog"></i></span>
+        <span class="card-title">Gestão de Usuários</span>
+        <span class="card-desc">Controle acessos, perfis e permissões do sistema.</span>
+      </a>
+      <a href="configuracoes.html" class="dashboard-card" aria-label="Configurações do Sistema">
+        <span class="card-icon"><i class="fas fa-cogs"></i></span>
+        <span class="card-title">Configurações</span>
+        <span class="card-desc">Ajuste preferências e consulte informações técnicas.</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
+      </div>
+      <div>
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
+        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+      </div>
+      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
+    </div>
+  </footer>
+</body>
+</html>
