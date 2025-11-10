@@ -569,10 +569,60 @@
         }
       });
     });
-    // Simulação de submit
+    // Transferência de dados do formulário para a página de confirmação
     document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Solicitação enviada! (Fluxo simulado)');
+      // Obter valores dos campos
+      var fornecedorSel = document.getElementById('fornecedor');
+      var unidadeSel = document.getElementById('unidade');
+      var janelaSel = document.getElementById('janela');
+      var localEntregaSel = document.getElementById('local_entrega');
+      var dataColeta = document.getElementById('data_coleta').value;
+      var horaColeta = document.getElementById('hora_coleta').value;
+      var freteRadio = document.querySelector('input[name="frete"]:checked');
+      // Mapas para exibir texto legível
+      var fornecedorMap = {
+        'forn1': 'Fornecedor Alfa',
+        'forn2': 'Fornecedor Beta',
+        'forn3': 'Fornecedor Gama'
+      };
+      var unidadeMap = {
+        'un1': 'SP',
+        'un2': 'MG',
+        'un3': 'PR'
+      };
+      var janelaMap = {
+        '1': '08:00 - 10:00',
+        '2': '10:00 - 12:00',
+        '3': '13:00 - 15:00',
+        '4': '15:00 - 17:00'
+      };
+      var localEntregaMap = {
+        'icl_sp': 'ICL São Paulo',
+        'icl_mg': 'ICL Uberlândia',
+        'icl_pr': 'ICL Paranaguá'
+      };
+      // Formatar data/hora para exibição
+      function formatarData(data) {
+        if (!data) return '';
+        var partes = data.split('-');
+        return partes[0] + '-' + partes[1] + '-' + partes[2];
+      }
+      function formatarHora(hora) {
+        if (!hora) return '';
+        return hora.slice(0,5);
+      }
+      var dados = {
+        fornecedor: fornecedorMap[fornecedorSel.value] || '',
+        unidade: unidadeMap[unidadeSel.value] || '',
+        data_hora: formatarData(dataColeta) + ' ' + formatarHora(horaColeta),
+        janela: janelaMap[janelaSel.value] || '',
+        frete: freteRadio ? freteRadio.value : '',
+        local_entrega: localEntregaMap[localEntregaSel.value] || ''
+      };
+      // Salvar no localStorage
+      localStorage.setItem('dadosAgendamento', JSON.stringify(dados));
+      // Redirecionar
       window.location.href = 'confirmacao-fornecedor.html';
     });
   </script>
