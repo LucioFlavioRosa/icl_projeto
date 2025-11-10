@@ -239,13 +239,13 @@
       font-size: 14px;
       min-width: auto;
     }
-    .elementor-button-secondary {
+    .elementor-button.elementor-button-secondary {
       background: transparent !important;
       border: 2px solid #00B5D3;
       color: #00B5D3 !important;
       transition: all 0.3s ease;
     }
-    .elementor-button-secondary:hover {
+    .elementor-button.elementor-button-secondary:hover {
       background: #00B5D3 !important;
       color: #fff !important;
     }
@@ -458,12 +458,20 @@
       });
     });
     document.getElementById('btnPropor').addEventListener('click', function() {
-      // Sinalizar modo edição e redirecionar para agendamento mantendo dados
-      localStorage.setItem('modoEdicao', 'true');
-      window.location.href = 'solicitacao-agendamento.html';
+      document.getElementById('novaJanelaGroup').style.display = 'flex';
+      radios.forEach(r => { if(r.value==='nao') r.checked=true; });
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      // Salvar dados do formulário de confirmação no localStorage
+      localStorage.setItem('dadosConfirmacao', JSON.stringify({
+        volume: document.getElementById('volume').value,
+        tipo_carga: document.getElementById('tipo_carga').value,
+        peso: document.getElementById('peso').value,
+        confirma_janela: document.querySelector('input[name="confirma_janela"]:checked').value,
+        nova_data: document.getElementById('nova_data').value,
+        nova_hora: document.getElementById('nova_hora').value
+      }));
       if(document.querySelector('input[name="confirma_janela"]:checked').value === 'sim') {
         alert('Volume confirmado! (Fluxo simulado)');
         window.location.href = 'dashboard.html';
