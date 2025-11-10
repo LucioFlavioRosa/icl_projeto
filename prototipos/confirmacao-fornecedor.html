@@ -9,49 +9,256 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
-  <!-- Fontes Roboto Condensed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* Font-face custom (replicado de solicitacao-agendamento.html) */
     @font-face {
-      font-family: 'Roboto Condensed';
-      src: url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-regular.woff2') format('woff2'),
-           url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-regular.woff') format('woff');
-      font-weight: 400;
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
-      font-family: 'Roboto Condensed';
-      src: url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-bold.woff2') format('woff2'),
-           url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-bold.woff') format('woff');
-      font-weight: 700;
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
       font-style: normal;
       font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
     }
     body {
-      background: #f8fafb;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+      background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    header.header_section {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .header_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 80px;
+    }
+    .logo_wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .menu_nav_trees {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-left: 32px;
+    }
+    .menu_nav_trees a {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
       font-weight: 400;
-      color: #222;
+      color: #002846;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .menu_nav_trees a.active, .menu_nav_trees a[aria-current="page"], .menu_nav_trees a:hover {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.3);
+    }
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      position: relative;
+    }
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .dashboard-title {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 45px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .dashboard-subtitle {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      color: #7A7A7A;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
     }
     .main-container {
-      max-width: 950px;
-      margin: 40px auto 0 auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 18px #00284612;
-      padding: 40px 32px 32px 32px;
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      padding: 32px;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
     }
-    .section-title, h1 {
-      color: #00B5D3;
-      font-size: 2.1rem;
-      font-weight: 700;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    .dashboard-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
       margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dashboard-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dashboard-card:hover::after {
+      width: 100%;
+    }
+    .form-row {
+      display: flex;
+      gap: 18px;
+    }
+    .form-row > .elementor-field-group {
+      flex: 1;
+    }
+    .elementor-label {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #002846;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .elementor-field-textual,
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #e5e9f2;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fff;
+      color: #002846;
+      box-sizing: border-box;
+    }
+    .elementor-field-textual:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    select:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
+    }
+    input[type="radio"] {
+      accent-color: #00B5D3;
+      cursor: pointer;
+    }
+    .elementor-button {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-width: 160px;
+      margin-top: 18px;
+      display: inline-block;
+    }
+    .elementor-button:hover {
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+    }
+    .elementor-button.elementor-size-xs {
+      padding: 8px 16px;
+      font-size: 14px;
+      min-width: auto;
+    }
+    .elementor-button-secondary {
+      background: transparent !important;
+      border: 2px solid #00B5D3;
+      color: #00B5D3 !important;
+      transition: all 0.3s ease;
+    }
+    .elementor-button-secondary:hover {
+      background: #00B5D3 !important;
+      color: #fff !important;
+    }
+    .btn-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 18px;
+      flex-wrap: wrap;
     }
     .dados-solicitacao {
       background: #f2f7fa;
       border-radius: 8px;
-      padding: 20px 20px 12px 20px;
+      padding: 20px;
       margin-bottom: 24px;
     }
     .dados-solicitacao dl {
@@ -75,69 +282,69 @@
     .elementor-field-group {
       margin-bottom: 22px;
     }
-    .elementor-label {
-      display: block;
-      font-weight: 500;
-      margin-bottom: 7px;
-      color: #002846;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
-    }
-    .form-row {
-      display: flex;
-      gap: 18px;
-    }
-    .form-row > .elementor-field-group {
-      flex: 1;
-    }
-    .elementor-field-textual,
-    input[type="number"],
-    input[type="date"],
-    input[type="time"],
-    select {
-      border: 1px solid #e3e8ee;
-      border-radius: 8px;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
-      font-size: 15px;
-      padding: 7px 12px;
-      transition: box-shadow 0.3s ease;
-      background: #fff;
-      color: #222;
-    }
-    .elementor-field-textual:focus,
-    input[type="number"]:focus,
-    input[type="date"]:focus,
-    input[type="time"]:focus,
-    select:focus {
-      box-shadow: 0 2px 18px #00284612;
-      outline: none;
-    }
-    .elementor-button {
-      min-width: 160px;
-      margin-top: 18px;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    #btnPropor {
-      background: transparent;
-      color: #00B5D3;
-      border: 2px solid #00B5D3;
-      transition: all 0.3s ease;
-    }
-    #btnPropor:hover {
-      background: #00B5D3;
+    footer {
+      background: #002846;
       color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 40px 0 24px 0;
+      margin-top: 48px;
     }
-    .btn-row {
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
-      gap: 18px;
-      margin-top: 18px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
-    #novaJanelaGroup {
-      display: none;
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 16px;
+      transition: color 0.3s ease;
     }
-    @media (max-width: 700px) {
+    .footer-content a:hover {
+      color: #00B5D3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-content .footer-logo {
+      margin-bottom: 10px;
+    }
+    .footer-content .footer-copy {
+      font-size: 14px;
+      color: #fff;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 1024px) {
+      .dashboard-title {
+        font-size: 36px;
+      }
+      .dashboard-subtitle {
+        font-size: 18px;
+      }
       .main-container {
         padding: 18px 5vw;
+      }
+      .dados-solicitacao {
+        padding: 14px 4vw;
+      }
+    }
+    @media (max-width: 700px) {
+      .dashboard-title {
+        font-size: 28px;
+      }
+      .dashboard-subtitle {
+        font-size: 16px;
+      }
+      .main-container {
+        padding: 12px 3vw;
       }
       .form-row {
         flex-direction: column;
@@ -150,74 +357,98 @@
   </style>
 </head>
 <body>
-  <header class="header_section" style="background:#002846;">
-    <div class="header_wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:16px 32px;">
-      <a href="#" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" style="height:38px;"></a>
-      <nav class="menu_nav_trees">
-        <a href="solicitacao-agendamento.html" style="color:#fff;margin-right:24px;">Agendamento</a>
-        <a href="confirmacao-fornecedor.html" style="color:#00B5D3;font-weight:600;margin-right:24px;">Confirmação</a>
-        <a href="selecao-transportadora.html" style="color:#fff;">Transportadora</a>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="#" class="header_logo">
+          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" style="height: 38px; width: auto;" />
+        </a>
+      </div>
+      <nav class="menu_nav_trees" aria-label="Menu principal">
+        <a href="solicitacao-agendamento.html">Agendamento</a>
+        <a href="confirmacao-fornecedor.html" class="active" aria-current="page">Confirmação</a>
+        <a href="selecao-transportadora.html">Transportadora</a>
       </nav>
     </div>
   </header>
-  <main class="main-container">
-    <h1 class="section-title">Confirmação de Volumes da Solicitação</h1>
-    <section class="dados-solicitacao" aria-label="Resumo da Solicitação">
-      <dl id="dadosSolicitacaoDL">
-        <dt>Fornecedor:</dt><dd id="ddFornecedor">Fornecedor Alfa</dd>
-        <dt>Unidade:</dt><dd id="ddUnidade">SP</dd>
-        <dt>Data/Hora Coleta:</dt><dd id="ddDataHora">2024-07-15 09:00</dd>
-        <dt>Janela Operacional:</dt><dd id="ddJanela">08:00 - 10:00</dd>
-        <dt>Tipo de Frete:</dt><dd id="ddFrete">FOB</dd>
-        <dt>Local de Entrega:</dt><dd id="ddLocalEntrega">ICL São Paulo</dd>
-      </dl>
-      <div id="avisoSemDados" style="display:none;color:#d32f2f;font-size:15px;margin-top:10px;font-weight:500;">Dados da solicitação não encontrados. Por favor, realize o agendamento antes de acessar esta página.</div>
-    </section>
-    <form id="confirmacaoForm" aria-label="Formulário de Confirmação de Volumes" autocomplete="off">
-      <div class="form-row">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="volume">Volume *</label>
-          <input type="number" id="volume" name="volume" class="elementor-field-textual" min="1" required placeholder="Quantidade">
-        </div>
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="tipo_carga">Tipo de Carga *</label>
-          <select id="tipo_carga" name="tipo_carga" class="elementor-field-textual" required>
-            <option value="">Selecione</option>
-            <option value="paletizado">Paletizado</option>
-            <option value="granel">Granel</option>
-            <option value="bigbag">Big Bag</option>
-          </select>
-        </div>
+  <div class="dashboard-container">
+    <main class="main-container" aria-label="Conteúdo principal">
+      <h1 class="dashboard-title">Confirmação de Volumes da Solicitação</h1>
+      <div class="dashboard-subtitle">Revise os volumes e confirme os detalhes da coleta agendada.</div>
+      <div class="dashboard-card">
+        <section class="dados-solicitacao" aria-label="Resumo da Solicitação">
+          <dl id="dadosSolicitacaoDL">
+            <dt>Fornecedor:</dt><dd id="ddFornecedor">Fornecedor Alfa</dd>
+            <dt>Unidade:</dt><dd id="ddUnidade">SP</dd>
+            <dt>Data/Hora Coleta:</dt><dd id="ddDataHora">2024-07-15 09:00</dd>
+            <dt>Janela Operacional:</dt><dd id="ddJanela">08:00 - 10:00</dd>
+            <dt>Tipo de Frete:</dt><dd id="ddFrete">FOB</dd>
+            <dt>Local de Entrega:</dt><dd id="ddLocalEntrega">ICL São Paulo</dd>
+          </dl>
+          <div id="avisoSemDados" style="display:none;color:#d32f2f;font-size:15px;margin-top:10px;font-weight:500;">Dados da solicitação não encontrados. Por favor, realize o agendamento antes de acessar esta página.</div>
+        </section>
       </div>
-      <div class="form-row">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="peso">Peso Total (kg) *</label>
-          <input type="number" id="peso" name="peso" class="elementor-field-textual" min="1" required placeholder="Peso em kg">
-        </div>
+      <div class="dashboard-card">
+        <form id="confirmacaoForm" aria-label="Formulário de Confirmação de Volumes" autocomplete="off">
+          <div class="form-row">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="volume">Volume *</label>
+              <input type="number" id="volume" name="volume" class="elementor-field-textual" min="1" required placeholder="Quantidade">
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="tipo_carga">Tipo de Carga *</label>
+              <select id="tipo_carga" name="tipo_carga" class="elementor-field-textual" required>
+                <option value="">Selecione</option>
+                <option value="paletizado">Paletizado</option>
+                <option value="granel">Granel</option>
+                <option value="bigbag">Big Bag</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="peso">Peso Total (kg) *</label>
+              <input type="number" id="peso" name="peso" class="elementor-field-textual" min="1" required placeholder="Peso em kg">
+            </div>
+          </div>
+          <div class="elementor-field-group">
+            <label class="elementor-label">Confirma a janela operacional?</label>
+            <div style="display:flex;gap:16px;align-items:center;">
+              <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="confirma_janela" value="sim" required> Sim</label>
+              <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="confirma_janela" value="nao"> Não</label>
+            </div>
+          </div>
+          <div class="form-row" id="novaJanelaGroup" style="display:none;">
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="nova_data">Nova Data</label>
+              <input type="date" id="nova_data" name="nova_data" class="elementor-field-textual">
+            </div>
+            <div class="elementor-field-group">
+              <label class="elementor-label" for="nova_hora">Novo Horário</label>
+              <input type="time" id="nova_hora" name="nova_hora" class="elementor-field-textual">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button type="submit" class="elementor-button elementor-size-md">Confirmar</button>
+            <button type="button" id="btnPropor" class="elementor-button elementor-size-md elementor-button-secondary">Propor Ajuste</button>
+          </div>
+        </form>
       </div>
-      <div class="elementor-field-group">
-        <label class="elementor-label">Confirma a janela operacional?</label>
-        <div style="display:flex;gap:16px;align-items:center;">
-          <label><input type="radio" name="confirma_janela" value="sim" required> Sim</label>
-          <label><input type="radio" name="confirma_janela" value="nao"> Não</label>
-        </div>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
       </div>
-      <div class="form-row" id="novaJanelaGroup">
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="nova_data">Nova Data</label>
-          <input type="date" id="nova_data" name="nova_data" class="elementor-field-textual">
-        </div>
-        <div class="elementor-field-group">
-          <label class="elementor-label" for="nova_hora">Novo Horário</label>
-          <input type="time" id="nova_hora" name="nova_hora" class="elementor-field-textual">
-        </div>
+      <div>
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
+        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
       </div>
-      <div class="btn-row">
-        <button type="submit" class="elementor-button elementor-size-md">Confirmar</button>
-        <button type="button" id="btnPropor" class="elementor-button elementor-size-md">Propor Ajuste</button>
-      </div>
-    </form>
-  </main>
+      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
+    </div>
+  </footer>
   <script>
     // Exibe campos de nova janela se "não" for selecionado
     const radios = document.getElementsByName('confirma_janela');
@@ -234,7 +465,7 @@
       e.preventDefault();
       if(document.querySelector('input[name="confirma_janela"]:checked').value === 'sim') {
         alert('Volume confirmado! (Fluxo simulado)');
-        window.location.href = 'dashboard.html';
+        window.location.href = 'selecao-transportadora.html';
       } else {
         alert('Proposta de nova janela enviada! (Fluxo simulado)');
         window.location.href = 'solicitacao-agendamento.html';
@@ -256,7 +487,6 @@
         document.getElementById('avisoSemDados').style.display = 'none';
       } else {
         document.getElementById('avisoSemDados').style.display = 'block';
-        // Opcional: Limpar campos para evitar mostrar dados fictícios
         document.getElementById('ddFornecedor').textContent = '-';
         document.getElementById('ddUnidade').textContent = '-';
         document.getElementById('ddDataHora').textContent = '-';
