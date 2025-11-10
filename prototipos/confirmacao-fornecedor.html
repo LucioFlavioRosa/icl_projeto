@@ -458,8 +458,7 @@
       });
     });
     document.getElementById('btnPropor').addEventListener('click', function() {
-      document.getElementById('novaJanelaGroup').style.display = 'flex';
-      radios.forEach(r => { if(r.value==='nao') r.checked=true; });
+      window.location.href = 'solicitacao-agendamento.html';
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
       e.preventDefault();
