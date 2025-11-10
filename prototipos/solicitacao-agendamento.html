@@ -569,6 +569,70 @@
         }
       });
     });
+
+    // Preencher formulário com dados do localStorage se estiver em modo edição
+    (function preencherFormularioEdicao() {
+      try {
+        var modoEdicao = localStorage.getItem('modoEdicao');
+        if (modoEdicao === 'true') {
+          var dados = JSON.parse(localStorage.getItem('dadosAgendamento'));
+          if (dados) {
+            // Mapas reversos para obter o value dos selects
+            var fornecedorReverse = {
+              'Fornecedor Alfa': 'forn1',
+              'Fornecedor Beta': 'forn2',
+              'Fornecedor Gama': 'forn3'
+            };
+            var unidadeReverse = {
+              'SP': 'un1',
+              'MG': 'un2',
+              'PR': 'un3'
+            };
+            var janelaReverse = {
+              '08:00 - 10:00': '1',
+              '10:00 - 12:00': '2',
+              '13:00 - 15:00': '3',
+              '15:00 - 17:00': '4'
+            };
+            var localEntregaReverse = {
+              'ICL São Paulo': 'icl_sp',
+              'ICL Uberlândia': 'icl_mg',
+              'ICL Paranaguá': 'icl_pr'
+            };
+            if (dados.fornecedor && fornecedorReverse[dados.fornecedor]) {
+              document.getElementById('fornecedor').value = fornecedorReverse[dados.fornecedor];
+            }
+            if (dados.unidade && unidadeReverse[dados.unidade]) {
+              document.getElementById('unidade').value = unidadeReverse[dados.unidade];
+            }
+            if (dados.janela && janelaReverse[dados.janela]) {
+              document.getElementById('janela').value = janelaReverse[dados.janela];
+            }
+            if (dados.local_entrega && localEntregaReverse[dados.local_entrega]) {
+              document.getElementById('local_entrega').value = localEntregaReverse[dados.local_entrega];
+            }
+            if (dados.data_hora) {
+              var partes = dados.data_hora.split(' ');
+              if (partes.length === 2) {
+                document.getElementById('data_coleta').value = partes[0];
+                document.getElementById('hora_coleta').value = partes[1].slice(0,5);
+              }
+            }
+            if (dados.frete) {
+              var radios = document.querySelectorAll('input[name="frete"]');
+              radios.forEach(function(radio) {
+                if (radio.value === dados.frete) {
+                  radio.checked = true;
+                }
+              });
+            }
+          }
+          // Após preencher, remover o modo edição
+          localStorage.removeItem('modoEdicao');
+        }
+      } catch(e) {}
+    })();
+
     // Transferência de dados do formulário para a página de confirmação
     document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
       e.preventDefault();

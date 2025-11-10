@@ -458,6 +458,8 @@
       });
     });
     document.getElementById('btnPropor').addEventListener('click', function() {
+      // Sinalizar modo edição e redirecionar para agendamento mantendo dados
+      localStorage.setItem('modoEdicao', 'true');
       window.location.href = 'solicitacao-agendamento.html';
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
