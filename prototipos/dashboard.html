@@ -545,14 +545,14 @@
         <span style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-color); pointer-events: none;"><i class="fas fa-search"></i></span>
       </div>
     </div>
-    <section class="dashboard-grid">
+    <section class="dashboard-grid" id="dashboardGrid">
       <a href="solicitacao-agendamento.html" class="dashboard-card" aria-label="Solicitações de Agendamento">
         <span class="card-icon" data-tooltip="Centralize e acompanhe todos os pedidos de coleta FOB/CIF"><i class="fas fa-calendar-plus"></i></span>
         <span class="card-title">Solicitações de Agendamento</span>
         <span class="card-desc">Centralize e acompanhe todos os pedidos de coleta FOB/CIF.</span>
         <span class="notification-badge">3</span>
       </a>
-      <a href="confirmacao-fornecedor.html" class="dashboard-card" aria-label="Confirmação do Fornecedor">
+      <a href="confirmacao-fornecedor.html" class="dashboard-card" aria-label="Confirmação do Fornecedor" id="cardConfirmacaoFornecedor">
         <span class="card-icon" data-tooltip="Valide volumes, janelas e detalhes da coleta"><i class="fas fa-clipboard-check"></i></span>
         <span class="card-title">Confirmação do Fornecedor</span>
         <span class="card-desc">Valide volumes, janelas e detalhes da coleta.</span>
@@ -671,6 +671,30 @@
           }, 300);
         }
       });
+    });
+    // Ocultar/mostrar card de Confirmação do Fornecedor conforme localStorage
+    (function() {
+      var card = document.getElementById('cardConfirmacaoFornecedor');
+      if(card) {
+        if(localStorage.getItem('confirmacaoFornecedorFeita') === '1') {
+          card.style.display = 'none';
+        } else {
+          card.style.display = '';
+        }
+      }
+    })();
+    // Permitir que ao limpar o localStorage e recarregar a página o card reapareça
+    window.addEventListener('storage', function(e) {
+      if(e.key === 'confirmacaoFornecedorFeita') {
+        var card = document.getElementById('cardConfirmacaoFornecedor');
+        if(card) {
+          if(localStorage.getItem('confirmacaoFornecedorFeita') === '1') {
+            card.style.display = 'none';
+          } else {
+            card.style.display = '';
+          }
+        }
+      }
     });
   </script>
   <style>
