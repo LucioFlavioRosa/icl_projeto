@@ -9,24 +9,143 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
+  <!-- Fontes Roboto Condensed -->
   <style>
-    body { background: #f8fafb; }
-    .main-container { max-width: 700px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 38px 28px 28px 28px; }
-    .section-title { color: #00B5D3; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
-    .dados-solicitacao { background: #f2f7fa; border-radius: 12px; padding: 18px 18px 10px 18px; margin-bottom: 24px; }
-    .dados-solicitacao dl { display: flex; flex-wrap: wrap; }
-    .dados-solicitacao dt { width: 45%; font-weight: 500; color: #002846; margin-bottom: 5px; }
-    .dados-solicitacao dd { width: 55%; margin: 0 0 5px 0; color: #333; }
-    .elementor-field-group { margin-bottom: 18px; }
-    .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
-    .form-row { display: flex; gap: 18px; }
-    .form-row > .elementor-field-group { flex: 1; }
-    .elementor-button { min-width: 140px; margin-top: 10px; }
-    .btn-row { display: flex; gap: 18px; margin-top: 18px; }
-    #novaJanelaGroup { display: none; }
+    @font-face {
+      font-family: 'Roboto Condensed';
+      src: url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-regular.woff2') format('woff2'),
+           url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Roboto Condensed';
+      src: url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-bold.woff2') format('woff2'),
+           url('https://bra.icl-group.com/wp-content/themes/icl/fonts/robotocondensed-bold.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    body {
+      background: #f8fafb;
+      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+      font-weight: 400;
+      color: #222;
+    }
+    .main-container {
+      max-width: 950px;
+      margin: 40px auto 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 18px #00284612;
+      padding: 40px 32px 32px 32px;
+    }
+    .section-title, h1 {
+      color: #00B5D3;
+      font-size: 2.1rem;
+      font-weight: 700;
+      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+      margin-bottom: 32px;
+    }
+    .dados-solicitacao {
+      background: #f2f7fa;
+      border-radius: 8px;
+      padding: 20px 20px 12px 20px;
+      margin-bottom: 24px;
+    }
+    .dados-solicitacao dl {
+      display: grid;
+      grid-template-columns: 40% 60%;
+      gap: 8px 12px;
+    }
+    .dados-solicitacao dt,
+    .dados-solicitacao dd {
+      font-size: 15px;
+      margin-bottom: 0;
+      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    }
+    .dados-solicitacao dt {
+      font-weight: 500;
+      color: #002846;
+    }
+    .dados-solicitacao dd {
+      color: #333;
+    }
+    .elementor-field-group {
+      margin-bottom: 22px;
+    }
+    .elementor-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 7px;
+      color: #002846;
+      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+    }
+    .form-row {
+      display: flex;
+      gap: 18px;
+    }
+    .form-row > .elementor-field-group {
+      flex: 1;
+    }
+    .elementor-field-textual,
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      border: 1px solid #e3e8ee;
+      border-radius: 8px;
+      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      padding: 7px 12px;
+      transition: box-shadow 0.3s ease;
+      background: #fff;
+      color: #222;
+    }
+    .elementor-field-textual:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    input[type="time"]:focus,
+    select:focus {
+      box-shadow: 0 2px 18px #00284612;
+      outline: none;
+    }
+    .elementor-button {
+      min-width: 160px;
+      margin-top: 18px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    #btnPropor {
+      background: transparent;
+      color: #00B5D3;
+      border: 2px solid #00B5D3;
+      transition: all 0.3s ease;
+    }
+    #btnPropor:hover {
+      background: #00B5D3;
+      color: #fff;
+    }
+    .btn-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    #novaJanelaGroup {
+      display: none;
+    }
     @media (max-width: 700px) {
-      .main-container { padding: 14px 4vw; }
-      .form-row { flex-direction: column; gap: 0; }
+      .main-container {
+        padding: 18px 5vw;
+      }
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .dados-solicitacao {
+        padding: 14px 4vw;
+      }
     }
   </style>
 </head>
@@ -53,7 +172,7 @@
         <dt>Local de Entrega:</dt><dd>ICL São Paulo</dd>
       </dl>
     </section>
-    <form id="confirmacaoForm" autocomplete="off">
+    <form id="confirmacaoForm" aria-label="Formulário de Confirmação de Volumes" autocomplete="off">
       <div class="form-row">
         <div class="elementor-field-group">
           <label class="elementor-label" for="volume">Volume *</label>
@@ -94,7 +213,7 @@
       </div>
       <div class="btn-row">
         <button type="submit" class="elementor-button elementor-size-md">Confirmar</button>
-        <button type="button" id="btnPropor" class="elementor-button elementor-size-md" style="background:#fff;color:#00B5D3;border:2px solid #00B5D3;">Propor Ajuste</button>
+        <button type="button" id="btnPropor" class="elementor-button elementor-size-md">Propor Ajuste</button>
       </div>
     </form>
   </main>
