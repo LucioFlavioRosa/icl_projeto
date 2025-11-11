@@ -273,7 +273,7 @@
         else if (diffMin > 0) diffStr = '+' + diffMin + ' min (atraso)';
         else diffStr = diffMin + ' min (adiantado)';
         document.getElementById('diferenca').textContent = diffStr;
-        setTimeout(function(){ window.location.href = 'anexo-documentos.html'; }, 2000);
+        setTimeout(function(){ window.location.href = 'dashboard.html'; }, 2000);
       } else {
         feedback.textContent = 'Token inválido. Verifique e tente novamente.';
         feedback.className = 'feedback erro';
