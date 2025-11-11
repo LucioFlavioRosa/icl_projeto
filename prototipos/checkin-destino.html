@@ -2,25 +2,67 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Check-in no Destino e Confirmação de Descarga - Gestão de Fretes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check-in no Destino e Confirmação de Descarga - Gestão de Fretes</title>
   <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
+  <!-- Google Fonts Roboto Condensed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <style>
+    /* ====== Layout atualizado para padrão aceite-transportadora.html ====== */
+    @font-face {
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
     body {
-      font-family: 'Inter', 'Demo', Arial, sans-serif;
-      background: #f8fafc;
+      background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
       margin: 0;
       min-height: 100vh;
+      transition: background 0.3s ease;
     }
-    .main-container {
-      max-width: 520px;
-      margin: 40px auto 0 auto;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-      padding: 32px 28px 24px 28px;
+    .container-main {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 32px;
+      position: relative;
+    }
+    .container-main::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
     }
     .logo {
       display: block;
@@ -28,11 +70,23 @@
       width: 110px;
     }
     h1 {
-      color: #00B5D3;
       font-size: 2rem;
+      color: #002846;
+      font-weight: 700;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .subtitulo {
+      color: #7A7A7A;
+      font-size: 1.1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       font-weight: 400;
-      text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 28px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
     }
     .timeline {
       margin: 30px 0 20px 0;
@@ -40,23 +94,27 @@
       list-style: none;
       border-left: 3px solid #00B5D3;
       position: relative;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
     }
     .timeline li {
       margin-bottom: 18px;
-      padding-left: 24px;
+      padding-left: 28px;
       position: relative;
+      min-height: 32px;
     }
     .timeline li:before {
       content: '';
       position: absolute;
-      left: -11px;
-      top: 4px;
-      width: 12px;
-      height: 12px;
+      left: -13px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
       background: #fff;
       border: 3px solid #00B5D3;
       border-radius: 50%;
       z-index: 1;
+      box-sizing: border-box;
     }
     .timeline .done:before {
       background: #00B5D3;
@@ -69,41 +127,139 @@
       display: block;
       color: #002846;
       font-size: 1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
     }
     .timeline .timestamp {
       color: #7A7A7A;
       font-size: 0.93rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       margin-top: 2px;
     }
-    .form-section {
+    .dashboard-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
       margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dashboard-card:hover::after {
+      width: 100%;
+    }
+    .dados-confirmacao {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      animation-delay: 0.2s;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dados-confirmacao:hover, .dados-confirmacao:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dados-confirmacao:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dados-confirmacao::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dados-confirmacao:hover::after {
+      width: 100%;
+    }
+    .dados-confirmacao h2 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 20px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
     label {
-      font-size: 1rem;
-      color: #002846;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
       font-weight: 500;
-      margin-bottom: 6px;
+      color: #002846;
+      margin-bottom: 8px;
       display: block;
     }
     input[type="text"] {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00B5D3;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #e5e9f2;
       border-radius: 8px;
-      font-size: 1rem;
-      margin-bottom: 12px;
-      background: #fafdff;
+      background: #fff;
       color: #002846;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .descarga-section {
-      background: #f3fcfd;
-      border: 1px solid #e0f5f9;
-      border-radius: 8px;
-      padding: 18px 16px 12px 16px;
-      margin-bottom: 18px;
+    input[type="text"]:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
     }
     .checkbox-group {
       display: flex;
+      gap: 24px;
       align-items: center;
       margin-bottom: 14px;
     }
@@ -111,83 +267,132 @@
       width: 20px;
       height: 20px;
       accent-color: #00B5D3;
-      margin-right: 10px;
+      cursor: pointer;
     }
     textarea {
-      width: 100%;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 12px 16px;
+      border: 1px solid #e5e9f2;
+      border-radius: 8px;
+      background: #fff;
+      color: #002846;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
       min-height: 60px;
       resize: vertical;
-      border: 1px solid #00B5D3;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 1rem;
-      background: #fafdff;
-      color: #002846;
+    }
+    textarea:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
     }
     .btn-primary {
-      width: 100%;
-      background: linear-gradient(90deg, #00B5D3 0%, #8FE6E5 100%);
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
       color: #fff;
-      font-size: 1.15rem;
-      font-weight: 500;
       border: none;
-      border-radius: 100px;
-      padding: 14px 0;
-      margin-top: 10px;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s;
-      box-shadow: 0 2px 8px rgba(0,181,211,0.08);
+      transition: box-shadow 0.2s, transform 0.2s;
+      margin-top: 8px;
+      min-width: 160px;
+      display: inline-block;
     }
-    .btn-primary:active {
-      background: #00B5D3;
+    .btn-primary:hover {
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
     }
     .success-message {
-      display: none;
-      text-align: center;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       color: #00B5D3;
-      font-weight: 500;
-      margin-top: 18px;
-      font-size: 1.1rem;
+      font-size: 16px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 1024px) {
+      .container-main {
+        padding: 18px 5vw;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+      .subtitulo {
+        font-size: 1rem;
+      }
     }
     @media (max-width: 600px) {
-      .main-container {
-        padding: 18px 6vw 18px 6vw;
+      .container-main {
+        padding: 12px 3vw;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+      .subtitulo {
+        font-size: 0.95rem;
+      }
+      label {
+        font-size: 14px;
+      }
+      input[type="text"], textarea {
+        font-size: 14px;
+        padding: 10px 12px;
       }
       .logo {
         width: 80px;
       }
     }
+    /* ====== Fim do layout atualizado ====== */
+    /* Atualização realizada seguindo o padrão de aceite-transportadora.html */
   </style>
 </head>
 <body>
-  <div class="main-container">
+  <main class="container-main" aria-label="Check-in no Destino">
     <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" class="logo">
     <h1>Check-in no Destino</h1>
-    <ul class="timeline">
-      <li class="done"><span>Coleta Realizada</span><div class="timestamp">12/06/2024 08:10</div></li>
-      <li class="done"><span>Em Trânsito</span><div class="timestamp">12/06/2024 08:30</div></li>
-      <li><span>Chegada no Destino</span><div class="timestamp" id="destino-timestamp">-</div></li>
-      <li><span>Descarga Concluída</span><div class="timestamp" id="descarga-timestamp">-</div></li>
-    </ul>
-    <form id="checkinForm" autocomplete="off">
-      <div class="form-section">
-        <label for="token">Token de Check-in</label>
-        <input type="text" id="token" name="token" placeholder="Informe o token recebido" required aria-label="Token de Check-in">
-      </div>
-      <div class="descarga-section">
-        <div class="checkbox-group">
-          <input type="checkbox" id="descarga" name="descarga">
-          <label for="descarga" style="margin:0;cursor:pointer;">Descarga concluída</label>
+    <p class="subtitulo">Registre a chegada no destino e confirme a descarga da carga.</p>
+    <section class="dashboard-card" aria-label="Linha do Tempo da Entrega">
+      <ul class="timeline">
+        <li class="done"><span>Coleta Realizada</span><div class="timestamp">12/06/2024 08:10</div></li>
+        <li class="done"><span>Em Trânsito</span><div class="timestamp">12/06/2024 08:30</div></li>
+        <li><span>Chegada no Destino</span><div class="timestamp" id="destino-timestamp">-</div></li>
+        <li><span>Descarga Concluída</span><div class="timestamp" id="descarga-timestamp">-</div></li>
+      </ul>
+    </section>
+    <section class="dashboard-card" aria-label="Formulário de Check-in">
+      <form id="checkinForm" autocomplete="off" novalidate>
+        <div class="form-group">
+          <label for="token">Token de Check-in <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <input type="text" id="token" name="token" placeholder="Informe o token recebido" aria-label="Token de Check-in" aria-required="true" autocomplete="off">
         </div>
-        <label for="obs">Observações (opcional)</label>
-        <textarea id="obs" name="obs" placeholder="Ex: A descarga foi realizada sem avarias."></textarea>
+        <section class="dados-confirmacao" aria-label="Confirmação de Descarga">
+          <h2>Confirmação de Descarga</h2>
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="descarga" name="descarga" aria-label="Descarga concluída">
+              <label for="descarga" style="margin:0;cursor:pointer;">Descarga concluída</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="obs">Observações (opcional)</label>
+            <textarea id="obs" name="obs" placeholder="Ex: A descarga foi realizada sem avarias." aria-label="Observações" autocomplete="off"></textarea>
+          </div>
+        </section>
+        <button type="submit" class="btn-primary" aria-label="Registrar Check-in e Descarga">Registrar Check-in e Descarga</button>
+      </form>
+      <div class="success-message" id="successMsg" style="display:none;">
+        Check-in e confirmação de descarga registrados com sucesso!
       </div>
-      <button type="submit" class="btn-primary">Registrar Check-in e Descarga</button>
-    </form>
-    <div class="success-message" id="successMsg">
-      Check-in e confirmação de descarga registrados com sucesso!
-    </div>
-  </div>
+    </section>
+  </main>
   <script>
     // Timeline dinâmica
     const destinoTs = document.getElementById('destino-timestamp');
@@ -211,5 +416,9 @@
       setTimeout(() => { successMsg.style.display = 'none'; }, 3500);
     });
   </script>
+  <!--
+    Layout, fontes, cores, espaçamentos, animações, nomenclaturas e estrutura semântica atualizados para seguir o padrão de aceite-transportadora.html.
+    Não altere a funcionalidade sem alinhamento com o padrão de UI.
+  -->
 </body>
 </html>
