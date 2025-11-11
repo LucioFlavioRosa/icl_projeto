@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
-  <!-- Fontes customizadas e Roboto Condensed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
@@ -149,60 +148,20 @@
       font-size: 16px;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
     }
-    /* --- NOVO PADRÃO DE FORMULÁRIO (modelo aceite-transportadora.html) --- */
-    .form-row { /* substituído por .form-group, mantido para grid */
-      display: flex;
-      gap: 18px;
-    }
-    .form-row > .form-group { flex: 1; }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 18px;
-    }
-    label {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: #002846;
-      margin-bottom: 8px;
+    .elementor-field-group { margin-bottom: 18px; }
+    .elementor-label {
       display: block;
-    }
-    select,
-    input[type="date"] {
+      font-weight: 500;
+      margin-bottom: 7px;
+      color: #002846;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       font-size: 16px;
-      padding: 12px 16px;
-      border: 1px solid #e5e9f2;
-      border-radius: 8px;
-      background: #fff;
-      color: #002846;
-      box-sizing: border-box;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    select:focus,
-    input[type="date"]:focus {
-      border-color: #00B5D3;
-      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
-      outline: none;
-    }
-    /* Radio group modal (Lotação/Fracionado) */
-    .radio-group {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-    .radio-group label {
-      margin-bottom: 0;
-      font-weight: 400;
-    }
-    input[type="radio"] {
-      accent-color: #00B5D3;
-      cursor: pointer;
-    }
-    /* Botão padrão modelo */
-    .btn-primary {
+    .form-row { display: flex; gap: 18px; }
+    .form-row > .elementor-field-group { flex: 1; }
+    .elementor-button {
+      min-width: 140px;
+      margin-top: 10px;
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
       color: #fff;
       border: none;
@@ -213,16 +172,107 @@
       font-weight: 500;
       cursor: pointer;
       transition: box-shadow 0.2s, transform 0.2s;
-      margin-top: 8px;
-      min-width: 160px;
       display: inline-block;
     }
-    .btn-primary:hover {
+    .elementor-button:hover {
       box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
       transform: translateY(-2px);
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
     }
-    /* Mensagens */
+    .cards-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    /* --- INÍCIO: NOVO ESTILO PARA CARDS DE TRANSPORTADORAS --- */
+    .card-transp {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px 18px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 0;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      flex: 1 1 250px;
+      min-width: 220px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      /* Novo estilo */
+      border-radius: 18px;
+      box-shadow: 0px 8px 28px 0px rgba(0,40,70,0.10);
+      border: 1.5px solid #e5e9f2;
+      padding: 30px 26px 20px 26px;
+    }
+    .card-transp:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .card-transp:hover, .card-transp:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .card-transp::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .card-transp:hover::after {
+      width: 100%;
+    }
+    .card-transp h3 {
+      font-size: 1.25rem;
+      color: #002846;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      letter-spacing: -0.5px;
+      line-height: 1.1em;
+      text-transform: uppercase;
+    }
+    .card-transp p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #7A7A7A;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 400;
+      line-height: 1.4em;
+    }
+    .card-transp .elementor-button {
+      margin-top: 8px;
+      min-width: 100px;
+      font-size: 15px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
+      border: none;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card-transp .elementor-button:hover {
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+    }
+    /* --- FIM: NOVO ESTILO PARA CARDS DE TRANSPORTADORAS --- */
     .msg-erro {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       color: #cf2e2e;
@@ -236,29 +286,27 @@
       margin-top: 10px;
       text-align: center;
     }
-    /* Responsividade para formulário */
+    @media (max-width: 900px) {
+      .main-container { padding: 16px 2vw; }
+      .cards-row { flex-direction: column; gap: 14px; }
+    }
     @media (max-width: 1024px) {
       .main-container { padding: 18px 5vw; }
       .section-title { font-size: 1.6rem; }
       .subtitulo { font-size: 1rem; }
-      label { font-size: 15px; }
-      select, input[type="date"] { font-size: 15px; }
-    }
-    @media (max-width: 900px) {
-      .main-container { padding: 16px 2vw; }
-      .cards-row { flex-direction: column; gap: 14px; }
+      .card-transp h3 { font-size: 1.1rem; }
+      .card-transp p { font-size: 0.97rem; }
     }
     @media (max-width: 600px) {
       .main-container { padding: 12px 3vw; }
       .section-title { font-size: 1.3rem; }
       .subtitulo { font-size: 0.95rem; }
-      label { font-size: 14px; }
-      select, input[type="date"] { font-size: 14px; padding: 10px 12px; }
+      .elementor-label { font-size: 14px; }
+      input[type="text"], input[type="tel"], select { font-size: 14px; padding: 10px 12px; }
+      .card-transp h3 { font-size: 1rem; }
+      .card-transp p { font-size: 0.93rem; }
     }
     .select2-container { width: 100% !important; }
-    /* --- FIM NOVO PADRÃO --- */
-    /* Removido: .elementor-field-group, .elementor-label, .elementor-button antigos */
-    /* .elementor-field-group, .elementor-label, .elementor-button { obsoleto, migrado para novo padrão } */
   </style>
 </head>
 <body>
@@ -297,9 +345,9 @@
     </section>
     <form id="transpForm" autocomplete="off" novalidate>
       <div class="form-row">
-        <div class="form-group">
-          <label for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <select id="tipo_veiculo" name="tipo_veiculo" required>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <select id="tipo_veiculo" name="tipo_veiculo" class="elementor-field-textual" required>
             <option value="">Selecione o tipo de veículo</option>
             <option value="toco">Toco (até 8t)</option>
             <option value="truck">Truck (até 14t)</option>
@@ -308,9 +356,9 @@
           </select>
           <span class="msg-erro" id="erroTipoVeiculo"></span>
         </div>
-        <div class="form-group">
-          <label for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <select id="transportadora" name="transportadora" required>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <select id="transportadora" name="transportadora" class="elementor-field-textual" required>
             <option value="">Selecione</option>
             <option value="transp1">Translog</option>
             <option value="transp2">Rodonaves</option>
@@ -321,37 +369,37 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="date" id="data_entrega" name="data_entrega" required>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <input type="date" id="data_entrega" name="data_entrega" class="elementor-field-textual" required>
           <span class="msg-erro" id="erroDataEntrega"></span>
         </div>
-        <div class="form-group">
-          <label>Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <div class="radio-group">
+        <div class="elementor-field-group">
+          <label class="elementor-label">Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <div style="display:flex;gap:16px;align-items:center;">
             <label><input type="radio" name="modal" value="lotacao" required> Lotação</label>
             <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
           </div>
           <span class="msg-erro" id="erroModal"></span>
         </div>
       </div>
-      <button type="submit" class="btn-primary">Solicitar Transporte</button>
+      <button type="submit" class="elementor-button elementor-size-md">Solicitar Transporte</button>
       <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
     </form>
     <h2 style="margin-top:38px;font-size:1.1rem;color:#002846;font-weight:500;">Sugestões de Transportadoras</h2>
     <div class="cards-row">
       <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
-        <h3>Translog</h3>
+        <h3>TRANSLOG</h3>
         <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
         <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp1')">Selecionar</button>
       </div>
       <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
-        <h3>Rodonaves</h3>
+        <h3>RODONAVES</h3>
         <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
         <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp2')">Selecionar</button>
       </div>
       <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
-        <h3>Jamef</h3>
+        <h3>JAMEF</h3>
         <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
         <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp3')">Selecionar</button>
       </div>
@@ -386,10 +434,18 @@
         document.getElementById('cfNovaData').textContent = dadosConfirmacao.nova_data || '-';
         document.getElementById('cfNovaHora').textContent = dadosConfirmacao.nova_hora || '-';
       }
+      // Sugestão automática de tipo de veículo baseada em peso (simulação)
+      // Removido conforme nova lógica: agora só preenche após seleção da transportadora
+      // var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso) : 1200;
+      // var tipoVeiculo = document.getElementById('tipo_veiculo');
+      // if (peso <= 8000) tipoVeiculo.value = 'toco';
+      // else if (peso <= 14000) tipoVeiculo.value = 'truck';
+      // else if (peso <= 27000) tipoVeiculo.value = 'carreta';
+      // else tipoVeiculo.value = 'vanderleia';
     });
 
     /**
-     * Calcula o tipo de veículo baseado em peso total em kg.
+     * Calcula o tipo de veículo baseado no peso total em kg.
      * @param {number|string} peso Peso total em kg.
      * @returns {string} Valor do tipo de veículo ('toco', 'truck', 'carreta', 'vanderleia').
      * @example
