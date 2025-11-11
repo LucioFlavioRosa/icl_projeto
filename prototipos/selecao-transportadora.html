@@ -49,6 +49,11 @@
       .cards-row { flex-direction: column; gap: 14px; }
     }
     .select2-container { width: 100% !important; }
+    .card-selecionado {
+      border: 2px solid #00B5D3 !important;
+      box-shadow: 0 2px 12px #00B5D330 !important;
+      transition: all 0.3s ease;
+    }
   </style>
 </head>
 <body>
@@ -127,17 +132,17 @@
       <div class="card-transp">
         <h3>Translog</h3>
         <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp1'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" data-transp-id="transp1" data-tipo-veiculo="truck" data-modal="lotacao" data-prazo-dias="1" onclick="selecionarTransportadora(this)">Selecionar</button>
       </div>
       <div class="card-transp">
         <h3>Rodonaves</h3>
         <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp2'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" data-transp-id="transp2" data-tipo-veiculo="carreta" data-modal="lotacao" data-prazo-dias="2" onclick="selecionarTransportadora(this)">Selecionar</button>
       </div>
       <div class="card-transp">
         <h3>Jamef</h3>
         <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp3'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" data-transp-id="transp3" data-tipo-veiculo="toco" data-modal="fracionado" data-prazo-dias="1.5" onclick="selecionarTransportadora(this)">Selecionar</button>
       </div>
     </div>
   </main>
@@ -178,10 +183,69 @@
       else if (peso <= 27000) tipoVeiculo.value = 'carreta';
       else tipoVeiculo.value = 'vanderleia';
     });
+
+    function calcularDataEntrega(diasUteis) {
+      // diasUteis pode ser decimal (ex: 1.5)
+      var hoje = new Date();
+      var diasInteiros = Math.floor(diasUteis);
+      var horasRestantes = (diasUteis - diasInteiros) * 24;
+      var data = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+      var adicionados = 0;
+      while (adicionados < diasInteiros) {
+        data.setDate(data.getDate() + 1);
+        var diaSemana = data.getDay();
+        if (diaSemana !== 0 && diaSemana !== 6) { // 0 = domingo, 6 = sábado
+          adicionados++;
+        }
+      }
+      if (horasRestantes > 0) {
+        data.setHours(data.getHours() + horasRestantes);
+        // Se passar para o próximo dia, verificar se é útil
+        if (data.getHours() >= 24) {
+          data.setDate(data.getDate() + 1);
+          data.setHours(data.getHours() - 24);
+          var diaSemana = data.getDay();
+          if (diaSemana === 0) data.setDate(data.getDate() + 1); // domingo
+          if (diaSemana === 6) data.setDate(data.getDate() + 2); // sábado
+        }
+      }
+      // Garantir que o resultado seja dia útil
+      while (data.getDay() === 0 || data.getDay() === 6) {
+        data.setDate(data.getDate() + 1);
+      }
+      var yyyy = data.getFullYear();
+      var mm = String(data.getMonth() + 1).padStart(2, '0');
+      var dd = String(data.getDate()).padStart(2, '0');
+      return yyyy + '-' + mm + '-' + dd;
+    }
+
+    function selecionarTransportadora(button) {
+      var transpId = button.dataset.transpId;
+      var tipoVeiculo = button.dataset.tipoVeiculo;
+      var modal = button.dataset.modal;
+      var prazoDias = parseFloat(button.dataset.prazoDias);
+      // Preencher campos
+      document.getElementById('transportadora').value = transpId;
+      document.getElementById('tipo_veiculo').value = tipoVeiculo;
+      var radios = document.querySelectorAll('input[name="modal"]');
+      radios.forEach(function(radio) {
+        radio.checked = (radio.value === modal);
+      });
+      document.getElementById('data_entrega').value = calcularDataEntrega(prazoDias);
+      // Feedback visual
+      var cardElement = button.closest('.card-transp');
+      if (cardElement) {
+        cardElement.classList.add('card-selecionado');
+        setTimeout(function() {
+          cardElement.classList.remove('card-selecionado');
+        }, 1000);
+      }
+    }
+
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
       alert('Solicitação de transporte enviada! (Fluxo simulado)');
-      window.location.href = 'solicitacao-agendamento.html';
+      window.location.href = 'dashboard.html';
     });
   </script>
 </body>
