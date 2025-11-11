@@ -9,22 +9,21 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
+  <!-- Fontes customizadas e Roboto Condensed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: 'robotobold_condensed';
-      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
-           url('/fonts/robotobold_condensed.woff') format('woff');
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'), url('/fonts/robotobold_condensed.woff') format('woff');
       font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'robotocondensed';
-      src: url('/fonts/robotocondensed.woff2') format('woff2'),
-           url('/fonts/robotocondensed.woff') format('woff');
+      src: url('/fonts/robotocondensed.woff2') format('woff2'), url('/fonts/robotocondensed.woff') format('woff');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -44,55 +43,16 @@
       min-height: 100vh;
       transition: background 0.3s ease;
     }
-    header.header_section {
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: background 0.3s;
-    }
-    .header_wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      height: 80px;
-    }
-    .logo_wrapper {
-      display: flex;
-      align-items: center;
-    }
-    .menu_nav_trees {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-left: 32px;
-    }
-    .menu_nav_trees a {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: #002846;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      display: inline-block;
-    }
-    .menu_nav_trees a.active, .menu_nav_trees a[aria-current="page"], .menu_nav_trees a:hover {
-      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
-      color: #fff;
-      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.3);
-    }
-    .dashboard-container {
+    .main-container {
       max-width: 1200px;
       margin: 60px auto 40px auto;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
       padding: 32px;
       position: relative;
     }
-    .dashboard-container::before {
+    .main-container::before {
       content: '';
       position: absolute;
       top: -50px;
@@ -103,34 +63,26 @@
       z-index: -1;
       pointer-events: none;
     }
-    .dashboard-title {
-      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
-      font-size: 45px;
+    .section-title {
+      font-size: 2rem;
       color: #002846;
       font-weight: 700;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
       margin-bottom: 12px;
       letter-spacing: -1px;
       line-height: 1.1em;
       transition: font-size 0.3s;
     }
-    .dashboard-subtitle {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    .subtitulo {
       color: #7A7A7A;
-      font-size: 20px;
+      font-size: 1.1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       font-weight: 400;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       line-height: 1.4em;
       transition: font-size 0.3s;
     }
-    .main-container {
-      max-width: 1200px;
-      margin: 60px auto 40px auto;
-      padding: 32px;
-      background: transparent;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .dashboard-card {
+    .resumo-solicitacao, .resumo-agendamento, .resumo-confirmacao {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
@@ -143,21 +95,24 @@
       transition: box-shadow 0.2s, transform 0.2s;
       cursor: pointer;
     }
-    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
-    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
-    .dashboard-card:focus-visible {
+    .resumo-agendamento { animation-delay: 0.1s; }
+    .resumo-confirmacao { animation-delay: 0.2s; }
+    .resumo-solicitacao { animation-delay: 0.3s; }
+    .resumo-solicitacao:focus-visible, .resumo-agendamento:focus-visible, .resumo-confirmacao:focus-visible {
       outline: 3px solid #00B5D3;
       outline-offset: 4px;
       box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
     }
-    .dashboard-card:hover, .dashboard-card:focus {
+    .resumo-solicitacao:hover, .resumo-solicitacao:focus,
+    .resumo-agendamento:hover, .resumo-agendamento:focus,
+    .resumo-confirmacao:hover, .resumo-confirmacao:focus {
       box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
       transform: translateY(-4px) scale(1.01);
       border-color: #00B5D3;
       outline: none;
       z-index: 2;
     }
-    .dashboard-card::after {
+    .resumo-solicitacao::after, .resumo-agendamento::after, .resumo-confirmacao::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -168,131 +123,62 @@
       transition: width 0.4s ease;
       z-index: 3;
     }
-    .dashboard-card:hover::after {
+    .resumo-solicitacao:hover::after, .resumo-agendamento:hover::after, .resumo-confirmacao:hover::after {
       width: 100%;
     }
-    .form-row {
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .resumo-solicitacao dl, .resumo-agendamento dl, .resumo-confirmacao dl {
       display: flex;
-      gap: 18px;
+      flex-wrap: wrap;
     }
-    .form-row > .elementor-field-group {
-      flex: 1;
-    }
-    .elementor-label {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
+    .resumo-solicitacao dt, .resumo-agendamento dt, .resumo-confirmacao dt {
+      width: 45%;
       font-weight: 500;
-      color: #002846;
-      margin-bottom: 8px;
-      display: block;
+      color: #00B5D3;
+      margin-bottom: 5px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 1rem;
     }
-    .elementor-field-textual,
-    input[type="number"],
-    input[type="date"],
-    input[type="time"],
-    select {
+    .resumo-solicitacao dd, .resumo-agendamento dd, .resumo-confirmacao dd {
+      width: 55%;
+      margin: 0 0 5px 0;
+      color: #002846;
+      font-size: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    .elementor-field-group { margin-bottom: 18px; }
+    .elementor-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 7px;
+      color: #002846;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       font-size: 16px;
-      padding: 12px 16px;
-      border: 1px solid #e5e9f2;
-      border-radius: 8px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background: #fff;
-      color: #002846;
-      box-sizing: border-box;
     }
-    .elementor-field-textual:focus,
-    input[type="number"]:focus,
-    input[type="date"]:focus,
-    input[type="time"]:focus,
-    select:focus {
-      border-color: #00B5D3;
-      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
-      outline: none;
-    }
-    input[type="radio"] {
-      accent-color: #00B5D3;
-      cursor: pointer;
-    }
+    .form-row { display: flex; gap: 18px; }
+    .form-row > .elementor-field-group { flex: 1; }
     .elementor-button {
+      min-width: 140px;
+      margin-top: 10px;
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
       color: #fff;
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      padding: 14px 32px;
       border: none;
       border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
       cursor: pointer;
       transition: box-shadow 0.2s, transform 0.2s;
-      min-width: 160px;
-      margin-top: 18px;
       display: inline-block;
     }
     .elementor-button:hover {
       box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
       transform: translateY(-2px);
-    }
-    .elementor-button.elementor-size-xs {
-      padding: 8px 16px;
-      font-size: 14px;
-      min-width: auto;
-    }
-    .elementor-button-secondary {
-      background: transparent !important;
-      border: 2px solid #00B5D3;
-      color: #00B5D3 !important;
-      transition: all 0.3s ease;
-    }
-    .elementor-button-secondary:hover {
-      background: #00B5D3 !important;
-      color: #fff !important;
-    }
-    .btn-row {
-      display: flex;
-      gap: 18px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-    .dados-solicitacao {
-      background: #f2f7fa;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-    .dados-solicitacao dl {
-      display: grid;
-      grid-template-columns: 40% 60%;
-      gap: 8px 12px;
-    }
-    .dados-solicitacao dt,
-    .dados-solicitacao dd {
-      font-size: 15px;
-      margin-bottom: 0;
-      font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
-    }
-    .dados-solicitacao dt {
-      font-weight: 500;
-      color: #002846;
-    }
-    .dados-solicitacao dd {
-      color: #333;
-    }
-    .elementor-field-group {
-      margin-bottom: 22px;
-    }
-    .msg-erro {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      color: #cf2e2e;
-      font-size: 14px;
-      margin-top: 2px;
-    }
-    .msg-sucesso {
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      color: #00B5D3;
-      font-size: 16px;
-      margin-top: 10px;
-      text-align: center;
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
     }
     .cards-row {
       display: flex;
@@ -362,201 +248,134 @@
       margin-top: 8px;
       min-width: 100px;
     }
-    footer {
-      background: #002846;
-      color: #fff;
+    .msg-erro {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
-      padding: 40px 0 24px 0;
-      margin-top: 48px;
-    }
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-    .footer-content a {
-      color: #fff;
-      text-decoration: underline;
-      font-size: 16px;
-      transition: color 0.3s ease;
-    }
-    .footer-content a:hover {
-      color: #00B5D3;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    .footer-content .footer-logo {
-      margin-bottom: 10px;
-    }
-    .footer-content .footer-copy {
+      color: #cf2e2e;
       font-size: 14px;
-      color: #fff;
-      opacity: 0.9;
-      letter-spacing: 0.3px;
+      margin-top: 2px;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    .msg-sucesso {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      color: #00B5D3;
+      font-size: 16px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .main-container { padding: 16px 2vw; }
+      .cards-row { flex-direction: column; gap: 14px; }
     }
     @media (max-width: 1024px) {
-      .dashboard-title {
-        font-size: 36px;
-      }
-      .dashboard-subtitle {
-        font-size: 18px;
-      }
-      .main-container {
-        padding: 18px 5vw;
-      }
-      .dados-solicitacao {
-        padding: 14px 4vw;
-      }
+      .main-container { padding: 18px 5vw; }
+      .section-title { font-size: 1.6rem; }
+      .subtitulo { font-size: 1rem; }
     }
-    @media (max-width: 700px) {
-      .dashboard-title {
-        font-size: 28px;
-      }
-      .dashboard-subtitle {
-        font-size: 16px;
-      }
-      .main-container {
-        padding: 12px 3vw;
-      }
-      .form-row {
-        flex-direction: column;
-        gap: 0;
-      }
-      .dados-solicitacao {
-        padding: 14px 4vw;
-      }
+    @media (max-width: 600px) {
+      .main-container { padding: 12px 3vw; }
+      .section-title { font-size: 1.3rem; }
+      .subtitulo { font-size: 0.95rem; }
+      .elementor-label { font-size: 14px; }
+      input[type="text"], input[type="tel"], select { font-size: 14px; padding: 10px 12px; }
     }
+    .select2-container { width: 100% !important; }
   </style>
 </head>
 <body>
-  <header class="header_section">
-    <div class="header_wrapper">
-      <div class="logo_wrapper">
-        <a href="#" class="header_logo">
-          <img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL Logo" style="height: 38px; width: auto;" />
-        </a>
-      </div>
-      <nav class="menu_nav_trees" aria-label="Menu principal">
-        <a href="solicitacao-agendamento.html">Agendamento</a>
-        <a href="confirmacao-fornecedor.html">Confirmação</a>
-        <a href="selecao-transportadora.html" class="active" aria-current="page">Transportadora</a>
+  <header class="header_section" style="background:#002846;">
+    <div class="header_wrapper" style="display:flex;align-items:center;justify-content:space-between;padding:16px 32px;">
+      <a href="#" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" style="height:38px;"></a>
+      <nav class="menu_nav_trees">
+        <a href="solicitacao-agendamento.html" style="color:#fff;margin-right:24px;">Agendamento</a>
+        <a href="confirmacao-fornecedor.html" style="color:#fff;margin-right:24px;">Confirmação</a>
+        <a href="selecao-transportadora.html" style="color:#00B5D3;font-weight:600;">Transportadora</a>
       </nav>
     </div>
   </header>
-  <div class="dashboard-container">
-    <main class="main-container" aria-label="Conteúdo principal">
-      <h1 class="dashboard-title">Seleção e Solicitação de Transportadora</h1>
-      <div class="dashboard-subtitle">Preencha os dados abaixo para solicitar o transporte. Os campos marcados com <span aria-label="obrigatório" style="color:#cf2e2e">*</span> são obrigatórios.</div>
-      <div class="dashboard-card">
-        <section class="dados-solicitacao" aria-label="Resumo do Agendamento">
-          <dl id="dlAgendamento">
-            <dt>Fornecedor:</dt><dd id="agFornecedor">-</dd>
-            <dt>Unidade:</dt><dd id="agUnidade">-</dd>
-            <dt>Data/Hora Coleta:</dt><dd id="agDataHora">-</dd>
-            <dt>Janela Operacional:</dt><dd id="agJanela">-</dd>
-            <dt>Tipo de Frete:</dt><dd id="agFrete">-</dd>
-            <dt>Local de Entrega:</dt><dd id="agLocalEntrega">-</dd>
-          </dl>
-        </section>
-        <section class="dados-solicitacao" aria-label="Resumo da Confirmação">
-          <dl id="dlConfirmacao">
-            <dt>Volume:</dt><dd id="cfVolume">-</dd>
-            <dt>Tipo de Carga:</dt><dd id="cfTipoCarga">-</dd>
-            <dt>Peso Total (kg):</dt><dd id="cfPeso">-</dd>
-            <dt>Confirma Janela Operacional:</dt><dd id="cfConfirmaJanela">-</dd>
-            <dt>Nova Data:</dt><dd id="cfNovaData">-</dd>
-            <dt>Novo Horário:</dt><dd id="cfNovaHora">-</dd>
-          </dl>
-        </section>
-      </div>
-      <div class="dashboard-card">
-        <form id="transpForm" autocomplete="off" novalidate>
-          <div class="form-row">
-            <div class="elementor-field-group">
-              <label class="elementor-label" for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-              <select id="tipo_veiculo" name="tipo_veiculo" class="elementor-field-textual" required>
-                <option value="">Sugestão automática</option>
-                <option value="toco">Toco (até 8t)</option>
-                <option value="truck">Truck (até 14t)</option>
-                <option value="carreta">Carreta (até 27t)</option>
-                <option value="vanderleia">Vanderleia (até 32t)</option>
-              </select>
-              <span class="msg-erro" id="erroTipoVeiculo"></span>
-            </div>
-            <div class="elementor-field-group">
-              <label class="elementor-label" for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-              <select id="transportadora" name="transportadora" class="elementor-field-textual" required>
-                <option value="">Selecione</option>
-                <option value="transp1">Translog</option>
-                <option value="transp2">Rodonaves</option>
-                <option value="transp3">Jamef</option>
-                <option value="transp4">Rapidex</option>
-              </select>
-              <span class="msg-erro" id="erroTransportadora"></span>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="elementor-field-group">
-              <label class="elementor-label" for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-              <input type="date" id="data_entrega" name="data_entrega" class="elementor-field-textual" required>
-              <span class="msg-erro" id="erroDataEntrega"></span>
-            </div>
-            <div class="elementor-field-group">
-              <label class="elementor-label">Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-              <div style="display:flex;gap:16px;align-items:center;">
-                <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="modal" value="lotacao" required> Lotação</label>
-                <label style="font-family:'robotocondensed','Roboto Condensed',Sans-serif;font-size:16px;color:#002846;cursor:pointer;"><input type="radio" name="modal" value="fracionado"> Fracionado</label>
-              </div>
-              <span class="msg-erro" id="erroModal"></span>
-            </div>
-          </div>
-          <button type="submit" class="elementor-button elementor-size-md">Solicitar Transporte</button>
-          <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
-        </form>
-      </div>
-      <div class="dashboard-card">
-        <h2 style="font-size:1.1rem;color:#002846;font-weight:500;">Sugestões de Transportadoras</h2>
-        <div class="cards-row">
-          <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
-            <h3>Translog</h3>
-            <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
-            <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp1'">Selecionar</button>
-          </div>
-          <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
-            <h3>Rodonaves</h3>
-            <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
-            <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp2'">Selecionar</button>
-          </div>
-          <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
-            <h3>Jamef</h3>
-            <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
-            <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp3'">Selecionar</button>
-          </div>
+  <main class="main-container">
+    <h1 class="section-title">Seleção e Solicitação de Transportadora</h1>
+    <p class="subtitulo">Preencha os dados abaixo para solicitar o transporte. Os campos marcados com <span aria-label="obrigatório" style="color:#cf2e2e">*</span> são obrigatórios.</p>
+    <section class="resumo-agendamento" aria-label="Resumo do Agendamento" tabindex="0">
+      <dl id="dlAgendamento">
+        <dt>Fornecedor:</dt><dd id="agFornecedor">-</dd>
+        <dt>Unidade:</dt><dd id="agUnidade">-</dd>
+        <dt>Data/Hora Coleta:</dt><dd id="agDataHora">-</dd>
+        <dt>Janela Operacional:</dt><dd id="agJanela">-</dd>
+        <dt>Tipo de Frete:</dt><dd id="agFrete">-</dd>
+        <dt>Local de Entrega:</dt><dd id="agLocalEntrega">-</dd>
+      </dl>
+    </section>
+    <section class="resumo-confirmacao" aria-label="Resumo da Confirmação" tabindex="0">
+      <dl id="dlConfirmacao">
+        <dt>Volume:</dt><dd id="cfVolume">-</dd>
+        <dt>Tipo de Carga:</dt><dd id="cfTipoCarga">-</dd>
+        <dt>Peso Total (kg):</dt><dd id="cfPeso">-</dd>
+        <dt>Confirma Janela Operacional:</dt><dd id="cfConfirmaJanela">-</dd>
+        <dt>Nova Data:</dt><dd id="cfNovaData">-</dd>
+        <dt>Novo Horário:</dt><dd id="cfNovaHora">-</dd>
+      </dl>
+    </section>
+    <form id="transpForm" autocomplete="off" novalidate>
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <select id="tipo_veiculo" name="tipo_veiculo" class="elementor-field-textual" required>
+            <option value="">Selecione o tipo de veículo</option>
+            <option value="toco">Toco (até 8t)</option>
+            <option value="truck">Truck (até 14t)</option>
+            <option value="carreta">Carreta (até 27t)</option>
+            <option value="vanderleia">Vanderleia (até 32t)</option>
+          </select>
+          <span class="msg-erro" id="erroTipoVeiculo"></span>
+        </div>
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <select id="transportadora" name="transportadora" class="elementor-field-textual" required>
+            <option value="">Selecione</option>
+            <option value="transp1">Translog</option>
+            <option value="transp2">Rodonaves</option>
+            <option value="transp3">Jamef</option>
+            <option value="transp4">Rapidex</option>
+          </select>
+          <span class="msg-erro" id="erroTransportadora"></span>
         </div>
       </div>
-    </main>
-  </div>
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
+      <div class="form-row">
+        <div class="elementor-field-group">
+          <label class="elementor-label" for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <input type="date" id="data_entrega" name="data_entrega" class="elementor-field-textual" required>
+          <span class="msg-erro" id="erroDataEntrega"></span>
+        </div>
+        <div class="elementor-field-group">
+          <label class="elementor-label">Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+          <div style="display:flex;gap:16px;align-items:center;">
+            <label><input type="radio" name="modal" value="lotacao" required> Lotação</label>
+            <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
+          </div>
+          <span class="msg-erro" id="erroModal"></span>
+        </div>
       </div>
-      <div>
-        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
-        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
-        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+      <button type="submit" class="elementor-button elementor-size-md">Solicitar Transporte</button>
+      <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
+    </form>
+    <h2 style="margin-top:38px;font-size:1.1rem;color:#002846;font-weight:500;">Sugestões de Transportadoras</h2>
+    <div class="cards-row">
+      <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
+        <h3>Translog</h3>
+        <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp1')">Selecionar</button>
       </div>
-      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
+      <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
+        <h3>Rodonaves</h3>
+        <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp2')">Selecionar</button>
+      </div>
+      <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
+        <h3>Jamef</h3>
+        <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
+        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp3')">Selecionar</button>
+      </div>
     </div>
-  </footer>
+  </main>
   <script>
     // Preencher dados do agendamento e confirmação vindos do localStorage
     document.addEventListener('DOMContentLoaded', function() {
@@ -587,13 +406,124 @@
         document.getElementById('cfNovaHora').textContent = dadosConfirmacao.nova_hora || '-';
       }
       // Sugestão automática de tipo de veículo baseada em peso (simulação)
-      var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso) : 1200;
-      var tipoVeiculo = document.getElementById('tipo_veiculo');
-      if (peso <= 8000) tipoVeiculo.value = 'toco';
-      else if (peso <= 14000) tipoVeiculo.value = 'truck';
-      else if (peso <= 27000) tipoVeiculo.value = 'carreta';
-      else tipoVeiculo.value = 'vanderleia';
+      // Removido conforme nova lógica: agora só preenche após seleção da transportadora
+      // var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso) : 1200;
+      // var tipoVeiculo = document.getElementById('tipo_veiculo');
+      // if (peso <= 8000) tipoVeiculo.value = 'toco';
+      // else if (peso <= 14000) tipoVeiculo.value = 'truck';
+      // else if (peso <= 27000) tipoVeiculo.value = 'carreta';
+      // else tipoVeiculo.value = 'vanderleia';
     });
+
+    /**
+     * Calcula o tipo de veículo baseado no peso total em kg.
+     * @param {number|string} peso Peso total em kg.
+     * @returns {string} Valor do tipo de veículo ('toco', 'truck', 'carreta', 'vanderleia').
+     * @example
+     *   calcularTipoVeiculo(10000); // 'truck'
+     */
+    function calcularTipoVeiculo(peso) {
+      var pesoNum = parseInt(peso, 10);
+      var tipo = '';
+      if (pesoNum <= 8000) tipo = 'toco';
+      else if (pesoNum <= 14000) tipo = 'truck';
+      else if (pesoNum <= 27000) tipo = 'carreta';
+      else tipo = 'vanderleia';
+      console.log('[calcularTipoVeiculo] peso:', peso, '-> tipo:', tipo);
+      return tipo;
+    }
+
+    /**
+     * Converte uma string de data/hora (ex: '15/01/2024 14:30') para objeto Date.
+     * @param {string} dataHoraString Data/hora no formato 'DD/MM/YYYY HH:mm' ou similar.
+     * @returns {Date} Objeto Date correspondente, ou data atual em caso de erro.
+     * @example
+     *   parseDataHora('15/01/2024 14:30');
+     */
+    function parseDataHora(dataHoraString) {
+      if (!dataHoraString || typeof dataHoraString !== 'string') return new Date();
+      // Tenta formato 'DD/MM/YYYY HH:mm'
+      var partes = dataHoraString.split(' ');
+      if (partes.length === 2) {
+        var dataPartes = partes[0].split('/');
+        var horaPartes = partes[1].split(':');
+        if (dataPartes.length === 3 && horaPartes.length >= 2) {
+          var dia = parseInt(dataPartes[0], 10);
+          var mes = parseInt(dataPartes[1], 10) - 1;
+          var ano = parseInt(dataPartes[2], 10);
+          var hora = parseInt(horaPartes[0], 10);
+          var min = parseInt(horaPartes[1], 10);
+          var dt = new Date(ano, mes, dia, hora, min);
+          if (!isNaN(dt.getTime())) return dt;
+        }
+      }
+      // Tenta formato ISO ou Date.parse
+      var dt2 = new Date(dataHoraString);
+      if (!isNaN(dt2.getTime())) return dt2;
+      // Fallback: data atual
+      return new Date();
+    }
+
+    /**
+     * Calcula a data de entrega estimada baseada na data/hora de coleta.
+     * @param {string} dataHoraColeta String de data/hora de coleta.
+     * @returns {string} Data estimada no formato 'YYYY-MM-DD' (input type="date").
+     * @example
+     *   calcularDataEntrega('15/01/2024 14:30'); // '2024-01-17' (exemplo)
+     */
+    function calcularDataEntrega(dataHoraColeta) {
+      var dataColeta = parseDataHora(dataHoraColeta);
+      var diasAdicionar = Math.floor(Math.random() * 4) + 2; // 2 a 5 dias
+      dataColeta.setDate(dataColeta.getDate() + diasAdicionar);
+      var yyyy = dataColeta.getFullYear();
+      var mm = (dataColeta.getMonth() + 1).toString().padStart(2, '0');
+      var dd = dataColeta.getDate().toString().padStart(2, '0');
+      var resultado = yyyy + '-' + mm + '-' + dd;
+      console.log('[calcularDataEntrega] dataHoraColeta:', dataHoraColeta, 'diasAdicionar:', diasAdicionar, '->', resultado);
+      return resultado;
+    }
+
+    /**
+     * Preenche automaticamente os campos do formulário ao selecionar uma transportadora.
+     * @param {string} codigoTransp Código da transportadora (ex: 'transp1').
+     * @example
+     *   selecionarTransportadora('transp2');
+     */
+    function selecionarTransportadora(codigoTransp) {
+      console.log('[selecionarTransportadora] código:', codigoTransp);
+      // Preencher transportadora
+      var selectTransp = document.getElementById('transportadora');
+      selectTransp.value = codigoTransp;
+      // Recuperar peso total
+      var dadosConfirmacao = null;
+      try {
+        dadosConfirmacao = JSON.parse(localStorage.getItem('dadosConfirmacao'));
+      } catch(e) { dadosConfirmacao = null; }
+      var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso, 10) : 0;
+      // Calcular tipo de veículo
+      var tipoVeiculo = calcularTipoVeiculo(peso);
+      var selectTipoVeiculo = document.getElementById('tipo_veiculo');
+      selectTipoVeiculo.value = tipoVeiculo;
+      // Recuperar data/hora coleta
+      var dadosAgendamento = null;
+      try {
+        dadosAgendamento = JSON.parse(localStorage.getItem('dadosAgendamento'));
+      } catch(e) { dadosAgendamento = null; }
+      var dataHoraColeta = dadosAgendamento && dadosAgendamento.data_hora ? dadosAgendamento.data_hora : '';
+      // Calcular data de entrega estimada
+      var dataEntrega = calcularDataEntrega(dataHoraColeta);
+      var inputDataEntrega = document.getElementById('data_entrega');
+      inputDataEntrega.value = dataEntrega;
+      // Selecionar modal 'lotacao'
+      var radioLotacao = document.querySelector('input[name="modal"][value="lotacao"]');
+      if (radioLotacao) radioLotacao.checked = true;
+      console.log('[selecionarTransportadora] preenchido:', {
+        transportadora: codigoTransp,
+        tipo_veiculo: tipoVeiculo,
+        data_entrega: dataEntrega,
+        modal: 'lotacao'
+      });
+    }
 
     // Validação do formulário
     document.getElementById('transpForm').addEventListener('submit', function(e) {
