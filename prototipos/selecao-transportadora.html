@@ -362,22 +362,25 @@
       <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
         <h3>Translog</h3>
         <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp1'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="preencherFormularioAutomatico('transp1')">Selecionar</button>
       </div>
       <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
         <h3>Rodonaves</h3>
         <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp2'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="preencherFormularioAutomatico('transp2')">Selecionar</button>
       </div>
       <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
         <h3>Jamef</h3>
         <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp3'">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="preencherFormularioAutomatico('transp3')">Selecionar</button>
       </div>
     </div>
   </main>
   <script>
-    // Preencher dados do agendamento e confirmação vindos do localStorage
+    /**
+     * Preenche os resumos de agendamento e confirmação com dados do localStorage.
+     * Removeu a lógica de sugestão automática de tipo de veículo (agora feita por preencherFormularioAutomatico).
+     */
     document.addEventListener('DOMContentLoaded', function() {
       // Agendamento
       var dadosAgendamento = null;
@@ -405,16 +408,142 @@
         document.getElementById('cfNovaData').textContent = dadosConfirmacao.nova_data || '-';
         document.getElementById('cfNovaHora').textContent = dadosConfirmacao.nova_hora || '-';
       }
-      // Sugestão automática de tipo de veículo baseada em peso (simulação)
-      var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso) : 1200;
-      var tipoVeiculo = document.getElementById('tipo_veiculo');
-      if (peso <= 8000) tipoVeiculo.value = 'toco';
-      else if (peso <= 14000) tipoVeiculo.value = 'truck';
-      else if (peso <= 27000) tipoVeiculo.value = 'carreta';
-      else tipoVeiculo.value = 'vanderleia';
+      // Lógica de sugestão automática de tipo de veículo removida conforme instrução.
     });
 
-    // Validação do formulário
+    /**
+     * Preenche automaticamente os campos do formulário de transporte com base na transportadora selecionada.
+     * @param {string} transportadoraId - O ID da transportadora selecionada (ex: 'transp1').
+     */
+    function preencherFormularioAutomatico(transportadoraId) {
+      // Recupera dados do localStorage
+      var dadosAgendamento = null;
+      var dadosConfirmacao = null;
+      try {
+        dadosAgendamento = JSON.parse(localStorage.getItem('dadosAgendamento'));
+      } catch(e) { dadosAgendamento = null; }
+      try {
+        dadosConfirmacao = JSON.parse(localStorage.getItem('dadosConfirmacao'));
+      } catch(e) { dadosConfirmacao = null; }
+
+      // Preencher tipo de veículo
+      var peso = dadosConfirmacao && dadosConfirmacao.peso ? dadosConfirmacao.peso : null;
+      var tipoVeiculo = calcularTipoVeiculoPorPeso(peso);
+      var tipoVeiculoSelect = document.getElementById('tipo_veiculo');
+      tipoVeiculoSelect.value = tipoVeiculo;
+
+      // Preencher data de entrega estimada
+      var dataHoraColeta = dadosAgendamento && dadosAgendamento.data_hora ? dadosAgendamento.data_hora : null;
+      var dataEntrega = calcularDataEntregaEstimada(dataHoraColeta);
+      var dataEntregaInput = document.getElementById('data_entrega');
+      dataEntregaInput.value = dataEntrega;
+
+      // Preencher transportadora
+      var transportadoraSelect = document.getElementById('transportadora');
+      transportadoraSelect.value = transportadoraId;
+
+      // Preencher modal
+      var modalValue = determinarModalPorTransportadora(transportadoraId);
+      var modalRadio = document.querySelector('input[name="modal"][value="' + modalValue + '"]');
+      if (modalRadio) {
+        modalRadio.checked = true;
+      }
+    }
+
+    /**
+     * Calcula o tipo de veículo ideal com base no peso informado.
+     * @param {string|number} peso - Peso total em kg (string ou número).
+     * @returns {string} Valor do tipo de veículo: 'toco', 'truck', 'carreta' ou 'vanderleia'.
+     * Se o peso for inválido, retorna 'toco' e emite um aviso no console.
+     */
+    function calcularTipoVeiculoPorPeso(peso) {
+      var pesoNum = parseFloat(peso);
+      if (isNaN(pesoNum) || pesoNum <= 0) {
+        console.warn('Peso inválido ou não informado. Usando tipo de veículo padrão: toco.');
+        return 'toco';
+      }
+      if (pesoNum <= 8000) return 'toco';
+      if (pesoNum <= 14000) return 'truck';
+      if (pesoNum <= 27000) return 'carreta';
+      return 'vanderleia';
+    }
+
+    /**
+     * Calcula a data de entrega estimada com base na data/hora de coleta.
+     * Aceita formatos 'DD/MM/YYYY HH:MM', 'YYYY-MM-DD HH:MM', ou timestamp.
+     * Se parsing falhar, retorna data atual + 3 dias e emite aviso no console.
+     * @param {string|null} dataHoraColeta - String de data/hora de coleta.
+     * @returns {string} Data estimada no formato 'YYYY-MM-DD'.
+     */
+    function calcularDataEntregaEstimada(dataHoraColeta) {
+      var dataObj = null;
+      if (!dataHoraColeta || typeof dataHoraColeta !== 'string') {
+        console.warn('Data/Hora de coleta não informada. Usando data atual + 3 dias.');
+        dataObj = new Date();
+        dataObj.setDate(dataObj.getDate() + 3);
+      } else {
+        // Tenta parsing para 'DD/MM/YYYY HH:MM'
+        var matchBR = dataHoraColeta.match(/(\d{2})\/(\d{2})\/(\d{4})(?:\s+(\d{2}):(\d{2}))?/);
+        if (matchBR) {
+          var dia = parseInt(matchBR[1], 10);
+          var mes = parseInt(matchBR[2], 10) - 1;
+          var ano = parseInt(matchBR[3], 10);
+          var hora = matchBR[4] ? parseInt(matchBR[4], 10) : 0;
+          var min = matchBR[5] ? parseInt(matchBR[5], 10) : 0;
+          dataObj = new Date(ano, mes, dia, hora, min);
+        } else {
+          // Tenta parsing para 'YYYY-MM-DD HH:MM'
+          var matchISO = dataHoraColeta.match(/(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+          if (matchISO) {
+            var ano2 = parseInt(matchISO[1], 10);
+            var mes2 = parseInt(matchISO[2], 10) - 1;
+            var dia2 = parseInt(matchISO[3], 10);
+            var hora2 = matchISO[4] ? parseInt(matchISO[4], 10) : 0;
+            var min2 = matchISO[5] ? parseInt(matchISO[5], 10) : 0;
+            dataObj = new Date(ano2, mes2, dia2, hora2, min2);
+          } else {
+            // Tenta parsing para timestamp numérico
+            var timestamp = parseInt(dataHoraColeta, 10);
+            if (!isNaN(timestamp) && timestamp > 1000000000) {
+              dataObj = new Date(timestamp);
+            } else {
+              // Parsing falhou
+              console.warn('Formato de data/hora de coleta não reconhecido. Usando data atual + 3 dias.');
+              dataObj = new Date();
+              dataObj.setDate(dataObj.getDate() + 3);
+            }
+          }
+        }
+      }
+      // Adiciona de 1 a 5 dias aleatórios
+      var diasAdd = Math.floor(Math.random() * 5) + 1;
+      dataObj.setDate(dataObj.getDate() + diasAdd);
+      // Formata para 'YYYY-MM-DD'
+      var anoF = dataObj.getFullYear();
+      var mesF = (dataObj.getMonth() + 1).toString().padStart(2, '0');
+      var diaF = dataObj.getDate().toString().padStart(2, '0');
+      return anoF + '-' + mesF + '-' + diaF;
+    }
+
+    /**
+     * Determina o modal recomendado para a transportadora selecionada.
+     * @param {string} transportadoraId - ID da transportadora ('transp1', 'transp2', 'transp3', 'transp4').
+     * @returns {string} Valor do modal: 'lotacao' ou 'fracionado'.
+     */
+    function determinarModalPorTransportadora(transportadoraId) {
+      switch (transportadoraId) {
+        case 'transp1': // Translog
+        case 'transp2': // Rodonaves
+        case 'transp4': // Rapidex
+          return 'lotacao';
+        case 'transp3': // Jamef
+          return 'fracionado';
+        default:
+          return 'lotacao';
+      }
+    }
+
+    // Validação do formulário permanece igual
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
       // Limpa mensagens de erro e sucesso
