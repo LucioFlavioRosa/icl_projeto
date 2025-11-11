@@ -15,7 +15,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Font-face custom (exemplo para robotobold_condensed e robotocondensed) - ajuste caminho se necessário */
     @font-face {
       font-family: 'robotobold_condensed';
       src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
@@ -86,10 +85,12 @@
       line-height: 1.4em;
       transition: font-size 0.3s;
     }
+    /* Blocos principais - incluindo novo bloco de dados de transporte */
     .dashboard-card,
     .detalhes-transporte,
     .dados-agendamento,
-    .dados-confirmacao {
+    .dados-confirmacao,
+    .dados-transporte {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
@@ -104,11 +105,13 @@
     }
     .dados-agendamento { animation-delay: 0.1s; }
     .dados-confirmacao { animation-delay: 0.2s; }
+    .dados-transporte { animation-delay: 0.25s; }
     .detalhes-transporte { animation-delay: 0.3s; }
     .dashboard-card:focus-visible,
     .detalhes-transporte:focus-visible,
     .dados-agendamento:focus-visible,
-    .dados-confirmacao:focus-visible {
+    .dados-confirmacao:focus-visible,
+    .dados-transporte:focus-visible {
       outline: 3px solid #00B5D3;
       outline-offset: 4px;
       box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
@@ -116,7 +119,8 @@
     .dashboard-card:hover, .dashboard-card:focus,
     .detalhes-transporte:hover, .detalhes-transporte:focus,
     .dados-agendamento:hover, .dados-agendamento:focus,
-    .dados-confirmacao:hover, .dados-confirmacao:focus {
+    .dados-confirmacao:hover, .dados-confirmacao:focus,
+    .dados-transporte:hover, .dados-transporte:focus {
       box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
       transform: translateY(-4px) scale(1.01);
       border-color: #00B5D3;
@@ -126,7 +130,8 @@
     .dashboard-card::after,
     .detalhes-transporte::after,
     .dados-agendamento::after,
-    .dados-confirmacao::after {
+    .dados-confirmacao::after,
+    .dados-transporte::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -140,7 +145,8 @@
     .dashboard-card:hover::after,
     .detalhes-transporte:hover::after,
     .dados-agendamento:hover::after,
-    .dados-confirmacao:hover::after {
+    .dados-confirmacao:hover::after,
+    .dados-transporte:hover::after {
       width: 100%;
     }
     @keyframes fadeInUp {
@@ -148,7 +154,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .dados-agendamento h2,
-    .dados-confirmacao h2 {
+    .dados-confirmacao h2,
+    .dados-transporte h2 {
       font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
       font-size: 20px;
       color: #002846;
@@ -160,7 +167,8 @@
     }
     .detalhes-transporte dt,
     .dados-agendamento dt,
-    .dados-confirmacao dt {
+    .dados-confirmacao dt,
+    .dados-transporte dt {
       color: #00B5D3;
       font-weight: 500;
       font-size: 1rem;
@@ -168,7 +176,8 @@
     }
     .detalhes-transporte dd,
     .dados-agendamento dd,
-    .dados-confirmacao dd {
+    .dados-confirmacao dd,
+    .dados-transporte dd {
       margin: 0 0 10px 0;
       color: #002846;
       font-size: 16px;
@@ -296,7 +305,17 @@
         <dt>Confirmação da Janela Operacional:</dt><dd id="confirmacaoJanela">-</dd>
       </dl>
     </section>
-    <!-- Bloco 3: Aceite de Transporte -->
+    <!-- Bloco 3: Dados da Solicitação de Transporte (NOVO BLOCO) -->
+    <section class="dados-transporte" aria-label="Dados da Solicitação de Transporte">
+      <h2>Dados da Solicitação de Transporte</h2>
+      <dl>
+        <dt>Tipo de Veículo:</dt><dd id="transporteTipoVeiculo">-</dd>
+        <dt>Transportadora:</dt><dd id="transporteTransportadora">-</dd>
+        <dt>Data de Entrega Estimada:</dt><dd id="transporteDataEntrega">-</dd>
+        <dt>Modal:</dt><dd id="transporteModal">-</dd>
+      </dl>
+    </section>
+    <!-- Bloco 4: Aceite de Transporte -->
     <section class="detalhes-transporte" aria-label="Aceite de Transporte">
       <form id="formAceite" autocomplete="off" novalidate>
         <div class="form-group">
@@ -359,10 +378,22 @@
       document.getElementById('confirmacaoPeso').textContent = dados && dados.peso ? dados.peso : '-';
       document.getElementById('confirmacaoJanela').textContent = dados && dados.confirma_janela ? (dados.confirma_janela === 'sim' ? 'Sim' : 'Não') : '-';
     }
+    // Função para preencher dados da solicitação de transporte (novo bloco)
+    function preencherDadosTransporte() {
+      var dados = null;
+      try {
+        dados = JSON.parse(localStorage.getItem('dadosTransporte'));
+      } catch(e) { dados = null; }
+      document.getElementById('transporteTipoVeiculo').textContent = dados && dados.tipo_veiculo ? dados.tipo_veiculo : '-';
+      document.getElementById('transporteTransportadora').textContent = dados && dados.transportadora ? dados.transportadora : '-';
+      document.getElementById('transporteDataEntrega').textContent = dados && dados.data_entrega ? dados.data_entrega : '-';
+      document.getElementById('transporteModal').textContent = dados && dados.modal ? dados.modal : '-';
+    }
     // Executa ao carregar a página
     window.addEventListener('DOMContentLoaded', function() {
       preencherDadosAgendamento();
       preencherDadosConfirmacao();
+      preencherDadosTransporte();
     });
     // Máscara de placa (Mercosul ou padrão antigo)
     function maskPlaca(v) {
