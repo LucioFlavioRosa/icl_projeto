@@ -9,25 +9,10 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1761639274">
-  <!-- Fontes customizadas e Roboto Condensed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'robotobold_condensed';
-      src: url('/fonts/robotobold_condensed.woff2') format('woff2'), url('/fonts/robotobold_condensed.woff') format('woff');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'robotocondensed';
-      src: url('/fonts/robotocondensed.woff2') format('woff2'), url('/fonts/robotocondensed.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
     * {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -43,7 +28,7 @@
       min-height: 100vh;
       transition: background 0.3s ease;
     }
-    .main-container {
+    .container-main {
       max-width: 1200px;
       margin: 60px auto 40px auto;
       background: transparent;
@@ -52,7 +37,7 @@
       padding: 32px;
       position: relative;
     }
-    .main-container::before {
+    .container-main::before {
       content: '';
       position: absolute;
       top: -50px;
@@ -63,7 +48,7 @@
       z-index: -1;
       pointer-events: none;
     }
-    .section-title {
+    .titulo {
       font-size: 2rem;
       color: #002846;
       font-weight: 700;
@@ -82,7 +67,10 @@
       line-height: 1.4em;
       transition: font-size 0.3s;
     }
-    .resumo-solicitacao, .resumo-agendamento, .resumo-confirmacao {
+    .dados-agendamento,
+    .dados-confirmacao,
+    .detalhes-transporte,
+    .sugestoes-transportadoras {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
@@ -95,24 +83,32 @@
       transition: box-shadow 0.2s, transform 0.2s;
       cursor: pointer;
     }
-    .resumo-agendamento { animation-delay: 0.1s; }
-    .resumo-confirmacao { animation-delay: 0.2s; }
-    .resumo-solicitacao { animation-delay: 0.3s; }
-    .resumo-solicitacao:focus-visible, .resumo-agendamento:focus-visible, .resumo-confirmacao:focus-visible {
+    .dados-agendamento { animation-delay: 0.1s; }
+    .dados-confirmacao { animation-delay: 0.2s; }
+    .detalhes-transporte { animation-delay: 0.3s; }
+    .sugestoes-transportadoras { animation-delay: 0.4s; }
+    .dados-agendamento:focus-visible,
+    .dados-confirmacao:focus-visible,
+    .detalhes-transporte:focus-visible,
+    .sugestoes-transportadoras:focus-visible {
       outline: 3px solid #00B5D3;
       outline-offset: 4px;
       box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
     }
-    .resumo-solicitacao:hover, .resumo-solicitacao:focus,
-    .resumo-agendamento:hover, .resumo-agendamento:focus,
-    .resumo-confirmacao:hover, .resumo-confirmacao:focus {
+    .dados-agendamento:hover, .dados-agendamento:focus,
+    .dados-confirmacao:hover, .dados-confirmacao:focus,
+    .detalhes-transporte:hover, .detalhes-transporte:focus,
+    .sugestoes-transportadoras:hover, .sugestoes-transportadoras:focus {
       box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
       transform: translateY(-4px) scale(1.01);
       border-color: #00B5D3;
       outline: none;
       z-index: 2;
     }
-    .resumo-solicitacao::after, .resumo-agendamento::after, .resumo-confirmacao::after {
+    .dados-agendamento::after,
+    .dados-confirmacao::after,
+    .detalhes-transporte::after,
+    .sugestoes-transportadoras::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -123,42 +119,40 @@
       transition: width 0.4s ease;
       z-index: 3;
     }
-    .resumo-solicitacao:hover::after, .resumo-agendamento:hover::after, .resumo-confirmacao:hover::after {
+    .dados-agendamento:hover::after,
+    .dados-confirmacao:hover::after,
+    .detalhes-transporte:hover::after,
+    .sugestoes-transportadoras:hover::after {
       width: 100%;
     }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .resumo-solicitacao dl, .resumo-agendamento dl, .resumo-confirmacao dl {
-      display: flex;
-      flex-wrap: wrap;
+    .dados-agendamento h2,
+    .dados-confirmacao h2 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 20px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
     }
-    .resumo-solicitacao dt, .resumo-agendamento dt, .resumo-confirmacao dt {
-      width: 45%;
-      font-weight: 500;
+    .dados-agendamento dt,
+    .dados-confirmacao dt {
       color: #00B5D3;
-      margin-bottom: 5px;
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
       font-size: 1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
     }
-    .resumo-solicitacao dd, .resumo-agendamento dd, .resumo-confirmacao dd {
-      width: 55%;
-      margin: 0 0 5px 0;
+    .dados-agendamento dd,
+    .dados-confirmacao dd {
+      margin: 0 0 10px 0;
       color: #002846;
       font-size: 16px;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-    }
-    /* --- NOVO PADRÃO DE FORMULÁRIO (modelo aceite-transportadora.html) --- */
-    .form-row { /* substituído por .form-group, mantido para grid */
-      display: flex;
-      gap: 18px;
-    }
-    .form-row > .form-group { flex: 1; }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 18px;
     }
     label {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
@@ -168,8 +162,7 @@
       margin-bottom: 8px;
       display: block;
     }
-    select,
-    input[type="date"] {
+    input[type="text"], input[type="tel"], select {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       font-size: 16px;
       padding: 12px 16px;
@@ -180,28 +173,11 @@
       box-sizing: border-box;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    select:focus,
-    input[type="date"]:focus {
+    input[type="text"]:focus, input[type="tel"]:focus, select:focus {
       border-color: #00B5D3;
       box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
       outline: none;
     }
-    /* Radio group modal (Lotação/Fracionado) */
-    .radio-group {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-    .radio-group label {
-      margin-bottom: 0;
-      font-weight: 400;
-    }
-    input[type="radio"] {
-      accent-color: #00B5D3;
-      cursor: pointer;
-    }
-    /* Botão padrão modelo */
     .btn-primary {
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
       color: #fff;
@@ -222,7 +198,36 @@
       transform: translateY(-2px);
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
     }
-    /* Mensagens */
+    .form-row {
+      display: flex;
+      gap: 18px;
+    }
+    .form-row > .form-group {
+      flex: 1;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .radio-group {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .radio-group label {
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    input[type="radio"] {
+      accent-color: #00B5D3;
+      cursor: pointer;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
     .msg-erro {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
       color: #cf2e2e;
@@ -236,29 +241,116 @@
       margin-top: 10px;
       text-align: center;
     }
-    /* Responsividade para formulário */
+    .card-transp {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 0;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      flex: 1 1 250px;
+      min-width: 220px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .card-transp:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .card-transp:hover, .card-transp:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .card-transp::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .card-transp:hover::after {
+      width: 100%;
+    }
+    .card-transp h3 {
+      font-size: 1.1rem;
+      color: #00B5D3;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+    }
+    .card-transp p {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #002846;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    .card-transp .btn-primary {
+      margin-top: 8px;
+      min-width: 100px;
+    }
+    .cards-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .sugestoes-transportadoras h2 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 20px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
     @media (max-width: 1024px) {
-      .main-container { padding: 18px 5vw; }
-      .section-title { font-size: 1.6rem; }
-      .subtitulo { font-size: 1rem; }
-      label { font-size: 15px; }
-      select, input[type="date"] { font-size: 15px; }
+      .container-main {
+        padding: 18px 5vw;
+      }
+      .titulo {
+        font-size: 1.6rem;
+      }
+      .subtitulo {
+        font-size: 1rem;
+      }
     }
     @media (max-width: 900px) {
-      .main-container { padding: 16px 2vw; }
       .cards-row { flex-direction: column; gap: 14px; }
     }
     @media (max-width: 600px) {
-      .main-container { padding: 12px 3vw; }
-      .section-title { font-size: 1.3rem; }
-      .subtitulo { font-size: 0.95rem; }
-      label { font-size: 14px; }
-      select, input[type="date"] { font-size: 14px; padding: 10px 12px; }
+      .container-main {
+        padding: 12px 3vw;
+      }
+      .titulo {
+        font-size: 1.3rem;
+      }
+      .subtitulo {
+        font-size: 0.95rem;
+      }
+      label {
+        font-size: 14px;
+      }
+      input[type="text"], input[type="tel"], select {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
     }
-    .select2-container { width: 100% !important; }
-    /* --- FIM NOVO PADRÃO --- */
-    /* Removido: .elementor-field-group, .elementor-label, .elementor-button antigos */
-    /* .elementor-field-group, .elementor-label, .elementor-button { obsoleto, migrado para novo padrão } */
   </style>
 </head>
 <body>
@@ -272,10 +364,11 @@
       </nav>
     </div>
   </header>
-  <main class="main-container">
-    <h1 class="section-title">Seleção e Solicitação de Transportadora</h1>
+  <main class="container-main">
+    <h1 class="titulo">Seleção e Solicitação de Transportadora</h1>
     <p class="subtitulo">Preencha os dados abaixo para solicitar o transporte. Os campos marcados com <span aria-label="obrigatório" style="color:#cf2e2e">*</span> são obrigatórios.</p>
-    <section class="resumo-agendamento" aria-label="Resumo do Agendamento" tabindex="0">
+    <section class="dados-agendamento" aria-label="Resumo do Agendamento" tabindex="0">
+      <h2>Dados do Agendamento</h2>
       <dl id="dlAgendamento">
         <dt>Fornecedor:</dt><dd id="agFornecedor">-</dd>
         <dt>Unidade:</dt><dd id="agUnidade">-</dd>
@@ -285,7 +378,8 @@
         <dt>Local de Entrega:</dt><dd id="agLocalEntrega">-</dd>
       </dl>
     </section>
-    <section class="resumo-confirmacao" aria-label="Resumo da Confirmação" tabindex="0">
+    <section class="dados-confirmacao" aria-label="Resumo da Confirmação" tabindex="0">
+      <h2>Dados da Carga</h2>
       <dl id="dlConfirmacao">
         <dt>Volume:</dt><dd id="cfVolume">-</dd>
         <dt>Tipo de Carga:</dt><dd id="cfTipoCarga">-</dd>
@@ -295,67 +389,71 @@
         <dt>Novo Horário:</dt><dd id="cfNovaHora">-</dd>
       </dl>
     </section>
-    <form id="transpForm" autocomplete="off" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <select id="tipo_veiculo" name="tipo_veiculo" required>
-            <option value="">Selecione o tipo de veículo</option>
-            <option value="toco">Toco (até 8t)</option>
-            <option value="truck">Truck (até 14t)</option>
-            <option value="carreta">Carreta (até 27t)</option>
-            <option value="vanderleia">Vanderleia (até 32t)</option>
-          </select>
-          <span class="msg-erro" id="erroTipoVeiculo"></span>
-        </div>
-        <div class="form-group">
-          <label for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <select id="transportadora" name="transportadora" required>
-            <option value="">Selecione</option>
-            <option value="transp1">Translog</option>
-            <option value="transp2">Rodonaves</option>
-            <option value="transp3">Jamef</option>
-            <option value="transp4">Rapidex</option>
-          </select>
-          <span class="msg-erro" id="erroTransportadora"></span>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <input type="date" id="data_entrega" name="data_entrega" required>
-          <span class="msg-erro" id="erroDataEntrega"></span>
-        </div>
-        <div class="form-group">
-          <label>Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
-          <div class="radio-group">
-            <label><input type="radio" name="modal" value="lotacao" required> Lotação</label>
-            <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
+    <section class="detalhes-transporte" aria-label="Solicitação de Transporte">
+      <form id="transpForm" autocomplete="off" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tipo_veiculo">Tipo de Veículo <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+            <select id="tipo_veiculo" name="tipo_veiculo" required>
+              <option value="">Selecione o tipo de veículo</option>
+              <option value="toco">Toco (até 8t)</option>
+              <option value="truck">Truck (até 14t)</option>
+              <option value="carreta">Carreta (até 27t)</option>
+              <option value="vanderleia">Vanderleia (até 32t)</option>
+            </select>
+            <span class="msg-erro" id="erroTipoVeiculo"></span>
           </div>
-          <span class="msg-erro" id="erroModal"></span>
+          <div class="form-group">
+            <label for="transportadora">Transportadora <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+            <select id="transportadora" name="transportadora" required>
+              <option value="">Selecione</option>
+              <option value="transp1">Translog</option>
+              <option value="transp2">Rodonaves</option>
+              <option value="transp3">Jamef</option>
+              <option value="transp4">Rapidex</option>
+            </select>
+            <span class="msg-erro" id="erroTransportadora"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="data_entrega">Data de Entrega Estimada <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+            <input type="date" id="data_entrega" name="data_entrega" required>
+            <span class="msg-erro" id="erroDataEntrega"></span>
+          </div>
+          <div class="form-group">
+            <label>Modal <span aria-label="obrigatório" style="color:#cf2e2e">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="modal" value="lotacao" required> Lotação</label>
+              <label><input type="radio" name="modal" value="fracionado"> Fracionado</label>
+            </div>
+            <span class="msg-erro" id="erroModal"></span>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Solicitar Transporte</button>
+        <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
+      </form>
+    </section>
+    <section class="sugestoes-transportadoras" aria-label="Sugestões de Transportadoras">
+      <h2>Sugestões de Transportadoras</h2>
+      <div class="cards-row">
+        <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
+          <h3>Translog</h3>
+          <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
+          <button class="btn-primary" type="button" onclick="selecionarTransportadora('transp1')">Selecionar</button>
+        </div>
+        <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
+          <h3>Rodonaves</h3>
+          <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
+          <button class="btn-primary" type="button" onclick="selecionarTransportadora('transp2')">Selecionar</button>
+        </div>
+        <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
+          <h3>Jamef</h3>
+          <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
+          <button class="btn-primary" type="button" onclick="selecionarTransportadora('transp3')">Selecionar</button>
         </div>
       </div>
-      <button type="submit" class="btn-primary">Solicitar Transporte</button>
-      <div class="msg-sucesso" id="msgSucesso" style="display:none;"></div>
-    </form>
-    <h2 style="margin-top:38px;font-size:1.1rem;color:#002846;font-weight:500;">Sugestões de Transportadoras</h2>
-    <div class="cards-row">
-      <div class="card-transp" aria-label="Sugestão de Transportadora Translog" tabindex="0">
-        <h3>Translog</h3>
-        <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp1')">Selecionar</button>
-      </div>
-      <div class="card-transp" aria-label="Sugestão de Transportadora Rodonaves" tabindex="0">
-        <h3>Rodonaves</h3>
-        <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp2')">Selecionar</button>
-      </div>
-      <div class="card-transp" aria-label="Sugestão de Transportadora Jamef" tabindex="0">
-        <h3>Jamef</h3>
-        <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
-        <button class="elementor-button elementor-size-xs" type="button" onclick="selecionarTransportadora('transp3')">Selecionar</button>
-      </div>
-    </div>
+    </section>
   </main>
   <script>
     // Preencher dados do agendamento e confirmação vindos do localStorage
@@ -388,13 +486,6 @@
       }
     });
 
-    /**
-     * Calcula o tipo de veículo baseado em peso total em kg.
-     * @param {number|string} peso Peso total em kg.
-     * @returns {string} Valor do tipo de veículo ('toco', 'truck', 'carreta', 'vanderleia').
-     * @example
-     *   calcularTipoVeiculo(10000); // 'truck'
-     */
     function calcularTipoVeiculo(peso) {
       var pesoNum = parseInt(peso, 10);
       var tipo = '';
@@ -402,20 +493,10 @@
       else if (pesoNum <= 14000) tipo = 'truck';
       else if (pesoNum <= 27000) tipo = 'carreta';
       else tipo = 'vanderleia';
-      console.log('[calcularTipoVeiculo] peso:', peso, '-> tipo:', tipo);
       return tipo;
     }
-
-    /**
-     * Converte uma string de data/hora (ex: '15/01/2024 14:30') para objeto Date.
-     * @param {string} dataHoraString Data/hora no formato 'DD/MM/YYYY HH:mm' ou similar.
-     * @returns {Date} Objeto Date correspondente, ou data atual em caso de erro.
-     * @example
-     *   parseDataHora('15/01/2024 14:30');
-     */
     function parseDataHora(dataHoraString) {
       if (!dataHoraString || typeof dataHoraString !== 'string') return new Date();
-      // Tenta formato 'DD/MM/YYYY HH:mm'
       var partes = dataHoraString.split(' ');
       if (partes.length === 2) {
         var dataPartes = partes[0].split('/');
@@ -430,103 +511,65 @@
           if (!isNaN(dt.getTime())) return dt;
         }
       }
-      // Tenta formato ISO ou Date.parse
       var dt2 = new Date(dataHoraString);
       if (!isNaN(dt2.getTime())) return dt2;
-      // Fallback: data atual
       return new Date();
     }
-
-    /**
-     * Calcula a data de entrega estimada baseada na data/hora de coleta.
-     * @param {string} dataHoraColeta String de data/hora de coleta.
-     * @returns {string} Data estimada no formato 'YYYY-MM-DD' (input type="date").
-     * @example
-     *   calcularDataEntrega('15/01/2024 14:30'); // '2024-01-17' (exemplo)
-     */
     function calcularDataEntrega(dataHoraColeta) {
       var dataColeta = parseDataHora(dataHoraColeta);
-      var diasAdicionar = Math.floor(Math.random() * 4) + 2; // 2 a 5 dias
+      var diasAdicionar = Math.floor(Math.random() * 4) + 2;
       dataColeta.setDate(dataColeta.getDate() + diasAdicionar);
       var yyyy = dataColeta.getFullYear();
       var mm = (dataColeta.getMonth() + 1).toString().padStart(2, '0');
       var dd = dataColeta.getDate().toString().padStart(2, '0');
       var resultado = yyyy + '-' + mm + '-' + dd;
-      console.log('[calcularDataEntrega] dataHoraColeta:', dataHoraColeta, 'diasAdicionar:', diasAdicionar, '->', resultado);
       return resultado;
     }
-
-    /**
-     * Preenche automaticamente os campos do formulário ao selecionar uma transportadora.
-     * @param {string} codigoTransp Código da transportadora (ex: 'transp1').
-     * @example
-     *   selecionarTransportadora('transp2');
-     */
     function selecionarTransportadora(codigoTransp) {
-      console.log('[selecionarTransportadora] código:', codigoTransp);
-      // Preencher transportadora
       var selectTransp = document.getElementById('transportadora');
       selectTransp.value = codigoTransp;
-      // Recuperar peso total
       var dadosConfirmacao = null;
       try {
         dadosConfirmacao = JSON.parse(localStorage.getItem('dadosConfirmacao'));
       } catch(e) { dadosConfirmacao = null; }
       var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso, 10) : 0;
-      // Calcular tipo de veículo
       var tipoVeiculo = calcularTipoVeiculo(peso);
       var selectTipoVeiculo = document.getElementById('tipo_veiculo');
       selectTipoVeiculo.value = tipoVeiculo;
-      // Recuperar data/hora coleta
       var dadosAgendamento = null;
       try {
         dadosAgendamento = JSON.parse(localStorage.getItem('dadosAgendamento'));
       } catch(e) { dadosAgendamento = null; }
       var dataHoraColeta = dadosAgendamento && dadosAgendamento.data_hora ? dadosAgendamento.data_hora : '';
-      // Calcular data de entrega estimada
       var dataEntrega = calcularDataEntrega(dataHoraColeta);
       var inputDataEntrega = document.getElementById('data_entrega');
       inputDataEntrega.value = dataEntrega;
-      // Selecionar modal 'lotacao'
       var radioLotacao = document.querySelector('input[name="modal"][value="lotacao"]');
       if (radioLotacao) radioLotacao.checked = true;
-      console.log('[selecionarTransportadora] preenchido:', {
-        transportadora: codigoTransp,
-        tipo_veiculo: tipoVeiculo,
-        data_entrega: dataEntrega,
-        modal: 'lotacao'
-      });
     }
-
-    // Validação do formulário
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      // Limpa mensagens de erro e sucesso
       document.getElementById('erroTipoVeiculo').textContent = '';
       document.getElementById('erroTransportadora').textContent = '';
       document.getElementById('erroDataEntrega').textContent = '';
       document.getElementById('erroModal').textContent = '';
       document.getElementById('msgSucesso').style.display = 'none';
       var ok = true;
-      // Tipo de Veículo
       var tipoVeiculo = document.getElementById('tipo_veiculo').value;
       if (!tipoVeiculo) {
         document.getElementById('erroTipoVeiculo').textContent = 'Selecione o tipo de veículo.';
         ok = false;
       }
-      // Transportadora
       var transportadora = document.getElementById('transportadora').value;
       if (!transportadora) {
         document.getElementById('erroTransportadora').textContent = 'Selecione a transportadora.';
         ok = false;
       }
-      // Data de Entrega
       var dataEntrega = document.getElementById('data_entrega').value;
       if (!dataEntrega) {
         document.getElementById('erroDataEntrega').textContent = 'Informe a data de entrega estimada.';
         ok = false;
       }
-      // Modal
       var modal = document.querySelector('input[name="modal"]:checked');
       if (!modal) {
         document.getElementById('erroModal').textContent = 'Selecione o modal.';
