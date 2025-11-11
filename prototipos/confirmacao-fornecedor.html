@@ -429,7 +429,7 @@
             </div>
           </div>
           <div class="btn-row">
-            <button type="submit" class="elementor-button elementor-size-md">Confirmar</button>
+            <button type="button" id="btnDadosCaminhao" class="elementor-button elementor-size-md">Dados do Caminhão</button>
             <button type="button" id="btnPropor" class="elementor-button elementor-size-md elementor-button-secondary">Propor Ajuste</button>
           </div>
         </form>
@@ -461,6 +461,26 @@
       // Sinalizar modo edição e redirecionar para agendamento mantendo dados
       localStorage.setItem('modoEdicao', 'true');
       window.location.href = 'solicitacao-agendamento.html';
+    });
+    document.getElementById('btnDadosCaminhao').addEventListener('click', function() {
+      // Salvar dados do formulário de confirmação
+      var volume = document.getElementById('volume').value;
+      var tipo_carga = document.getElementById('tipo_carga').value;
+      var peso = document.getElementById('peso').value;
+      var confirma_janela_radio = document.querySelector('input[name="confirma_janela"]:checked');
+      var confirma_janela = confirma_janela_radio ? confirma_janela_radio.value : '';
+      var nova_data = document.getElementById('nova_data').value;
+      var nova_hora = document.getElementById('nova_hora').value;
+      var dadosConfirmacao = {
+        volume: volume,
+        tipo_carga: tipo_carga,
+        peso: peso,
+        confirma_janela: confirma_janela,
+        nova_data: nova_data,
+        nova_hora: nova_hora
+      };
+      localStorage.setItem('dadosConfirmacao', JSON.stringify(dadosConfirmacao));
+      window.location.href = 'selecao-transportadora.html';
     });
     document.getElementById('confirmacaoForm').addEventListener('submit', function(e) {
       e.preventDefault();

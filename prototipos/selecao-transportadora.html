@@ -13,10 +13,27 @@
     body { background: #f8fafb; }
     .main-container { max-width: 900px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 38px 32px 32px 32px; }
     .section-title { color: #00B5D3; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
-    .resumo-solicitacao { background: #f2f7fa; border-radius: 12px; padding: 18px 18px 10px 18px; margin-bottom: 24px; }
-    .resumo-solicitacao dl { display: flex; flex-wrap: wrap; }
-    .resumo-solicitacao dt { width: 45%; font-weight: 500; color: #002846; margin-bottom: 5px; }
-    .resumo-solicitacao dd { width: 55%; margin: 0 0 5px 0; color: #333; }
+    .resumo-solicitacao, .resumo-agendamento, .resumo-confirmacao {
+      background: #f2f7fa;
+      border-radius: 12px;
+      padding: 18px 18px 10px 18px;
+      margin-bottom: 24px;
+    }
+    .resumo-solicitacao dl, .resumo-agendamento dl, .resumo-confirmacao dl {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .resumo-solicitacao dt, .resumo-agendamento dt, .resumo-confirmacao dt {
+      width: 45%;
+      font-weight: 500;
+      color: #002846;
+      margin-bottom: 5px;
+    }
+    .resumo-solicitacao dd, .resumo-agendamento dd, .resumo-confirmacao dd {
+      width: 55%;
+      margin: 0 0 5px 0;
+      color: #333;
+    }
     .elementor-field-group { margin-bottom: 18px; }
     .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
     .form-row { display: flex; gap: 18px; }
@@ -47,14 +64,24 @@
   </header>
   <main class="main-container">
     <h1 class="section-title">Seleção e Solicitação de Transportadora</h1>
-    <section class="resumo-solicitacao" aria-label="Resumo da Solicitação">
-      <dl>
-        <dt>Fornecedor:</dt><dd>Fornecedor Alfa</dd>
-        <dt>Unidade:</dt><dd>SP</dd>
-        <dt>Data/Hora Coleta:</dt><dd>2024-07-15 09:00</dd>
-        <dt>Tipo de Carga:</dt><dd>Paletizado</dd>
-        <dt>Peso Total:</dt><dd>1200 kg</dd>
-        <dt>Local de Entrega:</dt><dd>ICL São Paulo</dd>
+    <section class="resumo-agendamento" aria-label="Resumo do Agendamento">
+      <dl id="dlAgendamento">
+        <dt>Fornecedor:</dt><dd id="agFornecedor">-</dd>
+        <dt>Unidade:</dt><dd id="agUnidade">-</dd>
+        <dt>Data/Hora Coleta:</dt><dd id="agDataHora">-</dd>
+        <dt>Janela Operacional:</dt><dd id="agJanela">-</dd>
+        <dt>Tipo de Frete:</dt><dd id="agFrete">-</dd>
+        <dt>Local de Entrega:</dt><dd id="agLocalEntrega">-</dd>
+      </dl>
+    </section>
+    <section class="resumo-confirmacao" aria-label="Resumo da Confirmação">
+      <dl id="dlConfirmacao">
+        <dt>Volume:</dt><dd id="cfVolume">-</dd>
+        <dt>Tipo de Carga:</dt><dd id="cfTipoCarga">-</dd>
+        <dt>Peso Total (kg):</dt><dd id="cfPeso">-</dd>
+        <dt>Confirma Janela Operacional:</dt><dd id="cfConfirmaJanela">-</dd>
+        <dt>Nova Data:</dt><dd id="cfNovaData">-</dd>
+        <dt>Novo Horário:</dt><dd id="cfNovaHora">-</dd>
       </dl>
     </section>
     <form id="transpForm" autocomplete="off">
@@ -100,64 +127,57 @@
       <div class="card-transp">
         <h3>Translog</h3>
         <p>Especialista em cargas paletizadas. SLA: 24h. Última performance: 98% no prazo.</p>
-        <button class="elementor-button elementor-size-xs"
-          data-tipo-veiculo="toco"
-          data-data-entrega="2024-07-16"
-          data-modal="lotacao"
-          onclick="selecionarTransportadora(this, 'transp1')">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp1'">Selecionar</button>
       </div>
       <div class="card-transp">
         <h3>Rodonaves</h3>
         <p>Atende todo Sudeste. SLA: 48h. Última performance: 95% no prazo.</p>
-        <button class="elementor-button elementor-size-xs"
-          data-tipo-veiculo="truck"
-          data-data-entrega="2024-07-17"
-          data-modal="fracionado"
-          onclick="selecionarTransportadora(this, 'transp2')">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp2'">Selecionar</button>
       </div>
       <div class="card-transp">
         <h3>Jamef</h3>
         <p>Especialista em fracionados. SLA: 36h. Última performance: 97% no prazo.</p>
-        <button class="elementor-button elementor-size-xs"
-          data-tipo-veiculo="carreta"
-          data-data-entrega="2024-07-18"
-          data-modal="fracionado"
-          onclick="selecionarTransportadora(this, 'transp3')">Selecionar</button>
+        <button class="elementor-button elementor-size-xs" onclick="document.getElementById('transportadora').value='transp3'">Selecionar</button>
       </div>
     </div>
   </main>
   <script>
-    // Função para selecionar transportadora e preencher os campos conforme caso real de uso
-    function selecionarTransportadora(button, idTransportadora) {
-      // Preencher transportadora
-      document.getElementById('transportadora').value = idTransportadora;
-      // Preencher tipo de veículo
-      var tipoVeiculo = button.getAttribute('data-tipo-veiculo');
-      document.getElementById('tipo_veiculo').value = tipoVeiculo;
-      // Preencher data estimada de entrega
-      var dataEntrega = button.getAttribute('data-data-entrega');
-      document.getElementById('data_entrega').value = dataEntrega;
-      // Preencher modal
-      var modal = button.getAttribute('data-modal');
-      var modalRadios = document.querySelectorAll('input[name="modal"]');
-      modalRadios.forEach(function(radio) {
-        radio.checked = (radio.value === modal);
-      });
-    }
-
-    // Sugestão automática de tipo de veículo baseada em peso (simulação)
+    // Preencher dados do agendamento e confirmação vindos do localStorage
     document.addEventListener('DOMContentLoaded', function() {
-      var tipoVeiculo = document.getElementById('tipo_veiculo');
-      // Executa sugestão automática apenas se o campo estiver vazio ou 'Sugestão automática'
-      if (!tipoVeiculo.value || tipoVeiculo.value === '') {
-        var peso = 1200;
-        if (peso <= 8000) tipoVeiculo.value = 'toco';
-        else if (peso <= 14000) tipoVeiculo.value = 'truck';
-        else if (peso <= 27000) tipoVeiculo.value = 'carreta';
-        else tipoVeiculo.value = 'vanderleia';
+      // Agendamento
+      var dadosAgendamento = null;
+      try {
+        dadosAgendamento = JSON.parse(localStorage.getItem('dadosAgendamento'));
+      } catch(e) { dadosAgendamento = null; }
+      if (dadosAgendamento) {
+        document.getElementById('agFornecedor').textContent = dadosAgendamento.fornecedor || '-';
+        document.getElementById('agUnidade').textContent = dadosAgendamento.unidade || '-';
+        document.getElementById('agDataHora').textContent = dadosAgendamento.data_hora || '-';
+        document.getElementById('agJanela').textContent = dadosAgendamento.janela || '-';
+        document.getElementById('agFrete').textContent = dadosAgendamento.frete || '-';
+        document.getElementById('agLocalEntrega').textContent = dadosAgendamento.local_entrega || '-';
       }
+      // Confirmação
+      var dadosConfirmacao = null;
+      try {
+        dadosConfirmacao = JSON.parse(localStorage.getItem('dadosConfirmacao'));
+      } catch(e) { dadosConfirmacao = null; }
+      if (dadosConfirmacao) {
+        document.getElementById('cfVolume').textContent = dadosConfirmacao.volume || '-';
+        document.getElementById('cfTipoCarga').textContent = dadosConfirmacao.tipo_carga || '-';
+        document.getElementById('cfPeso').textContent = dadosConfirmacao.peso || '-';
+        document.getElementById('cfConfirmaJanela').textContent = dadosConfirmacao.confirma_janela || '-';
+        document.getElementById('cfNovaData').textContent = dadosConfirmacao.nova_data || '-';
+        document.getElementById('cfNovaHora').textContent = dadosConfirmacao.nova_hora || '-';
+      }
+      // Sugestão automática de tipo de veículo baseada em peso (simulação)
+      var peso = dadosConfirmacao && dadosConfirmacao.peso ? parseInt(dadosConfirmacao.peso) : 1200;
+      var tipoVeiculo = document.getElementById('tipo_veiculo');
+      if (peso <= 8000) tipoVeiculo.value = 'toco';
+      else if (peso <= 14000) tipoVeiculo.value = 'truck';
+      else if (peso <= 27000) tipoVeiculo.value = 'carreta';
+      else tipoVeiculo.value = 'vanderleia';
     });
-
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
       alert('Solicitação de transporte enviada! (Fluxo simulado)');
