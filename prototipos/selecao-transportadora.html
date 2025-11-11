@@ -576,9 +576,17 @@
         ok = false;
       }
       if (ok) {
+        // Salvar dados do formulário no localStorage antes de redirecionar
+        var dadosTransporte = {
+          tipo_veiculo: tipoVeiculo,
+          transportadora: transportadora,
+          data_entrega: dataEntrega,
+          modal: modal ? modal.value : ''
+        };
+        localStorage.setItem('dadosTransporte', JSON.stringify(dadosTransporte));
         document.getElementById('msgSucesso').textContent = 'Solicitação de transporte enviada com sucesso!';
         document.getElementById('msgSucesso').style.display = 'block';
-        setTimeout(function(){ window.location.href = 'dashboard.html'; }, 1200);
+        setTimeout(function(){ window.location.href = 'aceite-transportadora.html'; }, 1200);
       }
     });
   </script>
