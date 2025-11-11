@@ -546,6 +546,16 @@
       inputDataEntrega.value = dataEntrega;
       var radioLotacao = document.querySelector('input[name="modal"][value="lotacao"]');
       if (radioLotacao) radioLotacao.checked = true;
+      // Passo 6: Salvar dados no localStorage
+      var tipoVeiculoVal = selectTipoVeiculo.value;
+      var dataEntregaVal = inputDataEntrega.value;
+      var modalVal = radioLotacao && radioLotacao.checked ? 'lotacao' : '';
+      localStorage.setItem('dadosTransportadora', JSON.stringify({
+        tipo_veiculo: tipoVeiculoVal,
+        transportadora: codigoTransp,
+        data_entrega: dataEntregaVal,
+        modal: modalVal
+      }));
     }
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -576,6 +586,13 @@
         ok = false;
       }
       if (ok) {
+        // Passo 1: Salvar dados no localStorage antes do redirecionamento
+        localStorage.setItem('dadosTransportadora', JSON.stringify({
+          tipo_veiculo: tipoVeiculo,
+          transportadora: transportadora,
+          data_entrega: dataEntrega,
+          modal: modal.value
+        }));
         document.getElementById('msgSucesso').textContent = 'Solicitação de transporte enviada com sucesso!';
         document.getElementById('msgSucesso').style.display = 'block';
         setTimeout(function(){ window.location.href = 'dashboard.html'; }, 1200);
