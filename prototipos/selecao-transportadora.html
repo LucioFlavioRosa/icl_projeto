@@ -13,15 +13,6 @@
     body { background: #f8fafb; }
     .main-container { max-width: 900px; margin: 40px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 18px #00284612; padding: 38px 32px 32px 32px; }
     .section-title { color: #00B5D3; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
-    .resumo-solicitacao { background: #f2f7fa; border-radius: 12px; padding: 18px 18px 10px 18px; margin-bottom: 24px; }
-    .resumo-solicitacao dl { display: flex; flex-wrap: wrap; }
-    .resumo-solicitacao dt { width: 45%; font-weight: 500; color: #002846; margin-bottom: 5px; }
-    .resumo-solicitacao dd { width: 55%; margin: 0 0 5px 0; color: #333; }
-    .elementor-field-group { margin-bottom: 18px; }
-    .elementor-label { display: block; font-weight: 500; margin-bottom: 7px; color: #002846; }
-    .form-row { display: flex; gap: 18px; }
-    .form-row > .elementor-field-group { flex: 1; }
-    .elementor-button { min-width: 140px; margin-top: 10px; }
     .cards-row { display: flex; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
     .card-transp { background: #f2f7fa; border-radius: 12px; box-shadow: 0 1px 6px #00284610; padding: 18px 18px 12px 18px; flex: 1 1 250px; min-width: 220px; max-width: 320px; display: flex; flex-direction: column; align-items: flex-start; }
     .card-transp h3 { font-size: 1.1rem; color: #00B5D3; margin-bottom: 6px; font-weight: 500; }
@@ -32,6 +23,109 @@
       .cards-row { flex-direction: column; gap: 14px; }
     }
     .select2-container { width: 100% !important; }
+    /* --- INÍCIO: Estilos dos blocos importados de aceite-transportadora.html --- */
+    .dados-agendamento,
+    .dados-confirmacao {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .dados-agendamento { animation-delay: 0.1s; }
+    .dados-confirmacao { animation-delay: 0.2s; }
+    .dados-agendamento:focus-visible,
+    .dados-confirmacao:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dados-agendamento:hover, .dados-agendamento:focus,
+    .dados-confirmacao:hover, .dados-confirmacao:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .dados-agendamento::after,
+    .dados-confirmacao::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .dados-agendamento:hover::after,
+    .dados-confirmacao:hover::after {
+      width: 100%;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dados-agendamento h2,
+    .dados-confirmacao h2 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 20px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .dados-agendamento dt,
+    .dados-confirmacao dt {
+      color: #00B5D3;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    .dados-agendamento dd,
+    .dados-confirmacao dd {
+      margin: 0 0 10px 0;
+      color: #002846;
+      font-size: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    @media (max-width: 1024px) {
+      .dados-agendamento, .dados-confirmacao {
+        padding: 18px 5vw;
+      }
+      .dados-agendamento h2,
+      .dados-confirmacao h2 {
+        font-size: 18px;
+      }
+    }
+    @media (max-width: 600px) {
+      .dados-agendamento, .dados-confirmacao {
+        padding: 12px 3vw;
+      }
+      .dados-agendamento h2,
+      .dados-confirmacao h2 {
+        font-size: 16px;
+      }
+      .dados-agendamento dt,
+      .dados-confirmacao dt {
+        font-size: 14px;
+      }
+      .dados-agendamento dd,
+      .dados-confirmacao dd {
+        font-size: 14px;
+      }
+    }
+    /* --- FIM: Estilos dos blocos importados --- */
   </style>
 </head>
 <body>
@@ -47,7 +141,29 @@
   </header>
   <main class="main-container">
     <h1 class="section-title">Seleção e Solicitação de Transportadora</h1>
-    <section class="resumo-solicitacao" aria-label="Resumo da Solicitação">
+    <!-- Bloco 1: Dados do Agendamento -->
+    <section class="dados-agendamento" aria-label="Dados do Agendamento" tabindex="0">
+      <h2>Dados do Agendamento</h2>
+      <dl>
+        <dt>Fornecedor:</dt><dd id="agendamentoFornecedor">-</dd>
+        <dt>Unidade:</dt><dd id="agendamentoUnidade">-</dd>
+        <dt>Data/Hora Coleta:</dt><dd id="agendamentoDataHora">-</dd>
+        <dt>Janela Operacional:</dt><dd id="agendamentoJanela">-</dd>
+        <dt>Tipo de Frete:</dt><dd id="agendamentoFrete">-</dd>
+        <dt>Local de Entrega:</dt><dd id="agendamentoLocalEntrega">-</dd>
+      </dl>
+    </section>
+    <!-- Bloco 2: Dados da Carga -->
+    <section class="dados-confirmacao" aria-label="Dados da Carga" tabindex="0">
+      <h2>Dados da Carga</h2>
+      <dl>
+        <dt>Volume:</dt><dd id="confirmacaoVolume">-</dd>
+        <dt>Tipo de Carga:</dt><dd id="confirmacaoTipoCarga">-</dd>
+        <dt>Peso Total (kg):</dt><dd id="confirmacaoPeso">-</dd>
+        <dt>Confirmação da Janela Operacional:</dt><dd id="confirmacaoJanela">-</dd>
+      </dl>
+    </section>
+    <!-- <section class="resumo-solicitacao" aria-label="Resumo da Solicitação">
       <dl>
         <dt>Fornecedor:</dt><dd>Fornecedor Alfa</dd>
         <dt>Unidade:</dt><dd>SP</dd>
@@ -56,7 +172,7 @@
         <dt>Peso Total:</dt><dd>1200 kg</dd>
         <dt>Local de Entrega:</dt><dd>ICL São Paulo</dd>
       </dl>
-    </section>
+    </section> -->
     <form id="transpForm" autocomplete="off">
       <div class="form-row">
         <div class="elementor-field-group">
@@ -124,12 +240,38 @@
       else if (peso <= 14000) tipoVeiculo.value = 'truck';
       else if (peso <= 27000) tipoVeiculo.value = 'carreta';
       else tipoVeiculo.value = 'vanderleia';
+      preencherDadosAgendamento();
+      preencherDadosConfirmacao();
     });
     document.getElementById('transpForm').addEventListener('submit', function(e) {
       e.preventDefault();
       alert('Solicitação de transporte enviada! (Fluxo simulado)');
       window.location.href = 'solicitacao-agendamento.html';
     });
+    // Função para preencher dados do agendamento
+    function preencherDadosAgendamento() {
+      var dados = null;
+      try {
+        dados = JSON.parse(localStorage.getItem('dadosAgendamento'));
+      } catch(e) { dados = null; }
+      document.getElementById('agendamentoFornecedor').textContent = dados && dados.fornecedor ? dados.fornecedor : '-';
+      document.getElementById('agendamentoUnidade').textContent = dados && dados.unidade ? dados.unidade : '-';
+      document.getElementById('agendamentoDataHora').textContent = dados && dados.data_hora ? dados.data_hora : '-';
+      document.getElementById('agendamentoJanela').textContent = dados && dados.janela ? dados.janela : '-';
+      document.getElementById('agendamentoFrete').textContent = dados && dados.frete ? dados.frete : '-';
+      document.getElementById('agendamentoLocalEntrega').textContent = dados && dados.local_entrega ? dados.local_entrega : '-';
+    }
+    // Função para preencher dados da confirmação
+    function preencherDadosConfirmacao() {
+      var dados = null;
+      try {
+        dados = JSON.parse(localStorage.getItem('dadosConfirmacao'));
+      } catch(e) { dados = null; }
+      document.getElementById('confirmacaoVolume').textContent = dados && dados.volume ? dados.volume : '-';
+      document.getElementById('confirmacaoTipoCarga').textContent = dados && dados.tipo_carga ? dados.tipo_carga : '-';
+      document.getElementById('confirmacaoPeso').textContent = dados && dados.peso ? dados.peso : '-';
+      document.getElementById('confirmacaoJanela').textContent = dados && dados.confirma_janela ? (dados.confirma_janela === 'sim' ? 'Sim' : 'Não') : '-';
+    }
   </script>
 </body>
 </html>
