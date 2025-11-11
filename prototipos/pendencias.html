@@ -8,28 +8,301 @@
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <!-- Google Fonts Roboto Condensed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Demo', 'Inter', Arial, sans-serif; background: #f7f9fa; margin: 0; }
-    .pendencias-main { max-width: 1100px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 24px #00284622; padding: 40px 32px; }
-    h1 { color: #00B5D3; font-size: 2.2rem; margin-bottom: 18px; font-family: 'Demo', sans-serif; }
-    .notific-badge { background: #cf2e2e; color: #fff; font-weight: 600; border-radius: 50%; padding: 7px 14px; font-size: 1.1rem; margin-left: 12px; vertical-align: middle; }
-    .pend-list { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; }
-    .pend-group { background: #f2f7fb; border-radius: 12px; padding: 22px 18px; box-shadow: 0 2px 12px #00B5D320; }
-    .pend-group h2 { color: #002846; font-size: 1.1rem; margin-bottom: 10px; font-weight: 500; }
-    .pend-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 8px; margin-bottom: 10px; padding: 10px 14px; box-shadow: 0 1px 6px #00B5D310; font-size: 1rem; }
+    /* Fontes customizadas */
+    @font-face {
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
+    body {
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
+      background: #f7fafd;
+      margin: 0;
+      transition: background 0.3s ease;
+    }
+    .container-main {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 32px;
+      position: relative;
+    }
+    .container-main::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .titulo {
+      font-size: 2rem;
+      color: #002846;
+      font-weight: 700;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .subtitulo {
+      color: #7A7A7A;
+      font-size: 1.1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 400;
+      margin-bottom: 28px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
+    }
+    .pend-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .pend-group {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      padding: 28px 24px;
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .pend-group:nth-child(1) { animation-delay: 0.1s; }
+    .pend-group:nth-child(2) { animation-delay: 0.2s; }
+    .pend-group:nth-child(3) { animation-delay: 0.3s; }
+    .pend-group:nth-child(4) { animation-delay: 0.4s; }
+    .pend-group:hover, .pend-group:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .pend-group:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .pend-group::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .pend-group:hover::after {
+      width: 100%;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pend-group h2 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 20px;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .pend-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 1px 8px rgba(0, 181, 211, 0.08);
+      border: 1px solid #f0f4f8;
+      font-size: 1rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
     .pend-item:last-child { margin-bottom: 0; }
-    .pend-item .info { flex: 1; }
-    .pend-item .btn-action { background: #00B5D3; color: #fff; border: none; border-radius: 33px; padding: 7px 18px; font-size: .95rem; font-family: 'Demo', sans-serif; cursor: pointer; transition: background .2s; margin-left: 10px; }
-    .pend-item .btn-action:hover { background: #002846; }
-    .pend-item .btn-details { background: #fff; color: #00B5D3; border: 1px solid #00B5D3; border-radius: 33px; padding: 7px 18px; font-size: .95rem; cursor: pointer; transition: background .2s, color .2s; margin-left: 10px; }
-    .pend-item .btn-details:hover { background: #00B5D3; color: #fff; }
-    @media (max-width: 900px) { .pend-list { grid-template-columns: 1fr; } .pendencias-main { padding: 20px 8px; } }
+    .pend-item:hover {
+      box-shadow: 0 2px 12px rgba(0, 181, 211, 0.15);
+      border-color: #00B5D3;
+    }
+    .pend-item .info {
+      flex: 1;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      color: #002846;
+      line-height: 1.4em;
+    }
+    .pend-item .btn-action {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 33px;
+      padding: 10px 20px;
+      font-size: .95rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+      margin-left: 10px;
+    }
+    .pend-item .btn-action:hover {
+      box-shadow: 0px 6px 16px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+    }
+    .pend-item .btn-details {
+      background: #fff;
+      color: #00B5D3;
+      border: 1px solid #00B5D3;
+      border-radius: 33px;
+      padding: 10px 20px;
+      font-size: .95rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      margin-left: 10px;
+    }
+    .pend-item .btn-details:hover {
+      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.2);
+    }
+    .notific-badge {
+      background: #cf2e2e;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 50%;
+      padding: 6px 12px;
+      font-size: 0.95rem;
+      margin-left: 16px;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 32px;
+    }
     /* Modal */
-    .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,40,70,0.45); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-content { background: #fff; border-radius: 14px; max-width: 430px; width: 90vw; padding: 32px 24px; box-shadow: 0 2px 24px #00284644; position: relative; }
-    .modal-content h3 { color: #00B5D3; font-size: 1.3rem; margin-bottom: 10px; font-family: 'Demo', sans-serif; }
-    .modal-content p { color: #002846; font-size: 1rem; margin-bottom: 14px; }
-    .modal-content .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; color: #002846; cursor: pointer; }
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,40,70,0.45);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 430px;
+      width: 90vw;
+      padding: 32px 28px;
+      box-shadow: 0px 12px 40px 0px rgba(0, 40, 70, 0.2);
+      border: 1px solid #e5e9f2;
+      position: relative;
+    }
+    .modal-content h3 {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 1.4rem;
+      color: #002846;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .modal-content p {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 1rem;
+      color: #002846;
+      line-height: 1.5em;
+      margin-bottom: 12px;
+    }
+    .modal-content .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #7A7A7A;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .modal-content .modal-close:hover {
+      color: #cf2e2e;
+      transform: scale(1.1);
+    }
+    @media (max-width: 1024px) {
+      .container-main {
+        padding: 18px 5vw;
+      }
+      .titulo {
+        font-size: 1.6rem;
+      }
+      .subtitulo {
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 900px) {
+      .pend-list {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .container-main {
+        padding: 12px 3vw;
+      }
+      .titulo {
+        font-size: 1.3rem;
+      }
+      .subtitulo {
+        font-size: 0.95rem;
+      }
+      .pend-item .info {
+        font-size: 14px;
+      }
+    }
   </style>
   <script>
     // Simulação de dados de pendências
@@ -112,27 +385,28 @@
 </head>
 <body>
   <header class="header_section" style="background:#002846;">
-    <div class="logo_wrapper" style="padding:18px 0 18px 32px;">
+    <div class="logo_wrapper" style="padding: 18px 0 18px 32px;">
       <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="36"></a>
       <span class="notific-badge" id="badge-notif" aria-label="Notificações de pendências">0</span>
     </div>
   </header>
-  <main class="pendencias-main">
-    <h1>Gestão de Pendências</h1>
+  <main class="container-main" aria-label="Gestão de Pendências">
+    <h1 class="titulo">Gestão de Pendências</h1>
+    <p class="subtitulo">Acompanhe e resolva pendências de agendamentos, transportadoras, check-ins e documentos.</p>
     <div class="pend-list">
-      <div class="pend-group">
+      <div class="pend-group" tabindex="0">
         <h2>Aguardando Confirmação Fornecedor</h2>
         <div id="pend-fornecedor"></div>
       </div>
-      <div class="pend-group">
+      <div class="pend-group" tabindex="0">
         <h2>Aguardando Aceite Transportadora</h2>
         <div id="pend-transportadora"></div>
       </div>
-      <div class="pend-group">
+      <div class="pend-group" tabindex="0">
         <h2>Atrasos em Check-in</h2>
         <div id="pend-checkin"></div>
       </div>
-      <div class="pend-group">
+      <div class="pend-group" tabindex="0">
         <h2>Documentos Pendentes</h2>
         <div id="pend-documentos"></div>
       </div>
