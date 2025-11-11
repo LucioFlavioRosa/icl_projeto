@@ -4,16 +4,14 @@
   <meta charset="UTF-8">
   <title>Gestão de Pendências | Gestão de Fretes ICL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Estilos do template original -->
+  <link rel="shortcut icon" type="image/png" href="https://bra.icl-group.com/wp-content/uploads/2020/12/Asset-10.png"/>
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
-  <!-- Google Fonts Roboto Condensed -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Fontes customizadas */
     @font-face {
       font-family: 'robotobold_condensed';
       src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
@@ -39,21 +37,77 @@
       color: #FFFFFF;
     }
     body {
-      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
       background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
       margin: 0;
+      min-height: 100vh;
       transition: background 0.3s ease;
     }
-    .container-main {
+    .header_section {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px 0 rgba(0,40,70,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
+    .header_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 80px;
+    }
+    .logo_wrapper {
+      display: flex;
+      align-items: center;
+    }
+    .logo_wrapper img {
+      height: 38px;
+      width: auto;
+    }
+    .notific-badge {
+      background: #cf2e2e;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 50%;
+      padding: 6px 12px;
+      font-size: 13px;
+      margin-left: 12px;
+      vertical-align: middle;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    .menu_nav_trees {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-left: 32px;
+    }
+    .menu_nav_trees a {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #002846;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .menu_nav_trees a.active,
+    .menu_nav_trees a:hover {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.3);
+    }
+    .dashboard-container {
       max-width: 1200px;
       margin: 60px auto 40px auto;
-      background: transparent;
-      border-radius: 0;
-      box-shadow: none;
       padding: 32px;
       position: relative;
     }
-    .container-main::before {
+    .dashboard-container::before {
       content: '';
       position: absolute;
       top: -50px;
@@ -64,22 +118,22 @@
       z-index: -1;
       pointer-events: none;
     }
-    .titulo {
-      font-size: 2rem;
+    .dashboard-title {
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      font-size: 45px;
       color: #002846;
       font-weight: 700;
-      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
       margin-bottom: 12px;
       letter-spacing: -1px;
       line-height: 1.1em;
       transition: font-size 0.3s;
     }
-    .subtitulo {
-      color: #7A7A7A;
-      font-size: 1.1rem;
+    .dashboard-subtitle {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      color: #7A7A7A;
+      font-size: 20px;
       font-weight: 400;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       line-height: 1.4em;
       transition: font-size 0.3s;
     }
@@ -89,7 +143,7 @@
       gap: 32px;
       margin-bottom: 32px;
     }
-    .pend-group {
+    .dashboard-card {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
@@ -98,27 +152,27 @@
       margin-bottom: 32px;
       position: relative;
       overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
       transition: box-shadow 0.2s, transform 0.2s;
       cursor: pointer;
-      animation: fadeInUp 0.6s ease-out forwards;
     }
-    .pend-group:nth-child(1) { animation-delay: 0.1s; }
-    .pend-group:nth-child(2) { animation-delay: 0.2s; }
-    .pend-group:nth-child(3) { animation-delay: 0.3s; }
-    .pend-group:nth-child(4) { animation-delay: 0.4s; }
-    .pend-group:hover, .pend-group:focus {
+    .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+    .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+    .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+    .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+    .dashboard-card:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .dashboard-card:hover, .dashboard-card:focus {
       box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
       transform: translateY(-4px) scale(1.01);
       border-color: #00B5D3;
       outline: none;
       z-index: 2;
     }
-    .pend-group:focus-visible {
-      outline: 3px solid #00B5D3;
-      outline-offset: 4px;
-      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
-    }
-    .pend-group::after {
+    .dashboard-card::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -129,22 +183,16 @@
       transition: width 0.4s ease;
       z-index: 3;
     }
-    .pend-group:hover::after {
+    .dashboard-card:hover::after {
       width: 100%;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .pend-group h2 {
-      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
-      font-size: 20px;
-      color: #002846;
+    .dashboard-card h2 {
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 1.3rem;
+      color: #00B5D3;
       font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -1px;
-      line-height: 1.1em;
-      transition: font-size 0.3s;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
     }
     .pend-item {
       display: flex;
@@ -153,74 +201,51 @@
       background: #fff;
       border-radius: 8px;
       margin-bottom: 12px;
-      padding: 12px 16px;
-      box-shadow: 0 1px 8px rgba(0, 181, 211, 0.08);
-      border: 1px solid #f0f4f8;
-      font-size: 1rem;
-      transition: box-shadow 0.2s, border-color 0.2s;
+      padding: 14px 16px;
+      box-shadow: 0 1px 6px #00B5D310;
+      font-size: 15px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      transition: background 0.2s;
     }
     .pend-item:last-child { margin-bottom: 0; }
-    .pend-item:hover {
-      box-shadow: 0 2px 12px rgba(0, 181, 211, 0.15);
-      border-color: #00B5D3;
-    }
-    .pend-item .info {
-      flex: 1;
-      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 16px;
-      color: #002846;
-      line-height: 1.4em;
-    }
+    .pend-item .info { flex: 1; }
     .pend-item .btn-action {
       background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
       color: #fff;
       border: none;
-      border-radius: 33px;
-      padding: 10px 20px;
-      font-size: .95rem;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 15px;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-weight: 500;
       cursor: pointer;
       transition: box-shadow 0.2s, transform 0.2s;
       margin-left: 10px;
     }
     .pend-item .btn-action:hover {
-      box-shadow: 0px 6px 16px 0px rgba(0, 181, 211, 0.3);
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
       transform: translateY(-2px);
-      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
     }
     .pend-item .btn-details {
       background: #fff;
       color: #00B5D3;
       border: 1px solid #00B5D3;
-      border-radius: 33px;
-      padding: 10px 20px;
-      font-size: .95rem;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 15px;
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
       margin-left: 10px;
     }
     .pend-item .btn-details:hover {
-      box-shadow: 0px 4px 12px 0px rgba(0, 181, 211, 0.2);
-    }
-    .notific-badge {
-      background: #cf2e2e;
+      background: #00B5D3;
       color: #fff;
-      font-weight: 700;
-      border-radius: 50%;
-      padding: 6px 12px;
-      font-size: 0.95rem;
-      margin-left: 16px;
-      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 32px;
-      height: 32px;
+      border-color: #00B5D3;
     }
-    /* Modal */
+    .pend-item:hover {
+      background: #f9fbfc;
+      transition: background 0.2s;
+    }
     .modal-bg {
       display: none;
       position: fixed;
@@ -228,7 +253,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,40,70,0.45);
+      background: rgba(0,40,70,0.5);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -236,71 +261,104 @@
     .modal-content {
       background: #fff;
       border-radius: 16px;
-      max-width: 430px;
+      max-width: 500px;
       width: 90vw;
-      padding: 32px 28px;
-      box-shadow: 0px 12px 40px 0px rgba(0, 40, 70, 0.2);
-      border: 1px solid #e5e9f2;
+      padding: 36px 28px;
+      box-shadow: 0 8px 32px rgba(0,40,70,0.2);
       position: relative;
+      animation: fadeInUp 0.3s ease-out;
     }
     .modal-content h3 {
       font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
-      font-size: 1.4rem;
-      color: #002846;
-      font-weight: 700;
+      color: #00B5D3;
+      font-size: 1.5rem;
       margin-bottom: 16px;
-      letter-spacing: -0.5px;
+      font-weight: 700;
     }
     .modal-content p {
       font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
-      font-size: 1rem;
       color: #002846;
+      font-size: 16px;
+      margin-bottom: 14px;
       line-height: 1.5em;
-      margin-bottom: 12px;
     }
     .modal-content .modal-close {
       position: absolute;
-      top: 12px;
-      right: 16px;
+      top: 14px;
+      right: 18px;
       background: none;
       border: none;
-      font-size: 1.8rem;
-      color: #7A7A7A;
+      font-size: 28px;
+      color: #002846;
       cursor: pointer;
-      transition: color 0.2s, transform 0.2s;
+      transition: color 0.2s;
     }
     .modal-content .modal-close:hover {
-      color: #cf2e2e;
-      transform: scale(1.1);
+      color: #00B5D3;
+    }
+    footer {
+      background: #002846;
+      color: #fff;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-size: 16px;
+      padding: 40px 0 24px 0;
+      margin-top: 48px;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+    .footer-content a:hover {
+      color: #00B5D3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-content .footer-logo {
+      margin-bottom: 10px;
+    }
+    .footer-content .footer-copy {
+      font-size: 14px;
+      color: #fff;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 1024px) {
-      .container-main {
+      .dashboard-title {
+        font-size: 36px;
+      }
+      .dashboard-subtitle {
+        font-size: 18px;
+      }
+      .dashboard-container {
         padding: 18px 5vw;
       }
-      .titulo {
-        font-size: 1.6rem;
-      }
-      .subtitulo {
-        font-size: 1rem;
-      }
     }
-    @media (max-width: 900px) {
-      .pend-list {
-        grid-template-columns: 1fr;
+    @media (max-width: 700px) {
+      .dashboard-title {
+        font-size: 28px;
       }
-    }
-    @media (max-width: 600px) {
-      .container-main {
+      .dashboard-subtitle {
+        font-size: 16px;
+      }
+      .dashboard-container {
         padding: 12px 3vw;
       }
-      .titulo {
-        font-size: 1.3rem;
-      }
-      .subtitulo {
-        font-size: 0.95rem;
-      }
-      .pend-item .info {
-        font-size: 14px;
+      .pend-list {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -384,34 +442,44 @@
   </script>
 </head>
 <body>
-  <header class="header_section" style="background:#002846;">
-    <div class="logo_wrapper" style="padding: 18px 0 18px 32px;">
-      <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="36"></a>
-      <span class="notific-badge" id="badge-notif" aria-label="Notificações de pendências">0</span>
+  <header class="header_section">
+    <div class="header_wrapper">
+      <div class="logo_wrapper">
+        <a href="/" class="bl_log"><img src="https://bra.icl-group.com/wp-content/uploads/2020/12/ICL_logo_svg.svg" alt="ICL" width="87" height="38"></a>
+        <span class="notific-badge" id="badge-notif" aria-label="Notificações de pendências">0</span>
+      </div>
+      <nav class="menu_nav_trees" aria-label="Menu principal">
+        <a href="solicitacao-agendamento.html">Agendamento</a>
+        <a href="confirmacao-fornecedor.html">Confirmação</a>
+        <a href="selecao-transportadora.html">Transportadora</a>
+        <a href="pendencias.html" class="active" aria-current="page">Pendências</a>
+      </nav>
     </div>
   </header>
-  <main class="container-main" aria-label="Gestão de Pendências">
-    <h1 class="titulo">Gestão de Pendências</h1>
-    <p class="subtitulo">Acompanhe e resolva pendências de agendamentos, transportadoras, check-ins e documentos.</p>
-    <div class="pend-list">
-      <div class="pend-group" tabindex="0">
-        <h2>Aguardando Confirmação Fornecedor</h2>
-        <div id="pend-fornecedor"></div>
+  <div class="dashboard-container">
+    <main aria-label="Conteúdo principal">
+      <h1 class="dashboard-title">Gestão de Pendências</h1>
+      <div class="dashboard-subtitle">Gerencie e resolva pendências operacionais em tempo real</div>
+      <div class="pend-list">
+        <div class="dashboard-card" tabindex="0">
+          <h2>Aguardando Confirmação Fornecedor</h2>
+          <div id="pend-fornecedor"></div>
+        </div>
+        <div class="dashboard-card" tabindex="0">
+          <h2>Aguardando Aceite Transportadora</h2>
+          <div id="pend-transportadora"></div>
+        </div>
+        <div class="dashboard-card" tabindex="0">
+          <h2>Atrasos em Check-in</h2>
+          <div id="pend-checkin"></div>
+        </div>
+        <div class="dashboard-card" tabindex="0">
+          <h2>Documentos Pendentes</h2>
+          <div id="pend-documentos"></div>
+        </div>
       </div>
-      <div class="pend-group" tabindex="0">
-        <h2>Aguardando Aceite Transportadora</h2>
-        <div id="pend-transportadora"></div>
-      </div>
-      <div class="pend-group" tabindex="0">
-        <h2>Atrasos em Check-in</h2>
-        <div id="pend-checkin"></div>
-      </div>
-      <div class="pend-group" tabindex="0">
-        <h2>Documentos Pendentes</h2>
-        <div id="pend-documentos"></div>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
   <div class="modal-bg" id="modal-bg" onclick="fecharModal()" aria-modal="true" role="dialog">
     <div class="modal-content" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="fecharModal()" aria-label="Fechar">&times;</button>
@@ -421,8 +489,18 @@
       <p><strong>Detalhes:</strong> <span id="modal-detalhes"></span></p>
     </div>
   </div>
-  <footer class="main-footer" style="background:#002846; color:#fff; text-align:center; padding:18px 0;">
-    <span>ICL 2025, todos os direitos reservados © 2025</span>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://bra.icl-group.com/wp-content/uploads/2025/05/ICL_white_logo_svg.svg" alt="ICL Logo Branco" style="height: 38px; width: auto;" />
+      </div>
+      <div>
+        <a href="https://bra.icl-group.com/sobre-nos/">Sobre Nós</a> |
+        <a href="https://bra.icl-group.com/contatos/">Contato</a> |
+        <a href="https://bra.icl-group.com/politica-privacidade/">Política de Privacidade</a>
+      </div>
+      <div class="footer-copy">ICL 2025, todos os direitos reservados © 2025 | Desenvolvido por <a href="https://netrise.co.il/" target="_blank" rel="noopener">Netrise</a></div>
+    </div>
   </footer>
 </body>
 </html>
