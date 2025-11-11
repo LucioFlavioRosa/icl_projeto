@@ -4,33 +4,221 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Check-in de Coleta | Gestão de Fretes</title>
+  <!-- Estilos herdados do template -->
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/hello-elementor/style.css?ver=6.8.3">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/general.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/new-styles.min.css?ver=1761724536">
+  <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/themes/icl/css/sustainability-page.min.css?ver=1761724536">
   <link rel="stylesheet" href="https://bra.icl-group.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.32.5">
+  <!-- Google Fonts Roboto Condensed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #f7fafd; font-family: 'Inter', 'Demo', Arial, sans-serif; }
-    .container-main { max-width: 420px; margin: 60px auto 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.09); padding: 36px 28px 32px 28px; }
-    .titulo { font-size: 2rem; color: #00B5D3; font-weight: 400; margin-bottom: 10px; }
-    .subtitulo { color: #002846; font-size: 1.1rem; margin-bottom: 32px; }
-    .input-token { width: 100%; font-size: 2.1rem; letter-spacing: 0.12em; padding: 18px 14px; border-radius: 12px; border: 2px solid #00B5D3; background: #f9f9fc; text-align: center; margin-bottom: 16px; font-family: 'Inter', 'Demo', Arial, sans-serif; }
-    .btn-validar { width: 100%; background: #00B5D3; color: #fff; border: none; border-radius: 100px; padding: 14px 0; font-size: 1.1rem; font-weight: 500; cursor: pointer; margin-bottom: 10px; transition: background 0.2s; }
-    .btn-validar:hover { background: #009bb8; }
-    .feedback { text-align: center; font-size: 1.1rem; margin-top: 8px; }
+    /* Font-face custom (exemplo para robotobold_condensed e robotocondensed) - ajuste caminho se necessário */
+    @font-face {
+      font-family: 'robotobold_condensed';
+      src: url('/fonts/robotobold_condensed.woff2') format('woff2'),
+           url('/fonts/robotobold_condensed.woff') format('woff');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'robotocondensed';
+      src: url('/fonts/robotocondensed.woff2') format('woff2'),
+           url('/fonts/robotocondensed.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+      background-color: #00B5D3;
+      color: #FFFFFF;
+    }
+    body {
+      background: #f7fafd;
+      font-family: 'Roboto Condensed', 'robotocondensed', 'Demo', 'Inter', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    .container-main {
+      max-width: 1200px;
+      margin: 60px auto 40px auto;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 32px;
+      position: relative;
+    }
+    .container-main::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,181,211,0.08) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .titulo {
+      font-size: 2rem;
+      color: #002846;
+      font-weight: 700;
+      font-family: 'robotobold_condensed', 'Roboto Condensed', Sans-serif;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+      line-height: 1.1em;
+      transition: font-size 0.3s;
+    }
+    .subtitulo {
+      color: #7A7A7A;
+      font-size: 1.1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 400;
+      margin-bottom: 28px;
+      line-height: 1.4em;
+      transition: font-size 0.3s;
+    }
+    .input-token {
+      width: 100%;
+      font-size: 2.1rem;
+      letter-spacing: 0.12em;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid #e5e9f2;
+      background: #fff;
+      text-align: center;
+      margin-bottom: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-token:focus {
+      border-color: #00B5D3;
+      box-shadow: 0 0 0 3px rgba(0,181,211,0.1);
+      outline: none;
+    }
+    .btn-validar {
+      width: 100%;
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      min-width: 160px;
+      display: inline-block;
+    }
+    .btn-validar:hover {
+      background: linear-gradient(135deg, #00B5D3 0%, #008FA3 100%);
+      box-shadow: 0px 8px 20px 0px rgba(0, 181, 211, 0.3);
+      transform: translateY(-2px);
+    }
+    .feedback {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 10px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
     .feedback.sucesso { color: #00B5D3; }
     .feedback.erro { color: #cf2e2e; }
-    .agendamento-info { background: #f0f7fa; border-radius: 10px; padding: 18px 16px; margin-top: 28px; }
-    .agendamento-info dt { color: #00B5D3; font-weight: 500; font-size: 1rem; }
-    .agendamento-info dd { margin: 0 0 10px 0; color: #002846; font-size: 1rem; }
+    .agendamento-info {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-top: 28px;
+      box-shadow: 0px 8px 28px 0px rgba(0, 40, 70, 0.1);
+      border: 1px solid #e5e9f2;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out forwards;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .agendamento-info:focus-visible {
+      outline: 3px solid #00B5D3;
+      outline-offset: 4px;
+      box-shadow: 0 8px 32px 0 rgba(0,181,211,0.2);
+    }
+    .agendamento-info:hover, .agendamento-info:focus {
+      box-shadow: 0px 12px 40px 0px rgba(0, 181, 211, 0.18);
+      transform: translateY(-4px) scale(1.01);
+      border-color: #00B5D3;
+      outline: none;
+      z-index: 2;
+    }
+    .agendamento-info::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00B5D3, #8FE6E5);
+      transition: width 0.4s ease;
+      z-index: 3;
+    }
+    .agendamento-info:hover::after {
+      width: 100%;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .agendamento-info dt {
+      color: #00B5D3;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    .agendamento-info dd {
+      margin: 0 0 10px 0;
+      color: #002846;
+      font-size: 16px;
+      font-family: 'robotocondensed', 'Roboto Condensed', Sans-serif;
+    }
+    @media (max-width: 1024px) {
+      .container-main {
+        padding: 18px 5vw;
+      }
+      .titulo {
+        font-size: 1.6rem;
+      }
+      .subtitulo {
+        font-size: 1rem;
+      }
+    }
     @media (max-width: 600px) {
-      .container-main { padding: 16px 4vw; }
-      .titulo { font-size: 1.3rem; }
-      .input-token { font-size: 1.3rem; }
+      .container-main {
+        padding: 12px 3vw;
+      }
+      .titulo {
+        font-size: 1.3rem;
+      }
+      .subtitulo {
+        font-size: 0.95rem;
+      }
+      .input-token {
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="container-main" aria-label="Check-in de Coleta">
+  <main class="container-main" aria-label="Check-in de Chegada">
     <h1 class="titulo">Check-in de Chegada</h1>
     <p class="subtitulo">Informe o token recebido para registrar o horário de chegada do veículo.</p>
     <form id="formCheckin" autocomplete="off" novalidate>
@@ -38,7 +226,7 @@
       <button type="submit" class="btn-validar">Validar Token</button>
       <div id="feedback" class="feedback" aria-live="polite"></div>
     </form>
-    <section id="infoAgendamento" style="display:none;">
+    <section id="infoAgendamento" style="display:none;" tabindex="0">
       <dl class="agendamento-info">
         <dt>Agendamento:</dt>
         <dd>#123456 - Fornecedor XPTO</dd>
